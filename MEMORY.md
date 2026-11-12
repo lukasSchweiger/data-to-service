@@ -42,6 +42,7 @@ data-to-service/
 ├── MEMORY.md                  # Persistent project context & progress log
 ├── README.md                  # Course & repo guide with direct links to GitHub Pages & Colab
 ├── docs/                      # GitHub Pages static web app (HTML/JS/CSS + Three.js + Chart.js)
+│   ├── GUIDE.md               # Step-by-step hardware, arduino-cli, firmware & classroom guide
 │   ├── index.html             # Live Classroom Dashboard, 3D Digital Twin & WebSerial/WebBLE Connector
 │   ├── app.js                 # Web Serial, Web Bluetooth, FFT, Live Anomaly Detection & Service P&L logic
 │   └── styles.css             # ZHAW / CAS Smart Service Engineering slide theme
@@ -51,3 +52,10 @@ data-to-service/
 └── notebooks/                 # Google Colab Python notebooks for the hands-on student exercises
     └── CAS_Day4_Predictive_Maintenance_2026.ipynb  # CRISP-DM, Unsupervised vs Supervised, SHAP XAI & CHF Service Cost Matrix
 ```
+
+## 6. Completed Milestones Log
+- **[x] Step 1 — Toolchain & Arduino Firmware (`891573a`):**
+  - Installed `Arduino CLI v1.6.0` (`C:\Program Files\Arduino CLI\arduino-cli.exe`), `arduino:mbed_nano@4.6.0` core, and libraries (`Arduino_BMI270_BMM150@1.2.4`, `Arduino_LPS22HB@1.0.3`, `Arduino_HS300x@1.0.1`, `ArduinoBLE@2.1.0`).
+  - Wrote and verified compilation of `firmware/cas_pdm_edge_twin/cas_pdm_edge_twin.ino` (0 errors, 36% Flash, 27% RAM).
+  - Documented the entire hardware BOM, sensor mapping, fault injection props, `arduino-cli` commands, JSON protocol, and emulator architecture in `docs/GUIDE.md`.
+
