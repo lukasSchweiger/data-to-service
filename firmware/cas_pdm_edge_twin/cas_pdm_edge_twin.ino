@@ -92,16 +92,16 @@ struct BaselineStats {
 };
 
 BaselineStats baseline = {
-  0.025f, // default benchtop vibration RMS (g)
-  0.015f, // default vibration std (g)
-  15.0f,  // default acoustic RMS
-  10.0f,  // default acoustic std
-  45.0f,  // default magnetic flux (uT)
-  1013.0f,// default pressure (hPa)
+  0.004f, // default benchtop vibration RMS (g)
+  0.008f, // default vibration std (g)
+  42.0f,  // default acoustic RMS (dB)
+  6.0f,   // default acoustic std (dB)
+  38.0f,  // default magnetic flux (uT)
+  950.0f, // default pressure (hPa, updated on boot)
   false
 };
 
-bool     isCalibrating    = false;
+bool     isCalibrating    = true; // Auto-calibrate first 16 frames on boot!
 uint16_t calibCount       = 0;
 float    calibVibSum      = 0.0f;
 float    calibVibSqSum    = 0.0f;
