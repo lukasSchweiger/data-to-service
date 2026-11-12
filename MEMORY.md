@@ -14,9 +14,10 @@
   - `docs:` for documentation and memory updates
   - `chore:` for project structure, config, or build tasks
   - `refactor:` for code restructuring
-- **Design Language:** Match ZHAW / CAS Smart Service Engineering slide styling:
-  - Light academic theme (`#F4F6F9` background, white cards `#FFFFFF`, ZHAW Blue `#0064A6` primary accent).
-  - Direct references to CRISP-DM (Slide 13), Tagesziele: Kennen · Verstehen · Anwenden (Slide 4), Smart Product Stack Ebene 1–5 (Slide 45), and Digital Twins (Slides 48–50).
+- **Design Language:** Match Lukas's Google Slides presentation palette combined with the clean, minimalist editorial aesthetic of `https://ventriloc.ca/en/`:
+  - **Background:** Warm cream `#fffbee` (with clean subtle off-white/cream surfaces and hairline borders).
+  - **Primary Text:** Charcoal grey `#595959` (high readability, generous whitespace, editorial typography, zero clutter).
+  - **Content Integration:** Direct references to CRISP-DM (Slide 13), Tagesziele: Kennen · Verstehen · Anwenden (Slide 4), Smart Product Stack Ebene 1–5 (Slide 45), and Digital Twins (Slides 48–50).
 
 ## 3. Hardware Setup Status
 - **Microcontroller (Owned & Ready):** **Arduino Nano 33 BLE Sense Rev2** (SKU `ABX00069`, headerless flat bottom, nRF52840 64MHz Cortex-M4F, Micro-USB data cable ready).
