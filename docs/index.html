@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data-to-Service — Edge AI Telemetry & Sensor Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-container">
+    <!-- Minimalist Top Header -->
+    <header class="site-header">
+      <div class="brand-meta">
+        <span class="brand-tag">CAS Smart Service Engineering · Day 4</span>
+        <span class="brand-title">Data-to-Service: Edge AI Hardware Setup</span>
+      </div>
+      <nav class="header-nav">
+        <a href="#explanation">01 / Explanation</a>
+        <a href="#dataviz">02 / Board &amp; Data Viz</a>
+        <a href="https://github.com/lukasSchweiger/data-to-service" target="_blank" rel="noopener">GitHub Repo ↗</a>
+      </nav>
+    </header>
+
+    <!-- ====================================================================
+         PART 01: EXPLANATION (What We Built & How It Works)
+         ==================================================================== -->
+    <section id="explanation" class="section-block">
+      <div class="section-header-grid">
+        <div class="section-index">
+          01 / Explanation
+          <span>Current Setup</span>
+        </div>
+        <div>
+          <h1 class="hero-headline">From 1-hour cloud averages to real-time sensor physics on the edge.</h1>
+          <p class="lead-paragraph">
+            In our classic manufacturing case (Slides 18–19), telemetry from 100 precision machines is aggregated into 1-hour cloud means—washing out high-frequency bearing and spindle anomalies. Here, we move <em>Ebene 4 (Analyse)</em> directly onto an <strong>Arduino Nano 33 BLE Sense Rev2 (ABX00069)</strong>, streaming five physical sensor modalities directly into this page via Web Serial or Bluetooth Low Energy.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3-Step Setup Columns -->
+      <div class="explanation-grid">
+        <div class="exp-column">
+          <div class="exp-step-num">Step 01 · Toolchain</div>
+          <h2 class="exp-title">Arduino CLI &amp; Mbed Core</h2>
+          <p class="exp-text">
+            We installed <code>arduino-cli v1.6.0</code> along with the <code>arduino:mbed_nano</code> core and the four official hardware drivers for the Rev2 board without needing the full IDE.
+          </p>
+          <pre class="code-snippet">arduino-cli core install arduino:mbed_nano
+arduino-cli lib install \
+  "Arduino_BMI270_BMM150" \
+  "Arduino_LPS22HB" \
+  "Arduino_HS300x" "ArduinoBLE"</pre>
+        </div>
+
+        <div class="exp-column">
+          <div class="exp-step-num">Step 02 · Edge Firmware</div>
+          <h2 class="exp-title">On-Device Windowing &amp; Z-Score</h2>
+          <p class="exp-text">
+            The firmware samples 32-point high-frequency IMU windows (~250 Hz), extracts RMS vibration and dominant frequency, auto-calibrates on boot to local altitude (<code>~950.3 hPa</code>), and drives the onboard RGB status LED.
+          </p>
+          <pre class="code-snippet">arduino-cli compile --fqbn \
+  arduino:mbed_nano:nano33ble \
+  firmware/cas_pdm_edge_twin
+arduino-cli upload -p COM3 \
+  --fqbn arduino:mbed_nano:nano33ble \
+  firmware/cas_pdm_edge_twin</pre>
+        </div>
+
+        <div class="exp-column">
+          <div class="exp-step-num">Step 03 · Zero-Backend Web</div>
+          <h2 class="exp-title">Direct Browser Hardware Link</h2>
+          <p class="exp-text">
+            Served over HTTPS on GitHub Pages, this static page connects directly to the board via <code>navigator.serial</code> (Micro-USB at 115200 baud) or <code>navigator.bluetooth</code> (<code>CAS-PdM-Twin</code>), or runs a virtual benchtop emulator.
+          </p>
+          <pre class="code-snippet">{"vib":0.0006,"freq":9.5,"mag":37.1,
+ "press":950.27,"temp":26.64,
+ "snd":45.9,"score":0.02,
+ "state":"NORMAL","cal":1}</pre>
+        </div>
+      </div>
+
+      <!-- Sensor Mapping Reference Table -->
+      <div class="sensor-table-wrap">
+        <div class="table-caption">Sensor-to-Feature Architecture on Arduino Nano 33 BLE Sense Rev2 (ABX00069)</div>
+        <table class="editorial-table">
+          <thead>
+            <tr>
+              <th>Physical IC on Board</th>
+              <th>JSON Key(s)</th>
+              <th>Classic Slide 19 Equivalent</th>
+              <th>Physical Quantity Measured</th>
+              <th>Benchtop Test (Without Fan)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="sensor-dot" style="background: var(--c-vib)"></span><strong>Bosch BMI270</strong> (6-Axis IMU)</td>
+              <td><span class="mono-key">vib</span> <span class="mono-key">p2p</span> <span class="mono-key">freq</span> <span class="mono-key">gyro</span></td>
+              <td><code>vibration</code> &amp; <code>rotate</code></td>
+              <td>Acceleration RMS (<em>g</em>), dominant frequency (Hz), gyro wobble (°/s)</td>
+              <td>Tap fingers rhythmically on the desk or tilt the foam pad</td>
+            </tr>
+            <tr>
+              <td><span class="sensor-dot" style="background: var(--c-mag)"></span><strong>Bosch BMM150</strong> (Magnetometer)</td>
+              <td><span class="mono-key">mag</span></td>
+              <td><code>volt</code> (Motor EMF proxy)</td>
+              <td>3-axis magnetic flux density (µT) from stator coils or nearby metal/electronics</td>
+              <td>Move a smartphone or magnetic object near the center of the board</td>
+            </tr>
+            <tr>
+              <td><span class="sensor-dot" style="background: var(--c-press)"></span><strong>STMicro LPS22HB</strong> (Barometer)</td>
+              <td><span class="mono-key">press</span></td>
+              <td><code>pressure</code></td>
+              <td>Static atmospheric pressure (hPa) (~950.3 hPa at ~540 m altitude)</td>
+              <td>Blow gently across the board surface to induce a pressure spike</td>
+            </tr>
+            <tr>
+              <td><span class="sensor-dot" style="background: var(--c-temp)"></span><strong>Renesas HS3003</strong> (Temp &amp; Hum)</td>
+              <td><span class="mono-key">temp</span> <span class="mono-key">hum</span></td>
+              <td><em>Thermal load (New)</em></td>
+              <td>Board/housing temperature (°C) and relative humidity (%RH)</td>
+              <td>Rest a warm fingertip lightly near the middle sensor cluster</td>
+            </tr>
+            <tr>
+              <td><span class="sensor-dot" style="background: var(--c-snd)"></span><strong>MP34DT06JTR</strong> (Digital PDM Mic)</td>
+              <td><span class="mono-key">snd</span></td>
+              <td><em>Acoustic emission (New)</em></td>
+              <td>16 kHz PCM audio converted to acoustic sound level (dB scale)</td>
+              <td>Snap fingers, clap, or speak near the board</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         PART 02: BOARD ANATOMY & DATA VISUALIZATION
+         ==================================================================== -->
+    <section id="dataviz" class="section-block" style="border-bottom: none;">
+      <div class="section-header-grid">
+        <div class="section-index">
+          02 / Data Visualization
+          <span>Live Hardware &amp; Emulator</span>
+        </div>
+        <div>
+          <h2 class="hero-headline">Where each value originates on the board—and how it behaves in time.</h2>
+          <p class="lead-paragraph">
+            Connect your physical Arduino over USB or Bluetooth, or explore the virtual emulator. Following <a href="https://www.data-to-viz.com/caveats.html" target="_blank" rel="noopener" style="color: var(--text-strong);">data-to-viz.com</a> principles, each sensor has its own dedicated scale (small multiples instead of misleading dual axes), direct baseline annotations, and a ranked lollipop breakdown of anomaly drivers.
+          </p>
+        </div>
+      </div>
+
+      <!-- Connection & Command Toolbar -->
+      <div class="toolbar-row">
+        <div class="connection-status">
+          <span id="statusDot" class="status-dot"></span>
+          <span id="statusLabel" class="status-label">MODE: VIRTUAL BENCHTOP EMULATOR</span>
+          <span id="statusSub" class="status-sub">10 Hz stream · State: NORMAL (Score 0.02)</span>
+        </div>
+        <div class="toolbar-actions">
+          <button id="btnConnectSerial" class="btn" title="Connect via Micro-USB cable using Web Serial API">Connect USB (Serial)</button>
+          <button id="btnConnectBle" class="btn" title="Connect wirelessly via Web Bluetooth API">Connect BLE</button>
+          <button id="btnModeSim" class="btn active" title="Run interactive virtual emulator">Virtual Emulator</button>
+          <span class="btn-divider"></span>
+          <button id="btnCalibrate" class="btn" title="Send 'C' command to re-calibrate normal baseline">Calibrate ('C')</button>
+          <button id="btnExportCsv" class="btn" title="Download recorded telemetry buffer as CSV">Export CSV (<span id="csvCount">0</span>)</button>
+        </div>
+      </div>
+
+      <!-- Benchtop Stimulus Selector (Active in Emulator Mode or as testing guide) -->
+      <div class="sim-stimulus-bar">
+        <span class="sim-stimulus-label" id="stimulusBarTitle">Emulator Stimulus (or try physically on your desk):</span>
+        <div class="sim-buttons">
+          <button class="btn-pill active" data-sim="normal">01 · Quiet Desk Baseline</button>
+          <button class="btn-pill" data-sim="tap">02 · Finger Tap on Desk (Vibration)</button>
+          <button class="btn-pill" data-sim="blow">03 · Blow Air Across Board (Pressure + Mic)</button>
+          <button class="btn-pill" data-sim="magnet">04 · Phone / Magnet Nearby (Flux µT)</button>
+        </div>
+      </div>
+
+      <!-- CENTERPIECE: 2D Interactive Arduino Nano 33 BLE Sense Rev2 Map -->
+      <div class="board-centerpiece">
+        <div class="centerpiece-header">
+          <div class="centerpiece-title">Arduino Nano 33 BLE Sense Rev2 (ABX00069) — Top-Down Sensor &amp; Value Map</div>
+          <div class="centerpiece-hint">Click or hover any sensor callout to isolate its time-series plot below</div>
+        </div>
+
+        <div class="board-svg-wrapper">
+          <svg id="boardSvg" class="board-svg" viewBox="0 0 1000 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2D interactive diagram of Arduino Nano 33 BLE Sense Rev2 showing exact sensor locations and live values">
+            <!-- Subtle technical coordinate grid lines -->
+            <line x1="0" y1="215" x2="1000" y2="215" stroke="rgba(89,89,89,0.08)" stroke-dasharray="4 4" />
+            <line x1="500" y1="20" x2="500" y2="410" stroke="rgba(89,89,89,0.08)" stroke-dasharray="4 4" />
+
+            <!-- ============================================================
+                 CALLOUT 1 (TOP-LEFT): BMI270 6-Axis IMU (Vibration & Freq)
+                 Chip at (368, 192)
+                 ============================================================ -->
+            <g class="sensor-node" data-sensor="vib">
+              <polyline points="368,185 368,95 275,95" fill="none" stroke="#2b6f6b" stroke-width="1.5" />
+              <circle cx="368" cy="185" r="3.5" fill="#2b6f6b" />
+              <rect class="callout-box" x="20" y="24" width="255" height="96" rx="2" />
+              <rect x="20" y="24" width="4" height="96" fill="#2b6f6b" />
+              <text x="34" y="45" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8a867a" letter-spacing="0.05em">IC1 · BOSCH BMI270 (6-AXIS IMU)</text>
+              <text x="34" y="72" font-family="JetBrains Mono, monospace" font-size="20" font-weight="600" fill="#3d3d3d" id="svgValVib">0.0006 g</text>
+              <text x="155" y="72" font-family="JetBrains Mono, monospace" font-size="12" fill="#595959" id="svgValFreq">9.5 Hz</text>
+              <text x="34" y="94" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" fill="#595959">Vibration RMS &amp; dominant freq</text>
+              <text x="34" y="110" font-family="JetBrains Mono, monospace" font-size="10" fill="#8a867a" id="svgValGyro">p2p: 0.0025 g · gyro: 0.2 °/s</text>
+            </g>
+
+            <!-- ============================================================
+                 CALLOUT 2 (TOP-CENTER): HS3003 Temp & Humidity
+                 Chip at (490, 174)
+                 ============================================================ -->
+            <g class="sensor-node" data-sensor="temp">
+              <polyline points="490,168 490,95 520,95" fill="none" stroke="#c06038" stroke-width="1.5" />
+              <circle cx="490" cy="168" r="3.5" fill="#c06038" />
+              <rect class="callout-box" x="370" y="18" width="245" height="84" rx="2" />
+              <rect x="370" y="18" width="4" height="84" fill="#c06038" />
+              <text x="384" y="38" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8a867a" letter-spacing="0.05em">IC4 · RENESAS HS3003</text>
+              <text x="384" y="64" font-family="JetBrains Mono, monospace" font-size="20" font-weight="600" fill="#3d3d3d" id="svgValTemp">26.64 °C</text>
+              <text x="505" y="64" font-family="JetBrains Mono, monospace" font-size="13" fill="#595959" id="svgValHum">48.9 %RH</text>
+              <text x="384" y="86" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" fill="#595959">Surface thermal load &amp; humidity</text>
+            </g>
+
+            <!-- ============================================================
+                 CALLOUT 3 (TOP-RIGHT): MP34DT06JTR Digital Microphone
+                 Chip at (548, 178)
+                 ============================================================ -->
+            <g class="sensor-node" data-sensor="snd">
+              <polyline points="552,172 650,95 720,95" fill="none" stroke="#88743e" stroke-width="1.5" />
+              <circle cx="552" cy="172" r="3.5" fill="#88743e" />
+              <rect class="callout-box" x="720" y="24" width="260" height="90" rx="2" />
+              <rect x="720" y="24" width="4" height="90" fill="#88743e" />
+              <text x="734" y="45" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8a867a" letter-spacing="0.05em">IC5 · MP34DT06JTR (PDM MIC)</text>
+              <text x="734" y="72" font-family="JetBrains Mono, monospace" font-size="20" font-weight="600" fill="#3d3d3d" id="svgValSnd">45.9 dB</text>
+              <text x="734" y="94" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" fill="#595959">Acoustic noise &amp; air turbulence</text>
+              <text x="734" y="108" font-family="JetBrains Mono, monospace" font-size="10" fill="#8a867a">16 kHz PCM window RMS</text>
+            </g>
+
+            <!-- ============================================================
+                 CALLOUT 4 (BOTTOM-LEFT): BMM150 3-Axis Magnetometer
+                 Chip at (418, 232)
+                 ============================================================ -->
+            <g class="sensor-node" data-sensor="mag">
+              <polyline points="418,242 418,340 275,340" fill="none" stroke="#6b5b95" stroke-width="1.5" />
+              <circle cx="418" cy="242" r="3.5" fill="#6b5b95" />
+              <rect class="callout-box" x="20" y="305" width="255" height="96" rx="2" />
+              <rect x="20" y="305" width="4" height="96" fill="#6b5b95" />
+              <text x="34" y="326" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8a867a" letter-spacing="0.05em">IC2 · BOSCH BMM150 (3-AXIS MAG)</text>
+              <text x="34" y="353" font-family="JetBrains Mono, monospace" font-size="20" font-weight="600" fill="#3d3d3d" id="svgValMag">38.9 µT</text>
+              <text x="34" y="375" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" fill="#595959">Electromagnetic flux (Volt/EMF proxy)</text>
+              <text x="34" y="391" font-family="JetBrains Mono, monospace" font-size="10" fill="#8a867a">Contactless stator field sensor</text>
+            </g>
+
+            <!-- ============================================================
+                 CALLOUT 5 (BOTTOM-CENTER): LPS22HB Barometric Pressure
+                 Chip at (462, 236)
+                 ============================================================ -->
+            <g class="sensor-node" data-sensor="press">
+              <polyline points="462,246 462,320" fill="none" stroke="#3d6b99" stroke-width="1.5" />
+              <circle cx="462" cy="246" r="3.5" fill="#3d6b99" />
+              <rect class="callout-box" x="360" y="320" width="255" height="86" rx="2" />
+              <rect x="360" y="320" width="4" height="86" fill="#3d6b99" />
+              <text x="374" y="341" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8a867a" letter-spacing="0.05em">IC3 · STMICRO LPS22HB (BARO)</text>
+              <text x="374" y="368" font-family="JetBrains Mono, monospace" font-size="20" font-weight="600" fill="#3d3d3d" id="svgValPress">950.27 hPa</text>
+              <text x="374" y="390" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" fill="#595959">Static air pressure (airflow drop)</text>
+            </g>
+
+            <!-- ============================================================
+                 CALLOUT 6 (BOTTOM-RIGHT): Onboard RGB LED & nRF52840 Edge AI
+                 LED at (532, 250), NINA-B306 at (625, 215)
+                 ============================================================ -->
+            <g class="sensor-node" data-sensor="edge">
+              <polyline points="532,258 635,340 720,340" fill="none" stroke="#595959" stroke-width="1.5" />
+              <circle cx="532" cy="258" r="3.5" fill="#595959" />
+              <rect class="callout-box" x="720" y="305" width="260" height="96" rx="2" />
+              <rect id="svgEdgeStripe" x="720" y="305" width="4" height="96" fill="#2b6f6b" />
+              <text x="734" y="326" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#8a867a" letter-spacing="0.05em">EDGE AI · NRF52840 + RGB LED</text>
+              <text x="734" y="353" font-family="JetBrains Mono, monospace" font-size="20" font-weight="600" fill="#3d3d3d" id="svgValState">NORMAL</text>
+              <text x="855" y="353" font-family="JetBrains Mono, monospace" font-size="13" fill="#595959" id="svgValScore">0.02</text>
+              <text x="734" y="375" font-family="Plus Jakarta Sans, sans-serif" font-size="11.5" fill="#595959">On-board Z-score &amp; BLE 5.0 radio</text>
+              <text x="734" y="391" font-family="JetBrains Mono, monospace" font-size="10" fill="#8a867a" id="svgValCal">Baseline: Calibrated (cal=1)</text>
+            </g>
+
+            <!-- ============================================================
+                 CENTER ILLUSTRATION: ARDUINO NANO 33 BLE SENSE REV2 PCB
+                 ============================================================ -->
+            <g id="arduinoPcbGroup">
+              <!-- Subtle drop shadow outline -->
+              <rect x="262" y="136" width="464" height="164" rx="5" fill="rgba(89,89,89,0.06)" />
+
+              <!-- Main PCB Body (Warm Architectural Line-Art with Teal-Slate Tint) -->
+              <rect x="258" y="132" width="464" height="164" rx="5" fill="#f3efe0" stroke="#3d3d3d" stroke-width="2" />
+              <!-- Inner silkscreen perimeter -->
+              <rect x="266" y="140" width="448" height="148" rx="3" fill="none" stroke="rgba(89,89,89,0.22)" stroke-width="1" />
+
+              <!-- 15 Top Castellated Pads + Through-Holes -->
+              <g fill="#d5b868" stroke="#595959" stroke-width="0.9">
+                <circle cx="292" cy="140" r="4.2" /><circle cx="318" cy="140" r="4.2" /><circle cx="344" cy="140" r="4.2" />
+                <circle cx="370" cy="140" r="4.2" /><circle cx="396" cy="140" r="4.2" /><circle cx="422" cy="140" r="4.2" />
+                <circle cx="448" cy="140" r="4.2" /><circle cx="474" cy="140" r="4.2" /><circle cx="500" cy="140" r="4.2" />
+                <circle cx="526" cy="140" r="4.2" /><circle cx="552" cy="140" r="4.2" /><circle cx="578" cy="140" r="4.2" />
+                <circle cx="604" cy="140" r="4.2" /><circle cx="630" cy="140" r="4.2" /><circle cx="656" cy="140" r="4.2" />
+              </g>
+
+              <!-- 15 Bottom Castellated Pads + Through-Holes -->
+              <g fill="#d5b868" stroke="#595959" stroke-width="0.9">
+                <circle cx="292" cy="288" r="4.2" /><circle cx="318" cy="288" r="4.2" /><circle cx="344" cy="288" r="4.2" />
+                <circle cx="370" cy="288" r="4.2" /><circle cx="396" cy="288" r="4.2" /><circle cx="422" cy="288" r="4.2" />
+                <circle cx="448" cy="288" r="4.2" /><circle cx="474" cy="288" r="4.2" /><circle cx="500" cy="288" r="4.2" />
+                <circle cx="526" cy="288" r="4.2" /><circle cx="552" cy="288" r="4.2" /><circle cx="578" cy="288" r="4.2" />
+                <circle cx="604" cy="288" r="4.2" /><circle cx="630" cy="288" r="4.2" /><circle cx="656" cy="288" r="4.2" />
+              </g>
+
+              <!-- Key Pin Labels on Silkscreen -->
+              <g font-family="JetBrains Mono, monospace" font-size="7.5" fill="#8a867a" text-anchor="middle">
+                <text x="318" y="154">3V3</text>
+                <text x="422" y="154">A4/SDA</text>
+                <text x="448" y="154">A5/SCL</text>
+                <text x="604" y="154">GND</text>
+                <text x="656" y="154">VIN</text>
+                <text x="292" y="280">D13</text>
+                <text x="630" y="280">RST</text>
+                <text x="656" y="280">GND</text>
+              </g>
+
+              <!-- Left Micro-USB Connector Overhang -->
+              <rect x="236" y="182" width="38" height="64" rx="3" fill="#e6e2d3" stroke="#3d3d3d" stroke-width="1.6" />
+              <line x1="244" y1="194" x2="244" y2="234" stroke="#8a867a" stroke-width="1.2" />
+              <text x="255" y="217" font-family="JetBrains Mono, monospace" font-size="7.5" fill="#595959" text-anchor="middle" transform="rotate(-90 255 217)">USB</text>
+
+              <!-- Power LED (Green) near USB -->
+              <rect x="284" y="170" width="8" height="5" fill="#2b6f6b" />
+              <text x="288" y="166" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#8a867a" text-anchor="middle">ON</text>
+
+              <!-- White Physical Reset Pushbutton -->
+              <rect x="310" y="198" width="28" height="28" rx="3" fill="#fffbee" stroke="#595959" stroke-width="1.2" />
+              <circle cx="324" cy="212" r="7.5" fill="#e6e2d3" stroke="#3d3d3d" stroke-width="1.2" />
+              <text x="324" y="237" font-family="JetBrains Mono, monospace" font-size="7" fill="#8a867a" text-anchor="middle">RESET</text>
+
+              <!-- IC1: Bosch BMI270 6-Axis IMU (x=354, y=176) -->
+              <g class="sensor-node" data-sensor="vib">
+                <rect x="354" y="176" width="28" height="24" rx="2" fill="#3d3d3d" />
+                <rect class="chip-highlight" x="351" y="173" width="34" height="30" rx="3" stroke="#2b6f6b" />
+                <text x="368" y="191" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#fffbee" text-anchor="middle">BMI270</text>
+              </g>
+
+              <!-- IC2: Bosch BMM150 Magnetometer (x=406, y=220) -->
+              <g class="sensor-node" data-sensor="mag">
+                <rect x="406" y="220" width="24" height="22" rx="2" fill="#3d3d3d" />
+                <rect class="chip-highlight" x="403" y="217" width="30" height="28" rx="3" stroke="#6b5b95" />
+                <text x="418" y="234" font-family="JetBrains Mono, monospace" font-size="6" fill="#fffbee" text-anchor="middle">BMM</text>
+              </g>
+
+              <!-- IC3: STMicro LPS22HB Barometer with metal port (x=450, y=222) -->
+              <g class="sensor-node" data-sensor="press">
+                <rect x="450" y="222" width="24" height="24" rx="2" fill="#4f4f4f" />
+                <circle cx="462" cy="234" r="4" fill="#d5b868" stroke="#3d3d3d" stroke-width="0.8" />
+                <rect class="chip-highlight" x="447" y="219" width="30" height="30" rx="3" stroke="#3d6b99" />
+              </g>
+
+              <!-- IC4: Renesas HS3003 Temp/Humidity Sensor with white cavity (x=478, y=166) -->
+              <g class="sensor-node" data-sensor="temp">
+                <rect x="478" y="166" width="24" height="20" rx="2" fill="#3d3d3d" />
+                <rect x="485" y="171" width="10" height="10" rx="1" fill="#fffbee" />
+                <rect class="chip-highlight" x="475" y="163" width="30" height="26" rx="3" stroke="#c06038" />
+              </g>
+
+              <!-- IC5: MP34DT06JTR Digital PDM Microphone with acoustic port (x=536, y=170) -->
+              <g class="sensor-node" data-sensor="snd">
+                <rect x="536" y="170" width="30" height="22" rx="2" fill="#4f4f4f" />
+                <circle cx="551" cy="181" r="3.5" fill="#222" stroke="#d5b868" stroke-width="1" />
+                <rect class="chip-highlight" x="533" y="167" width="36" height="28" rx="3" stroke="#88743e" />
+              </g>
+
+              <!-- Onboard RGB Status LED (x=524, y=242) -->
+              <g class="sensor-node" data-sensor="edge">
+                <circle id="svgRgbGlow" cx="532" cy="250" r="13" fill="#2b6f6b" opacity="0.25" />
+                <rect x="525" y="243" width="14" height="14" rx="2" fill="#fffbee" stroke="#3d3d3d" stroke-width="1.2" />
+                <circle id="svgRgbCore" cx="532" cy="250" r="4.5" fill="#2b6f6b" />
+                <text x="532" y="271" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#595959" text-anchor="middle">RGB LED</text>
+              </g>
+
+              <!-- Right RF Shield: u-blox NINA-B306 (Nordic nRF52840 64MHz Cortex-M4F + BLE 5.0) -->
+              <g class="sensor-node" data-sensor="edge">
+                <rect x="588" y="164" width="90" height="100" rx="3" fill="#e6e2d3" stroke="#3d3d3d" stroke-width="1.6" />
+                <rect x="594" y="170" width="78" height="88" fill="none" stroke="rgba(89,89,89,0.25)" stroke-width="1" />
+                <text x="633" y="204" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#3d3d3d" text-anchor="middle">u-blox</text>
+                <text x="633" y="218" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#595959" text-anchor="middle">NINA-B306</text>
+                <text x="633" y="232" font-family="JetBrains Mono, monospace" font-size="7.5" fill="#8a867a" text-anchor="middle">nRF52840 · 64MHz</text>
+                <text x="633" y="245" font-family="JetBrains Mono, monospace" font-size="7" fill="#8a867a" text-anchor="middle">Edge AI + BLE 5.0</text>
+                <!-- PCB Trace Antenna section on far right -->
+                <rect x="682" y="178" width="26" height="72" rx="1" fill="#dcd6c4" stroke="#8a867a" stroke-width="1" />
+                <polyline points="687,188 703,188 703,198 687,198 687,208 703,208 703,218 687,218 687,228 703,228" fill="none" stroke="#595959" stroke-width="1.3" />
+              </g>
+
+              <!-- Board Title on Silkscreen -->
+              <text x="435" y="209" font-family="JetBrains Mono, monospace" font-size="8" font-weight="600" fill="#8a867a" letter-spacing="0.08em">NANO 33 BLE SENSE REV2</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           TOP VIZ ROW: 1. Annotated Anomaly Timeline + 2. Ranked Lollipop Z-Scores
+           (Follows data-to-viz.com: Line plot with threshold zones + Lollipop chart)
+           ==================================================================== -->
+      <div class="viz-grid-top">
+        <!-- Left: Composite Edge Anomaly Score with Annotated Threshold Zones -->
+        <div class="viz-panel">
+          <div class="viz-panel-header">
+            <h3 class="viz-title">Composite Edge Anomaly Score Over Time</h3>
+            <span id="readoutAnomalyScore" class="viz-metric-readout">0.02 (NORMAL)</span>
+          </div>
+          <p class="viz-subtitle">
+            Rolling 6-second window (`score` 0.00–1.00) with direct threshold lines at 0.35 (Warning) and 0.65 (Anomaly).
+          </p>
+          <div class="canvas-container">
+            <canvas id="canvasAnomalyTimeline" width="680" height="210"></canvas>
+          </div>
+        </div>
+
+        <!-- Right: Ranked Horizontal Lollipop Chart (Instead of a Radar/Spider or Gauge) -->
+        <div class="viz-panel">
+          <div class="viz-panel-header">
+            <h3 class="viz-title">Instantaneous Sensor Deviation (|Z|-Score)</h3>
+            <span id="readoutTopDriver" class="viz-metric-readout">Baseline Locked</span>
+          </div>
+          <p class="viz-subtitle">
+            Horizontal lollipop chart ranking each sensor's current standard-deviation shift ($|\Delta|/\sigma$) from its calibrated baseline.
+          </p>
+          <div class="canvas-container">
+            <canvas id="canvasLollipop" width="460" height="210"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           BOTTOM VIZ ROW: 5 Small Multiples (Avoiding Dual-Axis Caveat)
+           ==================================================================== -->
+      <div class="small-multiples-header">
+        <div class="centerpiece-title">Individual Sensor Streams (Small Multiples — Dedicated Y-Scales)</div>
+        <div class="centerpiece-hint">Dashed horizontal line = calibrated normal baseline (μ)</div>
+      </div>
+
+      <div class="small-multiples-grid">
+        <!-- 1. Vibration RMS (BMI270) -->
+        <div class="sm-card" data-sensor="vib">
+          <div class="sm-top">
+            <span class="sm-name"><span class="sensor-dot" style="background: var(--c-vib)"></span>Vibration RMS</span>
+            <span class="sm-chip">BMI270</span>
+          </div>
+          <div class="sm-value-row">
+            <span id="smValVib" class="sm-value">0.0006</span>
+            <span class="sm-unit">g</span>
+          </div>
+          <div class="sm-canvas-wrap">
+            <canvas id="canvasSmVib" width="220" height="76"></canvas>
+          </div>
+          <div class="sm-footer">
+            <span id="smSubVibLeft">Freq: 9.5 Hz</span>
+            <span id="smSubVibRight">μ: 0.0006 g</span>
+          </div>
+        </div>
+
+        <!-- 2. Magnetic Flux (BMM150) -->
+        <div class="sm-card" data-sensor="mag">
+          <div class="sm-top">
+            <span class="sm-name"><span class="sensor-dot" style="background: var(--c-mag)"></span>Magnetic Flux</span>
+            <span class="sm-chip">BMM150</span>
+          </div>
+          <div class="sm-value-row">
+            <span id="smValMag" class="sm-value">38.9</span>
+            <span class="sm-unit">µT</span>
+          </div>
+          <div class="sm-canvas-wrap">
+            <canvas id="canvasSmMag" width="220" height="76"></canvas>
+          </div>
+          <div class="sm-footer">
+            <span id="smSubMagLeft">EMF Proxy</span>
+            <span id="smSubMagRight">μ: 38.9 µT</span>
+          </div>
+        </div>
+
+        <!-- 3. Barometric Pressure (LPS22HB) -->
+        <div class="sm-card" data-sensor="press">
+          <div class="sm-top">
+            <span class="sm-name"><span class="sensor-dot" style="background: var(--c-press)"></span>Air Pressure</span>
+            <span class="sm-chip">LPS22HB</span>
+          </div>
+          <div class="sm-value-row">
+            <span id="smValPress" class="sm-value">950.27</span>
+            <span class="sm-unit">hPa</span>
+          </div>
+          <div class="sm-canvas-wrap">
+            <canvas id="canvasSmPress" width="220" height="76"></canvas>
+          </div>
+          <div class="sm-footer">
+            <span id="smSubPressLeft">ΔP: +0.00 hPa</span>
+            <span id="smSubPressRight">μ: 950.27</span>
+          </div>
+        </div>
+
+        <!-- 4. Temperature & Humidity (HS3003) -->
+        <div class="sm-card" data-sensor="temp">
+          <div class="sm-top">
+            <span class="sm-name"><span class="sensor-dot" style="background: var(--c-temp)"></span>Temperature</span>
+            <span class="sm-chip">HS3003</span>
+          </div>
+          <div class="sm-value-row">
+            <span id="smValTemp" class="sm-value">26.64</span>
+            <span class="sm-unit">°C</span>
+          </div>
+          <div class="sm-canvas-wrap">
+            <canvas id="canvasSmTemp" width="220" height="76"></canvas>
+          </div>
+          <div class="sm-footer">
+            <span id="smSubTempLeft">Hum: 48.9 %</span>
+            <span id="smSubTempRight">μ: 26.64 °C</span>
+          </div>
+        </div>
+
+        <!-- 5. Acoustic Sound Level (MP34DT06JTR) -->
+        <div class="sm-card" data-sensor="snd">
+          <div class="sm-top">
+            <span class="sm-name"><span class="sensor-dot" style="background: var(--c-snd)"></span>Acoustic Level</span>
+            <span class="sm-chip">MP34DT06</span>
+          </div>
+          <div class="sm-value-row">
+            <span id="smValSnd" class="sm-value">45.9</span>
+            <span class="sm-unit">dB</span>
+          </div>
+          <div class="sm-canvas-wrap">
+            <canvas id="canvasSmSnd" width="220" height="76"></canvas>
+          </div>
+          <div class="sm-footer">
+            <span id="smSubSndLeft">16 kHz PDM</span>
+            <span id="smSubSndRight">μ: 45.9 dB</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Raw JSON Line Inspector -->
+      <div class="stream-bar">
+        <span class="stream-tag">Live Telemetry Frame</span>
+        <code id="rawJsonReadout" class="stream-json">{"ms":286646,"vib":0.0006,"p2p":0.0025,"freq":9.5,"gyro":0.2,"mag":38.9,"press":950.27,"temp":26.64,"hum":48.9,"snd":45.9,"score":0.02,"state":"NORMAL","cal":1}</code>
+      </div>
+
+      <div class="viz-caveats-note">
+        <span>Visualization design follows <a href="https://www.data-to-viz.com/#explore" target="_blank" rel="noopener">From Data to Viz</a>: Small multiples avoid dual-axis distortion; horizontal lollipop bars replace radar/gauge charts.</span>
+        <span>CAS Smart Service Engineering · Module A</span>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -55,8 +55,14 @@ data-to-service/
 ```
 
 ## 6. Completed Milestones Log
-- **[x] Step 1 — Toolchain & Arduino Firmware (`891573a`):**
+- **[x] Step 1 — Toolchain & Arduino Firmware (`891573a`, `52491ee`):**
   - Installed `Arduino CLI v1.6.0` (`C:\Program Files\Arduino CLI\arduino-cli.exe`), `arduino:mbed_nano@4.6.0` core, and libraries (`Arduino_BMI270_BMM150@1.2.4`, `Arduino_LPS22HB@1.0.3`, `Arduino_HS300x@1.0.1`, `ArduinoBLE@2.1.0`).
-  - Wrote and verified compilation of `firmware/cas_pdm_edge_twin/cas_pdm_edge_twin.ino` (0 errors, 36% Flash, 27% RAM).
+  - Wrote, compiled, and flashed `firmware/cas_pdm_edge_twin/cas_pdm_edge_twin.ino` onto the physical board on `COM3`, verifying live 5-sensor telemetry and auto-calibration (`~950.27 hPa` local altitude pressure).
   - Documented the entire hardware BOM, sensor mapping, fault injection props, `arduino-cli` commands, JSON protocol, and emulator architecture in `docs/GUIDE.md`.
+- **[x] Step 2 (First Draft) — Minimalist GitHub Pages Site & 2D Sensor Dashboard:**
+  - Created `docs/index.html`, `docs/styles.css`, and `docs/app.js` using the `#fffbee` background and `#595959` text color palette and clean Ventriloc-inspired editorial layout.
+  - Focused strictly on **Part 01 / Explanation** (what we set up so far) and **Part 02 / Data Visualization** centered around an interactive 2D SVG diagram of the **Arduino Nano 33 BLE Sense Rev2 (ABX00069)** showing the exact physical IC location and live values of all 5 sensors + RGB LED.
+  - Implemented charts following [From Data to Viz](https://www.data-to-viz.com/#explore) and [Data-to-Viz Caveats](https://www.data-to-viz.com/caveats.html): annotated anomaly threshold timeline, ranked horizontal lollipop chart of $|Z|$-scores (avoiding radar/spider and gauge charts), and 5 small-multiple sparklines with dedicated Y-scales and baseline ($\mu$) reference lines (avoiding dual-axis distortion).
+  - Added `.github/workflows/deploy-pages.yml` to automatically deploy `./docs` to GitHub Pages via GitHub Actions on push to `main`.
+
 
