@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
   <div class="page-container">
@@ -20,6 +20,7 @@
       <nav class="header-nav">
         <a href="#explanation">01 / Explanation</a>
         <a href="#dataviz">02 / Board &amp; Data Viz</a>
+        <a href="#crispdm">03 / CRISP-DM Lab</a>
         <a href="https://github.com/lukasSchweiger/data-to-service" target="_blank" rel="noopener">GitHub Repo ↗</a>
       </nav>
     </header>
@@ -140,7 +141,7 @@ arduino-cli upload -p COM3 \
     <!-- ====================================================================
          PART 02: BOARD ANATOMY & DATA VISUALIZATION
          ==================================================================== -->
-    <section id="dataviz" class="section-block" style="border-bottom: none;">
+    <section id="dataviz" class="section-block">
       <div class="section-header-grid">
         <div class="section-index">
           02 / Data Visualization
@@ -606,6 +607,172 @@ arduino-cli upload -p COM3 \
         <span class="stream-tag">Live Telemetry Frame</span>
         <code id="rawJsonReadout" class="stream-json">{"ms":286646,"vib":0.0006,"p2p":0.0025,"freq":9.5,"gyro":0.2,"mag":38.9,"press":950.27,"temp":26.64,"hum":48.9,"snd":45.9,"score":0.02,"state":"NORMAL","cal":1}</code>
       </div>
+    </section>
+
+    <!-- ====================================================================
+         PART 03: CRISP-DM PHASE 2 — INTERACTIVE DATA UNDERSTANDING LAB
+         ==================================================================== -->
+    <section id="crispdm" class="section-block" style="border-bottom: none;">
+      <div class="section-header-grid">
+        <div class="section-index">
+          03 / CRISP-DM Phase 2
+          <span>Data Understanding</span>
+        </div>
+        <div>
+          <h2 class="hero-headline">Inspect, describe, and explore the live sensor buffer in Python.</h2>
+          <p class="lead-paragraph">
+            In <strong>CRISP-DM</strong> (Slide 13), <em>Phase 2: Data Understanding</em> bridges raw sensor acquisition and feature engineering. Every frame streamed in Section 02—whether from your physical Arduino over USB/BLE or the virtual emulator—is synced directly into an in-browser Python (Pyodide WebAssembly) DataFrame named <code>df</code>.
+          </p>
+        </div>
+      </div>
+
+      <!-- CRISP-DM Phase Ribbon -->
+      <div class="crispdm-ribbon" aria-label="CRISP-DM process phases">
+        <div class="crispdm-step is-completed">
+          <span class="crispdm-step-num">Phase 01</span>
+          <span class="crispdm-step-name">Business Understanding</span>
+          <span class="crispdm-step-desc">Unplanned spindle/fan downtime vs. Edge monitoring</span>
+        </div>
+        <div class="crispdm-step is-current">
+          <span class="crispdm-step-num">Phase 02 · Active Here</span>
+          <span class="crispdm-step-name">Data Understanding</span>
+          <span class="crispdm-step-desc">Verify sampling quality, scale disparity &amp; transients in <code>df</code></span>
+        </div>
+        <div class="crispdm-step">
+          <span class="crispdm-step-num">Phase 03 · Next</span>
+          <span class="crispdm-step-name">Data Preparation</span>
+          <span class="crispdm-step-desc">32-point windowing &amp; baseline Z-score standardization</span>
+        </div>
+        <div class="crispdm-step">
+          <span class="crispdm-step-num">Phases 04–05</span>
+          <span class="crispdm-step-name">Modeling &amp; Evaluation</span>
+          <span class="crispdm-step-desc">Anomaly thresholds &amp; CHF Service Cost Matrix</span>
+        </div>
+      </div>
+
+      <!-- Python Runtime & Data Buffer Toolbar -->
+      <div class="toolbar-row crispdm-toolbar">
+        <div class="connection-status">
+          <span id="pyStatusDot" class="status-dot py-dot-idle"></span>
+          <span id="pyStatusLabel" class="status-label">PYTHON RUNTIME: ON-DEMAND (PYODIDE WASM)</span>
+          <span id="pyBufferSub" class="status-sub">Live DataFrame <code>df</code>: <strong id="pyRowCount">0</strong> frames ready</span>
+        </div>
+        <div class="toolbar-actions">
+          <button id="btnInjectSample" class="btn" title="Populate buffer with 80 frames covering calibration, quiet baseline, desk tap, air blow, and magnet wave">Load Mixed Fault Recording (80 frames)</button>
+          <button id="btnRunAllPy" class="btn active" title="Initialize Python and execute all 3 CRISP-DM Data Understanding cells">Run All 3 Steps ▶</button>
+          <button id="btnResetPy" class="btn" title="Restore original starter code in all cells">Reset Code</button>
+        </div>
+      </div>
+
+      <!-- 3 Interactive CRISP-DM Data Understanding Cells -->
+      <div class="crispdm-cells-stack">
+        <!-- CELL 1: 2.1 Verify Data Quality -->
+        <article class="py-cell-card" data-cell-id="cell1">
+          <div class="py-cell-header">
+            <div class="py-cell-meta">
+              <span class="py-cell-tag">CRISP-DM 2.1 · Collect &amp; Verify Data Quality</span>
+              <h3 class="py-cell-title">Sampling Rate, Packet Jitter &amp; Calibration Flags</h3>
+              <p class="py-cell-desc">
+                Check the empirical sampling interval (<code>dt_ms</code>), verify missing values, and inspect whether uncalibrated startup frames (<code>cal == 0</code>) are present in the recording.
+              </p>
+            </div>
+            <div class="py-cell-actions">
+              <span class="py-shortcut-hint">Shift + Enter</span>
+              <button class="btn btn-run-cell" data-target="cell1">Run Cell ▶</button>
+            </div>
+          </div>
+
+          <div class="py-editor-wrap">
+            <textarea id="code-cell1" class="py-editor" rows="8" spellcheck="false" aria-label="Python code for CRISP-DM Step 2.1"># df contains the live telemetry buffer from Section 02
+df["dt_ms"] = df["ms"].diff()
+valid_dt = df["dt_ms"].dropna()
+valid_dt = valid_dt[(valid_dt > 0) & (valid_dt < 1000)]
+
+print(f"Total frames in df : {len(df)} rows × {df.shape[1]} columns")
+print(f"Sampling interval  : {valid_dt.mean():.1f} ms mean (±{valid_dt.std():.1f} ms jitter)")
+print(f"Missing sensor vals: {int(df.drop(columns=['dt_ms']).isna().sum().sum())}")
+print(f"Calibration frames : {int((df['cal'] == 0).sum())} uncalibrated (cal=0) | {int((df['cal'] == 1).sum())} locked (cal=1)")
+print("State distribution :", df["state"].value_counts().to_dict())
+
+df[["ms", "dt_ms", "vib", "p2p", "freq", "mag", "press", "temp", "snd", "state", "cal"]].tail(6)</textarea>
+          </div>
+
+          <div id="output-cell1" class="py-output-box is-empty">
+            <span class="py-output-placeholder">Click "Run Cell ▶" (or "Run All 3 Steps ▶") to execute against the live <code>df</code> buffer.</span>
+          </div>
+        </article>
+
+        <!-- CELL 2: 2.2 Describe Data & Scale Disparity -->
+        <article class="py-cell-card" data-cell-id="cell2">
+          <div class="py-cell-header">
+            <div class="py-cell-meta">
+              <span class="py-cell-tag">CRISP-DM 2.2 · Describe Data</span>
+              <h3 class="py-cell-title">Physical Units, Scale Disparity &amp; Signal-to-Noise Ratio</h3>
+              <p class="py-cell-desc">
+                Compare the raw numerical orders of magnitude across the 5 onboard sensors (<code>950.3 hPa</code> pressure vs. <code>0.0006 g</code> vibration)—demonstrating why raw Euclidean distance fails without Z-score normalization.
+              </p>
+            </div>
+            <div class="py-cell-actions">
+              <span class="py-shortcut-hint">Shift + Enter</span>
+              <button class="btn btn-run-cell" data-target="cell2">Run Cell ▶</button>
+            </div>
+          </div>
+
+          <div class="py-editor-wrap">
+            <textarea id="code-cell2" class="py-editor" rows="9" spellcheck="false" aria-label="Python code for CRISP-DM Step 2.2"># Filter to calibrated frames (cal == 1) and summarize the 5 sensor modalities
+clean_df = df[df["cal"] == 1] if (df["cal"] == 1).any() else df
+sensors = ["vib", "mag", "press", "temp", "snd"]
+
+summary = clean_df[sensors].agg(["mean", "std", "min", "max"]).T
+summary["range"] = summary["max"] - summary["min"]
+summary["peak_z_sigma"] = (summary["max"] - summary["mean"]) / summary["std"].replace(0, 1e-9)
+
+scale_ratio = summary.loc["press", "mean"] / max(summary.loc["vib", "mean"], 1e-6)
+print(f"Scale disparity (press / vib): {scale_ratio:,.0f}× difference in raw magnitude")
+print("-> Raw distance metrics would be 99.9% dominated by press & mag without Z-score scaling.")
+
+summary.round(4)</textarea>
+          </div>
+
+          <div id="output-cell2" class="py-output-box is-empty">
+            <span class="py-output-placeholder">Click "Run Cell ▶" to compute summary statistics and peak Z-scores across all 5 sensors.</span>
+          </div>
+        </article>
+
+        <!-- CELL 3: 2.3 Explore Data (Transients vs Cloud Mean & Correlations) -->
+        <article class="py-cell-card" data-cell-id="cell3">
+          <div class="py-cell-header">
+            <div class="py-cell-meta">
+              <span class="py-cell-tag">CRISP-DM 2.3 · Explore Data (Slides 18–19 Connection)</span>
+              <h3 class="py-cell-title">Why Cloud Averages Miss Transients &amp; Cross-Sensor Correlations</h3>
+              <p class="py-cell-desc">
+                Compare the board's high-frequency 32-point window peak-to-peak (<code>p2p</code>) against a heavily smoothed rolling mean, and compute the Pearson correlation matrix across sensor modalities.
+              </p>
+            </div>
+            <div class="py-cell-actions">
+              <span class="py-shortcut-hint">Shift + Enter</span>
+              <button class="btn btn-run-cell" data-target="cell3">Run Cell ▶</button>
+            </div>
+          </div>
+
+          <div class="py-editor-wrap">
+            <textarea id="code-cell3" class="py-editor" rows="9" spellcheck="false" aria-label="Python code for CRISP-DM Step 2.3"># Compare edge 32-pt window peak-to-peak (p2p) vs a 30-frame smoothed rolling average
+df["vib_cloud_avg"] = df["vib"].rolling(window=30, min_periods=1).mean()
+
+p2p_max = df["p2p"].max()
+cloud_max = df["vib_cloud_avg"].max()
+print(f"Edge 32-pt Peak-to-Peak max : {p2p_max:.4f} g")
+print(f"Smoothed Rolling Mean max   : {cloud_max:.4f} g ({p2p_max / max(cloud_max, 1e-6):.1f}× higher transient capture on Edge)")
+print("\nCross-Sensor Correlation Matrix (Pearson r):")
+
+df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</textarea>
+          </div>
+
+          <div id="output-cell3" class="py-output-box is-empty">
+            <span class="py-output-placeholder">Click "Run Cell ▶" to compare Edge vs. Cloud aggregation and inspect the sensor correlation matrix.</span>
+          </div>
+        </article>
+      </div>
 
       <div class="viz-caveats-note">
         <span>Plots follow <a href="https://www.data-to-viz.com/" target="_blank" rel="noopener">data-to-viz.com</a> principles.</span>
@@ -614,6 +781,6 @@ arduino-cli upload -p COM3 \
     </section>
   </div>
 
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

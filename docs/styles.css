@@ -869,11 +869,261 @@ img, svg, video, canvas {
 }
 
 /* --------------------------------------------------------------------------
+   Part 03: CRISP-DM Phase 2 — Interactive Python Data Understanding Lab
+   -------------------------------------------------------------------------- */
+.crispdm-ribbon {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--border);
+  background: var(--bg);
+  margin-bottom: 1.5rem;
+}
+
+.crispdm-step {
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.crispdm-step:last-child {
+  border-right: none;
+}
+
+.crispdm-step.is-current {
+  background: var(--bg-subtle);
+  border-top: 3px solid var(--c-vib);
+  padding-top: calc(1rem - 2px);
+}
+
+.crispdm-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.crispdm-step.is-current .crispdm-step-num {
+  color: var(--c-vib);
+  font-weight: 600;
+}
+
+.crispdm-step-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.crispdm-step-desc {
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.crispdm-toolbar {
+  margin-bottom: 1.75rem;
+}
+
+.py-dot-idle {
+  background-color: var(--text-muted);
+}
+
+.py-dot-loading {
+  background-color: var(--state-warn);
+}
+
+.py-dot-ready {
+  background-color: var(--state-normal);
+}
+
+.crispdm-cells-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.py-cell-card {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  min-width: 0;
+}
+
+.py-cell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.py-cell-meta {
+  min-width: 0;
+  flex: 1 1 420px;
+}
+
+.py-cell-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-vib);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.py-cell-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 0.3rem;
+}
+
+.py-cell-desc {
+  font-size: 0.86rem;
+  color: var(--text);
+  max-width: 78ch;
+}
+
+.py-cell-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.py-shortcut-hint {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.py-editor-wrap {
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+}
+
+.py-editor {
+  width: 100%;
+  min-height: 155px;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--text-strong);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.58;
+  resize: vertical;
+  outline: none;
+  display: block;
+}
+
+.py-editor:focus {
+  background: rgba(247, 242, 226, 0.65);
+  box-shadow: inset 3px 0 0 var(--c-vib);
+}
+
+.py-output-box {
+  padding: 1rem 1.5rem;
+  background: var(--bg);
+  font-size: 0.82rem;
+  min-width: 0;
+}
+
+.py-output-box.is-empty {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
+.py-output-placeholder {
+  color: var(--text-muted);
+}
+
+.py-stdout {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--text-strong);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--border);
+}
+
+.py-stdout:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.py-error {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--state-anomaly);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.py-output-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.py-df-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
+.py-df-table th,
+.py-df-table td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.py-df-table th:first-child,
+.py-df-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.py-df-table thead th {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+}
+
+/* --------------------------------------------------------------------------
    Responsive Breakpoints
    -------------------------------------------------------------------------- */
 @media (max-width: 1120px) {
   .small-multiples-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  }
+  .crispdm-ribbon {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .crispdm-step:nth-child(2) {
+    border-right: none;
+  }
+  .crispdm-step:nth-child(1),
+  .crispdm-step:nth-child(2) {
+    border-bottom: 1px solid var(--border);
   }
 }
 
@@ -912,13 +1162,13 @@ img, svg, video, canvas {
   .sensor-table-wrap {
     overflow-x: visible;
   }
-  .editorial-table,
-  .editorial-table tbody,
-  .editorial-table tr {
+  .sensor-table-wrap .editorial-table,
+  .sensor-table-wrap .editorial-table tbody,
+  .sensor-table-wrap .editorial-table tr {
     display: block;
     width: 100%;
   }
-  .editorial-table thead {
+  .sensor-table-wrap .editorial-table thead {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -929,30 +1179,30 @@ img, svg, video, canvas {
     white-space: nowrap;
     border: 0;
   }
-  .editorial-table tr {
+  .sensor-table-wrap .editorial-table tr {
     border: 1px solid var(--border);
     background: var(--bg);
     padding: 0.75rem 0.9rem;
     margin-bottom: 0.85rem;
   }
-  .editorial-table tr:last-child {
+  .sensor-table-wrap .editorial-table tr:last-child {
     margin-bottom: 0;
   }
-  .editorial-table td {
+  .sensor-table-wrap .editorial-table td {
     position: relative;
     display: block;
     min-height: 2.2rem;
     padding: 0.45rem 0 0.45rem 10rem;
     border-bottom: 1px solid var(--border);
   }
-  .editorial-table td:last-child {
+  .sensor-table-wrap .editorial-table td:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
-  .editorial-table td:first-child {
+  .sensor-table-wrap .editorial-table td:first-child {
     padding-top: 0;
   }
-  .editorial-table td::before {
+  .sensor-table-wrap .editorial-table td::before {
     content: attr(data-label);
     position: absolute;
     left: 0;
@@ -965,12 +1215,31 @@ img, svg, video, canvas {
     color: var(--text-muted);
     line-height: 1.35;
   }
-  .editorial-table td:first-child::before {
+  .sensor-table-wrap .editorial-table td:first-child::before {
     top: 0.12rem;
   }
 }
 
 @media (max-width: 640px) {
+  .crispdm-ribbon {
+    grid-template-columns: 1fr;
+  }
+  .crispdm-step {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .crispdm-step:last-child {
+    border-bottom: none;
+  }
+  .py-cell-header,
+  .py-editor,
+  .py-output-box {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .py-shortcut-hint {
+    display: none;
+  }
   .toolbar-actions {
     width: 100%;
   }
@@ -1002,11 +1271,11 @@ img, svg, video, canvas {
 }
 
 @media (max-width: 460px) {
-  .editorial-table td {
+  .sensor-table-wrap .editorial-table td {
     padding-left: 0;
     min-height: 0;
   }
-  .editorial-table td::before {
+  .sensor-table-wrap .editorial-table td::before {
     position: static;
     display: block;
     width: auto;
