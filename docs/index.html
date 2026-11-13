@@ -98,39 +98,39 @@ arduino-cli upload -p COM3 \
           </thead>
           <tbody>
             <tr>
-              <td><span class="sensor-dot" style="background: var(--c-vib)"></span><strong>Bosch BMI270</strong> (6-Axis IMU)</td>
-              <td><span class="mono-key">vib</span> <span class="mono-key">p2p</span> <span class="mono-key">freq</span> <span class="mono-key">gyro</span></td>
-              <td><code>vibration</code> &amp; <code>rotate</code></td>
-              <td>Acceleration RMS (<em>g</em>), dominant frequency (Hz), gyro wobble (°/s)</td>
-              <td>Tap fingers rhythmically on the desk or tilt the foam pad</td>
+              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-vib)"></span><strong>Bosch BMI270</strong> (6-Axis IMU)</td>
+              <td data-label="JSON Key(s)"><span class="mono-key">vib</span> <span class="mono-key">p2p</span> <span class="mono-key">freq</span> <span class="mono-key">gyro</span></td>
+              <td data-label="Slide 19 Equivalent"><code>vibration</code> &amp; <code>rotate</code></td>
+              <td data-label="Quantity Measured">Acceleration RMS (<em>g</em>), dominant frequency (Hz), gyro wobble (°/s)</td>
+              <td data-label="Benchtop Test">Tap fingers rhythmically on the desk or tilt the foam pad</td>
             </tr>
             <tr>
-              <td><span class="sensor-dot" style="background: var(--c-mag)"></span><strong>Bosch BMM150</strong> (Magnetometer)</td>
-              <td><span class="mono-key">mag</span></td>
-              <td><code>volt</code> (Motor EMF proxy)</td>
-              <td>3-axis magnetic flux density (µT) from stator coils or nearby metal/electronics</td>
-              <td>Move a smartphone or magnetic object near the center of the board</td>
+              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-mag)"></span><strong>Bosch BMM150</strong> (Magnetometer)</td>
+              <td data-label="JSON Key(s)"><span class="mono-key">mag</span></td>
+              <td data-label="Slide 19 Equivalent"><code>volt</code> (Motor EMF proxy)</td>
+              <td data-label="Quantity Measured">3-axis magnetic flux density (µT) from stator coils or nearby metal/electronics</td>
+              <td data-label="Benchtop Test">Move a smartphone or magnetic object near the center of the board</td>
             </tr>
             <tr>
-              <td><span class="sensor-dot" style="background: var(--c-press)"></span><strong>STMicro LPS22HB</strong> (Barometer)</td>
-              <td><span class="mono-key">press</span></td>
-              <td><code>pressure</code></td>
-              <td>Static atmospheric pressure (hPa) (~950.3 hPa at ~540 m altitude)</td>
-              <td>Blow gently across the board surface to induce a pressure spike</td>
+              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-press)"></span><strong>STMicro LPS22HB</strong> (Barometer)</td>
+              <td data-label="JSON Key(s)"><span class="mono-key">press</span></td>
+              <td data-label="Slide 19 Equivalent"><code>pressure</code></td>
+              <td data-label="Quantity Measured">Static atmospheric pressure (hPa) (~950.3 hPa at ~540 m altitude)</td>
+              <td data-label="Benchtop Test">Blow gently across the board surface to induce a pressure spike</td>
             </tr>
             <tr>
-              <td><span class="sensor-dot" style="background: var(--c-temp)"></span><strong>Renesas HS3003</strong> (Temp &amp; Hum)</td>
-              <td><span class="mono-key">temp</span> <span class="mono-key">hum</span></td>
-              <td><em>Thermal load (New)</em></td>
-              <td>Board/housing temperature (°C) and relative humidity (%RH)</td>
-              <td>Rest a warm fingertip lightly near the middle sensor cluster</td>
+              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-temp)"></span><strong>Renesas HS3003</strong> (Temp &amp; Hum)</td>
+              <td data-label="JSON Key(s)"><span class="mono-key">temp</span> <span class="mono-key">hum</span></td>
+              <td data-label="Slide 19 Equivalent"><em>Thermal load (New)</em></td>
+              <td data-label="Quantity Measured">Board/housing temperature (°C) and relative humidity (%RH)</td>
+              <td data-label="Benchtop Test">Rest a warm fingertip lightly near the middle sensor cluster</td>
             </tr>
             <tr>
-              <td><span class="sensor-dot" style="background: var(--c-snd)"></span><strong>MP34DT06JTR</strong> (Digital PDM Mic)</td>
-              <td><span class="mono-key">snd</span></td>
-              <td><em>Acoustic emission (New)</em></td>
-              <td>16 kHz PCM audio converted to acoustic sound level (dB scale)</td>
-              <td>Snap fingers, clap, or speak near the board</td>
+              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-snd)"></span><strong>MP34DT06JTR</strong> (Digital PDM Mic)</td>
+              <td data-label="JSON Key(s)"><span class="mono-key">snd</span></td>
+              <td data-label="Slide 19 Equivalent"><em>Acoustic emission (New)</em></td>
+              <td data-label="Quantity Measured">16 kHz PCM audio converted to acoustic sound level (dB scale)</td>
+              <td data-label="Benchtop Test">Snap fingers, clap, or speak near the board</td>
             </tr>
           </tbody>
         </table>
@@ -199,7 +199,7 @@ arduino-cli upload -p COM3 \
                  CALLOUT 1 (TOP-LEFT): BMI270 6-Axis IMU (Vibration & Freq)
                  Chip at (368, 192)
                  ============================================================ -->
-            <g class="sensor-node" data-sensor="vib">
+            <g class="sensor-node svg-callout-group" data-sensor="vib">
               <polyline points="368,185 368,95 275,95" fill="none" stroke="#2b6f6b" stroke-width="1.5" />
               <circle cx="368" cy="185" r="3.5" fill="#2b6f6b" />
               <rect class="callout-box" x="20" y="24" width="255" height="96" rx="2" />
@@ -215,7 +215,7 @@ arduino-cli upload -p COM3 \
                  CALLOUT 2 (TOP-CENTER): HS3003 Temp & Humidity
                  Chip at (490, 174)
                  ============================================================ -->
-            <g class="sensor-node" data-sensor="temp">
+            <g class="sensor-node svg-callout-group" data-sensor="temp">
               <polyline points="490,168 490,95 520,95" fill="none" stroke="#c06038" stroke-width="1.5" />
               <circle cx="490" cy="168" r="3.5" fill="#c06038" />
               <rect class="callout-box" x="370" y="18" width="245" height="84" rx="2" />
@@ -230,7 +230,7 @@ arduino-cli upload -p COM3 \
                  CALLOUT 3 (TOP-RIGHT): MP34DT06JTR Digital Microphone
                  Chip at (548, 178)
                  ============================================================ -->
-            <g class="sensor-node" data-sensor="snd">
+            <g class="sensor-node svg-callout-group" data-sensor="snd">
               <polyline points="552,172 650,95 720,95" fill="none" stroke="#88743e" stroke-width="1.5" />
               <circle cx="552" cy="172" r="3.5" fill="#88743e" />
               <rect class="callout-box" x="720" y="24" width="260" height="90" rx="2" />
@@ -245,7 +245,7 @@ arduino-cli upload -p COM3 \
                  CALLOUT 4 (BOTTOM-LEFT): BMM150 3-Axis Magnetometer
                  Chip at (418, 232)
                  ============================================================ -->
-            <g class="sensor-node" data-sensor="mag">
+            <g class="sensor-node svg-callout-group" data-sensor="mag">
               <polyline points="418,242 418,340 275,340" fill="none" stroke="#6b5b95" stroke-width="1.5" />
               <circle cx="418" cy="242" r="3.5" fill="#6b5b95" />
               <rect class="callout-box" x="20" y="305" width="255" height="96" rx="2" />
@@ -260,7 +260,7 @@ arduino-cli upload -p COM3 \
                  CALLOUT 5 (BOTTOM-CENTER): LPS22HB Barometric Pressure
                  Chip at (462, 236)
                  ============================================================ -->
-            <g class="sensor-node" data-sensor="press">
+            <g class="sensor-node svg-callout-group" data-sensor="press">
               <polyline points="462,246 462,320" fill="none" stroke="#3d6b99" stroke-width="1.5" />
               <circle cx="462" cy="246" r="3.5" fill="#3d6b99" />
               <rect class="callout-box" x="360" y="320" width="255" height="86" rx="2" />
@@ -274,7 +274,7 @@ arduino-cli upload -p COM3 \
                  CALLOUT 6 (BOTTOM-RIGHT): Onboard RGB LED & nRF52840 Edge AI
                  LED at (532, 250), NINA-B306 at (625, 215)
                  ============================================================ -->
-            <g class="sensor-node" data-sensor="edge">
+            <g class="sensor-node svg-callout-group" data-sensor="edge">
               <polyline points="532,258 635,340 720,340" fill="none" stroke="#595959" stroke-width="1.5" />
               <circle cx="532" cy="258" r="3.5" fill="#595959" />
               <rect class="callout-box" x="720" y="305" width="260" height="96" rx="2" />
@@ -403,6 +403,64 @@ arduino-cli upload -p COM3 \
             </g>
           </svg>
         </div>
+
+        <!-- Responsive HTML Callout Cards (shown automatically on compact/split-screen viewports) -->
+        <div id="boardCalloutGrid" class="board-callout-grid" aria-label="Sensor callout cards">
+          <div class="board-callout-card sensor-node" data-sensor="vib" style="--callout-accent: var(--c-vib)">
+            <div class="callout-card-ic">IC1 · Bosch BMI270 (6-Axis IMU)</div>
+            <div class="callout-card-values">
+              <span id="cardValVib" class="callout-card-primary">0.0006 g</span>
+              <span id="cardValFreq" class="callout-card-secondary">9.5 Hz</span>
+            </div>
+            <div class="callout-card-desc">Vibration RMS &amp; dominant freq</div>
+            <div id="cardValGyro" class="callout-card-meta">p2p: 0.0025 g · gyro: 0.2 °/s</div>
+          </div>
+
+          <div class="board-callout-card sensor-node" data-sensor="temp" style="--callout-accent: var(--c-temp)">
+            <div class="callout-card-ic">IC4 · Renesas HS3003</div>
+            <div class="callout-card-values">
+              <span id="cardValTemp" class="callout-card-primary">26.64 °C</span>
+              <span id="cardValHum" class="callout-card-secondary">48.9 %RH</span>
+            </div>
+            <div class="callout-card-desc">Surface thermal load &amp; humidity</div>
+          </div>
+
+          <div class="board-callout-card sensor-node" data-sensor="snd" style="--callout-accent: var(--c-snd)">
+            <div class="callout-card-ic">IC5 · MP34DT06JTR (PDM Mic)</div>
+            <div class="callout-card-values">
+              <span id="cardValSnd" class="callout-card-primary">45.9 dB</span>
+            </div>
+            <div class="callout-card-desc">Acoustic noise &amp; air turbulence</div>
+            <div class="callout-card-meta">16 kHz PCM window RMS</div>
+          </div>
+
+          <div class="board-callout-card sensor-node" data-sensor="mag" style="--callout-accent: var(--c-mag)">
+            <div class="callout-card-ic">IC2 · Bosch BMM150 (3-Axis Mag)</div>
+            <div class="callout-card-values">
+              <span id="cardValMag" class="callout-card-primary">38.9 µT</span>
+            </div>
+            <div class="callout-card-desc">Electromagnetic flux (Volt/EMF proxy)</div>
+            <div class="callout-card-meta">Contactless stator field sensor</div>
+          </div>
+
+          <div class="board-callout-card sensor-node" data-sensor="press" style="--callout-accent: var(--c-press)">
+            <div class="callout-card-ic">IC3 · STMicro LPS22HB (Baro)</div>
+            <div class="callout-card-values">
+              <span id="cardValPress" class="callout-card-primary">950.27 hPa</span>
+            </div>
+            <div class="callout-card-desc">Static air pressure (airflow drop)</div>
+          </div>
+
+          <div id="cardEdgeStripe" class="board-callout-card sensor-node" data-sensor="edge" style="--callout-accent: var(--state-normal)">
+            <div class="callout-card-ic">Edge AI · nRF52840 + RGB LED</div>
+            <div class="callout-card-values">
+              <span id="cardValState" class="callout-card-primary">NORMAL</span>
+              <span id="cardValScore" class="callout-card-secondary">Score 0.02</span>
+            </div>
+            <div class="callout-card-desc">On-board Z-score &amp; BLE 5.0 radio</div>
+            <div id="cardValCal" class="callout-card-meta">Baseline: Calibrated (cal=1)</div>
+          </div>
+        </div>
       </div>
 
       <!-- ====================================================================
@@ -420,7 +478,7 @@ arduino-cli upload -p COM3 \
             Rolling 6-second window (`score` 0.00–1.00) with direct threshold lines at 0.35 (Warning) and 0.65 (Anomaly).
           </p>
           <div class="canvas-container">
-            <canvas id="canvasAnomalyTimeline" width="680" height="210"></canvas>
+            <canvas id="canvasAnomalyTimeline" class="responsive-canvas" width="680" height="210"></canvas>
           </div>
         </div>
 
@@ -434,7 +492,7 @@ arduino-cli upload -p COM3 \
             Horizontal lollipop chart ranking each sensor's current standard-deviation shift ($|\Delta|/\sigma$) from its calibrated baseline.
           </p>
           <div class="canvas-container">
-            <canvas id="canvasLollipop" width="460" height="210"></canvas>
+            <canvas id="canvasLollipop" class="responsive-canvas" width="460" height="210"></canvas>
           </div>
         </div>
       </div>
@@ -459,7 +517,7 @@ arduino-cli upload -p COM3 \
             <span class="sm-unit">g</span>
           </div>
           <div class="sm-canvas-wrap">
-            <canvas id="canvasSmVib" width="220" height="76"></canvas>
+            <canvas id="canvasSmVib" class="responsive-canvas" width="220" height="76"></canvas>
           </div>
           <div class="sm-footer">
             <span id="smSubVibLeft">Freq: 9.5 Hz</span>
@@ -478,7 +536,7 @@ arduino-cli upload -p COM3 \
             <span class="sm-unit">µT</span>
           </div>
           <div class="sm-canvas-wrap">
-            <canvas id="canvasSmMag" width="220" height="76"></canvas>
+            <canvas id="canvasSmMag" class="responsive-canvas" width="220" height="76"></canvas>
           </div>
           <div class="sm-footer">
             <span id="smSubMagLeft">EMF Proxy</span>
@@ -497,7 +555,7 @@ arduino-cli upload -p COM3 \
             <span class="sm-unit">hPa</span>
           </div>
           <div class="sm-canvas-wrap">
-            <canvas id="canvasSmPress" width="220" height="76"></canvas>
+            <canvas id="canvasSmPress" class="responsive-canvas" width="220" height="76"></canvas>
           </div>
           <div class="sm-footer">
             <span id="smSubPressLeft">ΔP: +0.00 hPa</span>
@@ -516,7 +574,7 @@ arduino-cli upload -p COM3 \
             <span class="sm-unit">°C</span>
           </div>
           <div class="sm-canvas-wrap">
-            <canvas id="canvasSmTemp" width="220" height="76"></canvas>
+            <canvas id="canvasSmTemp" class="responsive-canvas" width="220" height="76"></canvas>
           </div>
           <div class="sm-footer">
             <span id="smSubTempLeft">Hum: 48.9 %</span>
@@ -535,7 +593,7 @@ arduino-cli upload -p COM3 \
             <span class="sm-unit">dB</span>
           </div>
           <div class="sm-canvas-wrap">
-            <canvas id="canvasSmSnd" width="220" height="76"></canvas>
+            <canvas id="canvasSmSnd" class="responsive-canvas" width="220" height="76"></canvas>
           </div>
           <div class="sm-footer">
             <span id="smSubSndLeft">16 kHz PDM</span>

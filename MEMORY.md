@@ -64,5 +64,21 @@ data-to-service/
   - Focused strictly on **Part 01 / Explanation** (what we set up so far) and **Part 02 / Data Visualization** centered around an interactive 2D SVG diagram of the **Arduino Nano 33 BLE Sense Rev2 (ABX00069)** showing the exact physical IC location and live values of all 5 sensors + RGB LED.
   - Implemented charts following [From Data to Viz](https://www.data-to-viz.com/#explore) and [Data-to-Viz Caveats](https://www.data-to-viz.com/caveats.html): annotated anomaly threshold timeline, ranked horizontal lollipop chart of $|Z|$-scores (avoiding radar/spider and gauge charts), and 5 small-multiple sparklines with dedicated Y-scales and baseline ($\mu$) reference lines (avoiding dual-axis distortion).
   - Added `.github/workflows/deploy-pages.yml` to automatically deploy `./docs` to GitHub Pages via GitHub Actions on push to `main`.
+- **[x] Step 2b — Responsive Web Architecture & DPR-Safe Canvas System:**
+  - Replaced fixed canvas/SVG widths with a fluid CSS layout system, compact SVG+HTML callout fallback (`< 700px`), responsive `data-label` stacked table cards (`< 680px`), `ResizeObserver` + DPR watcher (`window.CASResponsive`), and parent-measured `prepCanvas(canvas)` eliminating DPR resize feedback loops.
+
+## 7. Responsive Design & Layout Standards (Mandatory for All Features)
+Every new feature added to `docs/` (3D Digital Twin / Three.js viewport, FFT spectrum analyzer, CHF Service Cost Confusion Matrix, CRISP-DM modules) **must** follow these rules so the site works seamlessly across **`360px` mobile**, **`640px` split-screen beside Google Colab**, **`1024px` laptop**, and **`1440px+` classroom projector** with zero horizontal overflow (`document.documentElement.scrollWidth <= document.documentElement.clientWidth`):
+1. **Use Reusable Fluid Grid Primitives (`docs/styles.css`):**
+   - Prefer `.l-grid-auto-sm` (`200px`), `.l-grid-auto-md` (`280px`), `.l-grid-auto-lg` (`380px`), `.l-split-2col`, and `.l-split-sidebar` instead of fixed-width columns or bespoke breakpoints.
+   - All grid and flex children must keep `min-width: 0` so long `<pre>`, `<code>`, tables, or canvases never force horizontal page scroll.
+2. **DPR-Safe Canvases & 3D Viewports (`docs/app.js`):**
+   - Wrap `<canvas>` elements in a sized container (`.canvas-container`, `.sm-canvas-wrap`, or `.aspect-16-9` / `.aspect-4-3` / `.aspect-21-9`) and give the canvas `class="responsive-canvas"` (`width: 100% !important; height: 100% !important;`).
+   - Always measure the **parent container** (`container.clientWidth` / `container.clientHeight`) via `window.CASResponsive.prepCanvas(canvas)` — **never** read `canvas.getBoundingClientRect()` and multiply by `devicePixelRatio` back into `canvas.width` without CSS containment, or high-DPI screens will cause exponential width expansion.
+   - Register new responsive canvases, Three.js renderers, and adaptive SVG diagrams with `window.CASResponsive.observe(containerEl, redrawFn)`.
+3. **Responsive Tables & Dense Diagrams:**
+   - Any multi-column data table using `.editorial-table` must include `data-label="..."` on every `<td>` so viewports `< 680px` collapse cleanly into stacked key-value cards.
+   - Dense annotated diagrams (like the 2D Arduino board) must switch to a focused SVG view + responsive HTML card grid on compact viewports rather than using `min-width` scrolling or shrinking labels below legibility.
+
 
 

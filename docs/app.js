@@ -105,7 +105,9 @@
   const btnExportCsv = document.getElementById('btnExportCsv');
   const csvCount = document.getElementById('csvCount');
   const rawJsonReadout = document.getElementById('rawJsonReadout');
+  const boardCenterpiece = document.querySelector('.board-centerpiece');
   const boardSvg = document.getElementById('boardSvg');
+  const boardCalloutGrid = document.getElementById('boardCalloutGrid');
 
   // SVG Readouts
   const svgValVib = document.getElementById('svgValVib');
@@ -122,6 +124,20 @@
   const svgEdgeStripe = document.getElementById('svgEdgeStripe');
   const svgRgbGlow = document.getElementById('svgRgbGlow');
   const svgRgbCore = document.getElementById('svgRgbCore');
+
+  // Compact HTML Callout Card Readouts
+  const cardValVib = document.getElementById('cardValVib');
+  const cardValFreq = document.getElementById('cardValFreq');
+  const cardValGyro = document.getElementById('cardValGyro');
+  const cardValTemp = document.getElementById('cardValTemp');
+  const cardValHum = document.getElementById('cardValHum');
+  const cardValSnd = document.getElementById('cardValSnd');
+  const cardValMag = document.getElementById('cardValMag');
+  const cardValPress = document.getElementById('cardValPress');
+  const cardValState = document.getElementById('cardValState');
+  const cardValScore = document.getElementById('cardValScore');
+  const cardValCal = document.getElementById('cardValCal');
+  const cardEdgeStripe = document.getElementById('cardEdgeStripe');
 
   // Top Viz Readouts
   const readoutAnomalyScore = document.getElementById('readoutAnomalyScore');
@@ -166,11 +182,11 @@
   function updateHighlightClasses() {
     const svgNodes = document.querySelectorAll('.sensor-node');
     const smCards = document.querySelectorAll('.sm-card');
+    const hasSelection = Boolean(selectedSensor);
 
-    if (selectedSensor) {
-      boardSvg.classList.add('has-selection');
-    } else {
-      boardSvg.classList.remove('has-selection');
+    boardSvg.classList.toggle('has-selection', hasSelection);
+    if (boardCalloutGrid) {
+      boardCalloutGrid.classList.toggle('has-selection', hasSelection);
     }
 
     svgNodes.forEach((node) => {
@@ -363,10 +379,28 @@
     svgValState.textContent = f.state;
     svgValState.setAttribute('fill', stateColor);
     svgValScore.textContent = `Score ${f.score.toFixed(2)}`;
-    svgValCal.textContent = f.cal ? 'Baseline: Calibrated (cal=1)' : 'Baseline: Calibrating (cal=0)';
+    const calText = f.cal ? 'Baseline: Calibrated (cal=1)' : 'Baseline: Calibrating (cal=0)';
+    svgValCal.textContent = calText;
     svgEdgeStripe.setAttribute('fill', stateColor);
     svgRgbGlow.setAttribute('fill', stateColor);
     svgRgbCore.setAttribute('fill', stateColor);
+
+    // Compact HTML Callout Cards
+    if (cardValVib) {
+      cardValVib.textContent = `${f.vib.toFixed(4)} g`;
+      cardValFreq.textContent = `${f.freq.toFixed(1)} Hz`;
+      cardValGyro.textContent = `p2p: ${f.p2p.toFixed(4)} g · gyro: ${f.gyro.toFixed(1)} °/s`;
+      cardValTemp.textContent = `${f.temp.toFixed(2)} °C`;
+      cardValHum.textContent = `${f.hum.toFixed(1)} %RH`;
+      cardValSnd.textContent = `${f.snd.toFixed(1)} dB`;
+      cardValMag.textContent = `${f.mag.toFixed(1)} µT`;
+      cardValPress.textContent = `${f.press.toFixed(2)} hPa`;
+      cardValState.textContent = f.state;
+      cardValState.style.color = stateColor;
+      cardValScore.textContent = `Score ${f.score.toFixed(2)}`;
+      cardValCal.textContent = calText;
+      cardEdgeStripe.style.setProperty('--callout-accent', stateColor);
+    }
 
     // Small Multiples Cards
     smValVib.textContent = f.vib.toFixed(4);
@@ -397,16 +431,32 @@
   }
 
   // -------------------------------------------------------------------------
-  // High-DPI Canvas Setup Helper
+  // Responsive Board Layout (Zoomed PCB + Card Grid below 700px)
+  // -------------------------------------------------------------------------
+  function updateBoardLayout() {
+    if (!boardCenterpiece || !boardSvg) return;
+    const width = boardCenterpiece.clientWidth;
+    if (!width) return;
+
+    const isCompact = width < 700;
+    boardCenterpiece.classList.toggle('is-compact', isCompact);
+    boardSvg.setAttribute('viewBox', isCompact ? '224 122 508 184' : '0 0 1000 430');
+  }
+
+  // -------------------------------------------------------------------------
+  // High-DPI Canvas Setup Helper (Measures parent container to avoid DPR loops)
   // -------------------------------------------------------------------------
   function prepCanvas(canvas) {
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    const w = rect.width || canvas.width;
-    const h = rect.height || canvas.height;
-    if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
+    const container = canvas.parentElement;
+    const w = (container ? container.clientWidth : canvas.clientWidth) || 300;
+    const h = (container ? container.clientHeight : canvas.clientHeight) || 150;
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    const targetW = Math.max(1, Math.round(w * dpr));
+    const targetH = Math.max(1, Math.round(h * dpr));
+
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
     }
     const ctx = canvas.getContext('2d');
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -419,9 +469,12 @@
   // -------------------------------------------------------------------------
   function drawAnomalyTimeline() {
     const { ctx, w, h } = prepCanvas(canvasAnomalyTimeline);
-    const pad = { top: 14, right: 68, bottom: 24, left: 36 };
-    const pw = w - pad.left - pad.right;
-    const ph = h - pad.top - pad.bottom;
+    const isNarrow = w < 420;
+    const pad = isNarrow
+      ? { top: 14, right: 54, bottom: 24, left: 30 }
+      : { top: 14, right: 68, bottom: 24, left: 36 };
+    const pw = Math.max(40, w - pad.left - pad.right);
+    const ph = Math.max(40, h - pad.top - pad.bottom);
 
     const yFor = (val) => pad.top + ph * (1 - Math.max(0, Math.min(1, val)));
     const xFor = (i) => pad.left + (i / (HISTORY_LEN - 1)) * pw;
@@ -437,8 +490,9 @@
     ctx.fillRect(pad.left, yAnom, pw, yWarn - yAnom);
 
     // Horizontal grid & threshold lines (direct labeling on right per data-to-viz)
-    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.font = `${isNarrow ? 9 : 10}px "JetBrains Mono", monospace`;
     ctx.textBaseline = 'middle';
+    const labelOffset = isNarrow ? 4 : 6;
 
     // 0.65 Anomaly threshold line
     ctx.strokeStyle = 'rgba(181, 68, 52, 0.45)';
@@ -449,7 +503,7 @@
     ctx.stroke();
     ctx.fillStyle = COLORS.anomaly;
     ctx.textAlign = 'left';
-    ctx.fillText('0.65 ANOM', pad.left + pw + 6, yAnom);
+    ctx.fillText('0.65 ANOM', pad.left + pw + labelOffset, yAnom);
 
     // 0.35 Warning threshold line
     ctx.strokeStyle = 'rgba(184, 125, 20, 0.45)';
@@ -458,7 +512,7 @@
     ctx.lineTo(pad.left + pw, yWarn);
     ctx.stroke();
     ctx.fillStyle = COLORS.warn;
-    ctx.fillText('0.35 WARN', pad.left + pw + 6, yWarn);
+    ctx.fillText('0.35 WARN', pad.left + pw + labelOffset, yWarn);
 
     ctx.setLineDash([]);
 
@@ -529,35 +583,41 @@
   function drawLollipopChart() {
     const { ctx, w, h } = prepCanvas(canvasLollipop);
     const f = latestFrame;
+    const isNarrow = w < 420;
 
     const items = [
       {
         key: 'vib',
         label: 'Vibration (BMI270)',
+        shortLabel: 'Vibration',
         z: Math.abs(f.vib - baseline.vib.mean) / baseline.vib.std,
         color: COLORS.vib,
       },
       {
         key: 'snd',
         label: 'Acoustic (MP34DT06)',
+        shortLabel: 'Acoustic',
         z: Math.abs(f.snd - baseline.snd.mean) / baseline.snd.std,
         color: COLORS.snd,
       },
       {
         key: 'press',
         label: 'Pressure (LPS22HB)',
+        shortLabel: 'Pressure',
         z: Math.abs(f.press - baseline.press.mean) / baseline.press.std,
         color: COLORS.press,
       },
       {
         key: 'mag',
         label: 'Mag Flux (BMM150)',
+        shortLabel: 'Mag Flux',
         z: Math.abs(f.mag - baseline.mag.mean) / baseline.mag.std,
         color: COLORS.mag,
       },
       {
         key: 'temp',
         label: 'Temp (HS3003)',
+        shortLabel: 'Temp',
         z: Math.abs(f.temp - baseline.temp.mean) / baseline.temp.std,
         color: COLORS.temp,
       },
@@ -567,14 +627,16 @@
     items.sort((a, b) => b.z - a.z);
 
     if (items[0].z > 1.8) {
-      readoutTopDriver.textContent = `Top: ${items[0].label.split(' ')[0]} (${items[0].z.toFixed(1)}σ)`;
+      readoutTopDriver.textContent = `Top: ${items[0].shortLabel} (${items[0].z.toFixed(1)}σ)`;
     } else {
       readoutTopDriver.textContent = 'All within < 2σ';
     }
 
-    const pad = { top: 14, right: 48, bottom: 24, left: 132 };
-    const pw = w - pad.left - pad.right;
-    const ph = h - pad.top - pad.bottom;
+    const pad = isNarrow
+      ? { top: 14, right: 42, bottom: 24, left: 76 }
+      : { top: 14, right: 48, bottom: 24, left: 132 };
+    const pw = Math.max(60, w - pad.left - pad.right);
+    const ph = Math.max(60, h - pad.top - pad.bottom);
     const maxZ = Math.max(5.0, Math.ceil(items[0].z * 1.15));
     const rowH = ph / items.length;
 
@@ -590,10 +652,11 @@
     ctx.stroke();
     ctx.setLineDash([]);
 
-    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.font = `${isNarrow ? 9.5 : 10}px "JetBrains Mono", monospace`;
     ctx.fillStyle = COLORS.textMuted;
     ctx.textAlign = 'center';
-    ctx.fillText('2.5σ threshold', xRef, h - 8);
+    const refLabelX = Math.max(pad.left + 36, Math.min(pad.left + pw - 20, xRef));
+    ctx.fillText('2.5σ threshold', refLabelX, h - 8);
 
     // Draw each horizontal lollipop
     items.forEach((item, idx) => {
@@ -623,17 +686,17 @@
       ctx.fill();
 
       // Left label
-      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+      ctx.font = `${isNarrow ? 10.5 : 11}px "Plus Jakarta Sans", sans-serif`;
       ctx.fillStyle = COLORS.textStrong;
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
-      ctx.fillText(item.label, pad.left - 10, cy);
+      ctx.fillText(isNarrow ? item.shortLabel : item.label, pad.left - (isNarrow ? 8 : 10), cy);
 
       // Direct value label on right of lollipop head
-      ctx.font = '10.5px "JetBrains Mono", monospace';
+      ctx.font = `${isNarrow ? 10 : 10.5}px "JetBrains Mono", monospace`;
       ctx.fillStyle = COLORS.textStrong;
       ctx.textAlign = 'left';
-      ctx.fillText(`${item.z.toFixed(1)}σ`, xEnd + 8, cy);
+      ctx.fillText(`${item.z.toFixed(1)}σ`, xEnd + (isNarrow ? 6 : 8), cy);
     });
   }
 
@@ -856,6 +919,67 @@
   }
 
   // -------------------------------------------------------------------------
+  // Responsive Layout Manager (ResizeObserver + DPR Watcher for All Features)
+  // -------------------------------------------------------------------------
+  const responsiveCallbacks = new Map();
+  const pendingResizeCallbacks = new Set();
+  let resizeRafId = null;
+
+  function flushPendingResizes() {
+    resizeRafId = null;
+    const toRun = Array.from(pendingResizeCallbacks);
+    pendingResizeCallbacks.clear();
+    toRun.forEach((fn) => fn());
+  }
+
+  function scheduleResizeCallback(fn) {
+    if (typeof fn !== 'function') return;
+    pendingResizeCallbacks.add(fn);
+    if (resizeRafId === null) {
+      resizeRafId = requestAnimationFrame(flushPendingResizes);
+    }
+  }
+
+  const sharedResizeObserver =
+    typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver((entries) => {
+          for (const entry of entries) {
+            const cb = responsiveCallbacks.get(entry.target);
+            if (cb) scheduleResizeCallback(cb);
+          }
+        })
+      : null;
+
+  function registerResponsiveElement(el, onResize) {
+    if (!el || typeof onResize !== 'function') return;
+    responsiveCallbacks.set(el, onResize);
+    if (sharedResizeObserver) {
+      sharedResizeObserver.observe(el);
+    }
+  }
+
+  function watchDevicePixelRatio(onChange) {
+    if (typeof window.matchMedia !== 'function') return;
+    let mediaQuery = null;
+    const handleChange = () => {
+      onChange();
+      arm();
+    };
+    const arm = () => {
+      mediaQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`);
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', handleChange, { once: true });
+      }
+    };
+    arm();
+  }
+
+  window.CASResponsive = {
+    prepCanvas,
+    observe: registerResponsiveElement,
+  };
+
+  // -------------------------------------------------------------------------
   // Event Listeners & Main Loop Initialization
   // -------------------------------------------------------------------------
   btnConnectSerial.addEventListener('click', connectWebSerial);
@@ -872,7 +996,18 @@
   btnCalibrate.addEventListener('click', () => sendCommand('C'));
   btnExportCsv.addEventListener('click', exportCsv);
 
-  window.addEventListener('resize', renderAllCharts);
+  if (boardCenterpiece) {
+    registerResponsiveElement(boardCenterpiece, updateBoardLayout);
+  }
+  document.querySelectorAll('.canvas-container, .sm-canvas-wrap').forEach((container) => {
+    registerResponsiveElement(container, renderAllCharts);
+  });
+
+  window.addEventListener('resize', () => {
+    scheduleResizeCallback(updateBoardLayout);
+    scheduleResizeCallback(renderAllCharts);
+  });
+  watchDevicePixelRatio(() => scheduleResizeCallback(renderAllCharts));
 
   // Run 10 Hz virtual emulator loop whenever not connected to physical hardware
   setInterval(() => {
@@ -881,7 +1016,8 @@
     }
   }, 100);
 
-  // Initial render
+  // Initial layout & render
+  updateBoardLayout();
   updateDomReadouts(latestFrame);
   renderAllCharts();
 })();
