@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=2" />
 </head>
 <body>
   <div class="page-container">
@@ -149,7 +149,7 @@ arduino-cli upload -p COM3 \
         <div>
           <h2 class="hero-headline">Where each value originates on the board—and how it behaves in time.</h2>
           <p class="lead-paragraph">
-            Connect your physical Arduino over USB or Bluetooth, or explore the virtual emulator. Following <a href="https://www.data-to-viz.com/caveats.html" target="_blank" rel="noopener" style="color: var(--text-strong);">data-to-viz.com</a> principles, each sensor has its own dedicated scale (small multiples instead of misleading dual axes), direct baseline annotations, and a ranked lollipop breakdown of anomaly drivers.
+            Connect your physical Arduino over USB or Bluetooth, or explore the virtual benchtop emulator to inspect live sensor readings, composite anomaly scores, and per-sensor deviations from the calibrated baseline.
           </p>
         </div>
       </div>
@@ -464,32 +464,31 @@ arduino-cli upload -p COM3 \
       </div>
 
       <!-- ====================================================================
-           TOP VIZ ROW: 1. Annotated Anomaly Timeline + 2. Ranked Lollipop Z-Scores
-           (Follows data-to-viz.com: Line plot with threshold zones + Lollipop chart)
+           TOP VIZ ROW: 1. Anomaly Timeline + 2. Sensor |Z|-Scores
            ==================================================================== -->
       <div class="viz-grid-top">
-        <!-- Left: Composite Edge Anomaly Score with Annotated Threshold Zones -->
+        <!-- Left: Composite Edge Anomaly Score -->
         <div class="viz-panel">
           <div class="viz-panel-header">
             <h3 class="viz-title">Composite Edge Anomaly Score Over Time</h3>
             <span id="readoutAnomalyScore" class="viz-metric-readout">0.02 (NORMAL)</span>
           </div>
           <p class="viz-subtitle">
-            Rolling 6-second window (`score` 0.00–1.00) with direct threshold lines at 0.35 (Warning) and 0.65 (Anomaly).
+            Rolling 6-second window (<code>score</code> 0.00–1.00) with threshold lines at 0.35 (Warning) and 0.65 (Anomaly).
           </p>
           <div class="canvas-container">
             <canvas id="canvasAnomalyTimeline" class="responsive-canvas" width="680" height="210"></canvas>
           </div>
         </div>
 
-        <!-- Right: Ranked Horizontal Lollipop Chart (Instead of a Radar/Spider or Gauge) -->
+        <!-- Right: Sensor Deviation (|Z|-Score) -->
         <div class="viz-panel">
           <div class="viz-panel-header">
             <h3 class="viz-title">Instantaneous Sensor Deviation (|Z|-Score)</h3>
             <span id="readoutTopDriver" class="viz-metric-readout">Baseline Locked</span>
           </div>
           <p class="viz-subtitle">
-            Horizontal lollipop chart ranking each sensor's current standard-deviation shift ($|\Delta|/\sigma$) from its calibrated baseline.
+            Ranks each sensor's current standard-deviation shift (|Δ| / σ) from its calibrated baseline.
           </p>
           <div class="canvas-container">
             <canvas id="canvasLollipop" class="responsive-canvas" width="460" height="210"></canvas>
@@ -498,10 +497,10 @@ arduino-cli upload -p COM3 \
       </div>
 
       <!-- ====================================================================
-           BOTTOM VIZ ROW: 5 Small Multiples (Avoiding Dual-Axis Caveat)
+           BOTTOM VIZ ROW: Individual Sensor Streams
            ==================================================================== -->
       <div class="small-multiples-header">
-        <div class="centerpiece-title">Individual Sensor Streams (Small Multiples — Dedicated Y-Scales)</div>
+        <div class="centerpiece-title">Individual Sensor Streams</div>
         <div class="centerpiece-hint">Dashed horizontal line = calibrated normal baseline (μ)</div>
       </div>
 
@@ -609,12 +608,12 @@ arduino-cli upload -p COM3 \
       </div>
 
       <div class="viz-caveats-note">
-        <span>Visualization design follows <a href="https://www.data-to-viz.com/#explore" target="_blank" rel="noopener">From Data to Viz</a>: Small multiples avoid dual-axis distortion; horizontal lollipop bars replace radar/gauge charts.</span>
+        <span>Plots follow <a href="https://www.data-to-viz.com/" target="_blank" rel="noopener">data-to-viz.com</a> principles.</span>
         <span>CAS Smart Service Engineering · Module A</span>
       </div>
     </section>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>

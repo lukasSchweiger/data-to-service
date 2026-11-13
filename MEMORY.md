@@ -17,6 +17,7 @@
 - **Design Language:** Match Lukas's Google Slides presentation palette combined with the clean, minimalist editorial aesthetic of `https://ventriloc.ca/en/`:
   - **Background:** Warm cream `#fffbee` (with clean subtle off-white/cream surfaces and hairline borders).
   - **Primary Text:** Charcoal grey `#595959` (high readability, generous whitespace, editorial typography, zero clutter).
+  - **Visualization Copy:** Apply [data-to-viz.com](https://www.data-to-viz.com/) principles silently in chart design; keep at most one brief footer attribution at the end of the page without repeating chart-type explanations in headings or body text.
   - **Content Integration:** Direct references to CRISP-DM (Slide 13), Tagesziele: Kennen · Verstehen · Anwenden (Slide 4), Smart Product Stack Ebene 1–5 (Slide 45), and Digital Twins (Slides 48–50).
 
 ## 3. Hardware Setup Status
