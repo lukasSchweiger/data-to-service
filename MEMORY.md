@@ -71,6 +71,10 @@ data-to-service/
 - **[x] Step 3 — CRISP-DM Phase 2: In-Browser Python Data Understanding Lab (`feat/crisp-dm-data-understanding`):**
   - Added **Part 03 / CRISP-DM Phase 2: Data Understanding** (`#crispdm`) connecting the live Arduino/Emulator telemetry buffer (`recordedRows`) directly to an in-browser Python (`Pyodide` WebAssembly + `pandas`/`numpy` with automatic offline DataFrame fallback) environment as `df`.
   - Added 3 editable, runnable Python cells (`Shift+Enter` / `Run Cell ▶`): `2.1 Collect & Verify Data Quality` (sampling interval $\Delta t$, jitter, `cal=0` vs `cal=1`), `2.2 Describe Data` (units, scale disparity, peak $Z$-score), and `2.3 Explore Data` (Edge 32-pt `p2p` vs smoothed cloud rolling mean and $7 \times 7$ Pearson correlation matrix), plus an 80-frame multi-fault sample preset loader.
+- **[x] Step 3b — Modular Reorderable Sections & Responsive Sticky Section Rail:**
+  - Wrapped all topic sections in `<main id="sectionsContainer" class="sections-stack">` in `docs/index.html` and moved the page footer outside `<main>`, removing hardcoded section-number cross-references so sections can be freely reordered.
+  - Added `SECTION_ORDER` and `initModularSections()` (`window.CASSections`) in `docs/app.js` to support reordering either via `SECTION_ORDER` or by moving `<section>` blocks in HTML, automatically renumbering section indices (`01`, `02`, `03`, ...), rebuilding `<nav class="header-nav">` links, and driving scroll-spy active states (`.is-in-view`, `.is-active`).
+  - Added a sticky 90°-rotated vertical side rail (`writing-mode: vertical-rl; transform: rotate(180deg);`) on desktop (`> 960px`) in `docs/styles.css` that collapses into a sticky horizontal top strip (`position: sticky; top: 0`) on viewports `<= 960px`.
 
 ## 7. Responsive Design & Layout Standards (Mandatory for All Features)
 Every new feature added to `docs/` (3D Digital Twin / Three.js viewport, FFT spectrum analyzer, CHF Service Cost Confusion Matrix, CRISP-DM modules) **must** follow these rules so the site works seamlessly across **`360px` mobile**, **`640px` split-screen beside Google Colab**, **`1024px` laptop**, and **`1440px+` classroom projector** with zero horizontal overflow (`document.documentElement.scrollWidth <= document.documentElement.clientWidth`):
@@ -84,6 +88,9 @@ Every new feature added to `docs/` (3D Digital Twin / Three.js viewport, FFT spe
 3. **Responsive Tables & Dense Diagrams:**
    - Any multi-column data table using `.editorial-table` must include `data-label="..."` on every `<td>` so viewports `< 680px` collapse cleanly into stacked key-value cards.
    - Dense annotated diagrams (like the 2D Arduino board) must switch to a focused SVG view + responsive HTML card grid on compact viewports rather than using `min-width` scrolling or shrinking labels below legibility.
+4. **Modular Reorderable Section Template (`docs/index.html` & `docs/app.js`):**
+   - Every new topic section added inside `<main id="sectionsContainer">` must use `<section id="..." class="section-block" data-section-title="..." data-section-subtitle="..." data-nav-label="...">` containing `<aside class="section-rail">` (with `.section-rail-sticky`) + `<div class="section-body"><header class="section-intro">...</header>...</div>`.
+   - Never hardcode section numbers (e.g. `"Section 02"`) inside prose or Python starter comments; register the section ID in `SECTION_ORDER` in `docs/app.js` (and `DEFAULT_HTML_ORDER` if keeping HTML order as default) so automatic numbering, navigation links, and the responsive sticky rail stay synchronized regardless of order.
 
 
 

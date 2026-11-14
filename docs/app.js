@@ -35,6 +35,16 @@
   const BLE_COMMAND_UUID = '19b10002-e8f2-537e-4f6c-d104768a1214';
 
   // -------------------------------------------------------------------------
+  // Modular Section Order (Reorder IDs here OR move <section> blocks in HTML)
+  // -------------------------------------------------------------------------
+  const DEFAULT_HTML_ORDER = ['explanation', 'dataviz', 'crispdm'];
+  const SECTION_ORDER = [
+    'explanation', // Explanation · Current Setup
+    'dataviz',     // Data Visualization · Live Hardware & Emulator
+    'crispdm',     // CRISP-DM Phase 2 · Data Understanding
+  ];
+
+  // -------------------------------------------------------------------------
   // Application State
   // -------------------------------------------------------------------------
   let connectionMode = 'sim'; // 'sim' | 'serial' | 'ble'
@@ -1448,6 +1458,160 @@ def _execute_crisp_cell(code_str, rows_json):
   }
 
   // -------------------------------------------------------------------------
+  // Modular Sections: Reordering, Auto-Numbering, Nav Sync & Scroll Spy
+  // -------------------------------------------------------------------------
+  function initModularSections() {
+    const sectionsContainer = document.getElementById('sectionsContainer');
+    if (!sectionsContainer) return;
+
+    const headerNav = document.querySelector('.header-nav');
+    const externalNavLinks = headerNav
+      ? Array.from(headerNav.querySelectorAll('a')).filter((a) => {
+          const href = a.getAttribute('href') || '';
+          return !href.startsWith('#');
+        })
+      : [];
+
+    const getSections = () =>
+      Array.from(sectionsContainer.children).filter((el) =>
+        el.classList.contains('section-block')
+      );
+
+    function applyOrder(orderIds) {
+      const byId = new Map();
+      const allSections = getSections();
+      allSections.forEach((sec) => {
+        if (sec.id) byId.set(sec.id, sec);
+      });
+
+      const placed = new Set();
+      orderIds.forEach((id) => {
+        const sec = byId.get(id);
+        if (sec) {
+          sectionsContainer.appendChild(sec);
+          placed.add(sec);
+        }
+      });
+
+      allSections.forEach((sec) => {
+        if (!placed.has(sec)) sectionsContainer.appendChild(sec);
+      });
+    }
+
+    let spyRafId = null;
+    function updateActiveSection() {
+      spyRafId = null;
+      const sections = getSections();
+      if (sections.length === 0) return;
+
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      let activeId = sections[0].id;
+
+      if (atBottom) {
+        activeId = sections[sections.length - 1].id;
+      } else {
+        const triggerY = window.innerHeight * 0.28;
+        for (const sec of sections) {
+          if (sec.getBoundingClientRect().top <= triggerY) {
+            activeId = sec.id;
+          }
+        }
+      }
+
+      sections.forEach((sec) => {
+        sec.classList.toggle('is-in-view', sec.id === activeId);
+      });
+
+      if (headerNav) {
+        headerNav.querySelectorAll('a[href^="#"]').forEach((link) => {
+          link.classList.toggle('is-active', link.getAttribute('href') === `#${activeId}`);
+        });
+      }
+    }
+
+    function scheduleActiveSectionUpdate() {
+      if (spyRafId === null) {
+        spyRafId = requestAnimationFrame(updateActiveSection);
+      }
+    }
+
+    const sectionObserver =
+      typeof IntersectionObserver !== 'undefined'
+        ? new IntersectionObserver(scheduleActiveSectionUpdate, {
+            threshold: [0, 0.25, 0.5],
+          })
+        : null;
+
+    function refreshSections() {
+      const sections = getSections();
+      if (sectionObserver) sectionObserver.disconnect();
+
+      sections.forEach((sec, idx) => {
+        const num = String(idx + 1).padStart(2, '0');
+        const title = sec.dataset.sectionTitle || sec.id;
+        const subtitle = sec.dataset.sectionSubtitle || '';
+        const indexText = `${num} / ${title}`;
+
+        const railIndex = sec.querySelector('.section-rail-index');
+        const railSub = sec.querySelector('.section-rail-sub');
+        const railSep = sec.querySelector('.section-rail-sep');
+        if (railIndex) railIndex.textContent = indexText;
+        if (railSub) railSub.textContent = subtitle;
+        if (railSep) railSep.style.display = subtitle ? '' : 'none';
+
+        const eyebrowIndex = sec.querySelector('.section-eyebrow-index');
+        const eyebrowSub = sec.querySelector('.section-eyebrow-sub');
+        const eyebrowSep = sec.querySelector('.section-eyebrow-sep');
+        if (eyebrowIndex) eyebrowIndex.textContent = indexText;
+        if (eyebrowSub) eyebrowSub.textContent = subtitle;
+        if (eyebrowSep) eyebrowSep.style.display = subtitle ? '' : 'none';
+
+        if (sectionObserver) sectionObserver.observe(sec);
+      });
+
+      if (headerNav) {
+        headerNav.innerHTML = '';
+        sections.forEach((sec, idx) => {
+          const num = String(idx + 1).padStart(2, '0');
+          const label = sec.dataset.navLabel || sec.dataset.sectionTitle || sec.id;
+          const a = document.createElement('a');
+          a.href = `#${sec.id}`;
+          a.textContent = `${num} / ${label}`;
+          headerNav.appendChild(a);
+        });
+        externalNavLinks.forEach((ext) => headerNav.appendChild(ext));
+      }
+
+      updateActiveSection();
+    }
+
+    const isCustomOrder =
+      SECTION_ORDER.length !== DEFAULT_HTML_ORDER.length ||
+      SECTION_ORDER.some((id, idx) => id !== DEFAULT_HTML_ORDER[idx]);
+    if (isCustomOrder) {
+      applyOrder(SECTION_ORDER);
+    }
+
+    refreshSections();
+
+    window.addEventListener('scroll', scheduleActiveSectionUpdate, { passive: true });
+    window.addEventListener('resize', scheduleActiveSectionUpdate);
+
+    window.CASSections = {
+      getOrder: () => getSections().map((s) => s.id),
+      setOrder: (orderIds) => {
+        if (!Array.isArray(orderIds) || orderIds.length === 0) return;
+        applyOrder(orderIds);
+        refreshSections();
+        scheduleResizeCallback(updateBoardLayout);
+        scheduleResizeCallback(renderAllCharts);
+      },
+      refresh: refreshSections,
+    };
+  }
+
+  // -------------------------------------------------------------------------
   // Event Listeners & Main Loop Initialization
   // -------------------------------------------------------------------------
   btnConnectSerial.addEventListener('click', connectWebSerial);
@@ -1484,7 +1648,8 @@ def _execute_crisp_cell(code_str, rows_json):
     }
   }, 100);
 
-  // Initial layout & render
+  // Initial modular section setup, layout & render
+  initModularSections();
   updateBoardLayout();
   updateDomReadouts(latestFrame);
   renderAllCharts();

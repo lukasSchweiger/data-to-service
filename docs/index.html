@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <div class="page-container">
@@ -17,7 +17,7 @@
         <span class="brand-tag">CAS Smart Service Engineering · Day 4</span>
         <span class="brand-title">Data-to-Service: Edge AI Hardware Setup</span>
       </div>
-      <nav class="header-nav">
+      <nav class="header-nav" aria-label="Section navigation">
         <a href="#explanation">01 / Explanation</a>
         <a href="#dataviz">02 / Board &amp; Data Viz</a>
         <a href="#crispdm">03 / CRISP-DM Lab</a>
@@ -26,21 +26,35 @@
     </header>
 
     <!-- ====================================================================
-         PART 01: EXPLANATION (What We Built & How It Works)
+         MODULAR SECTIONS CONTAINER
+         Move any <section class="section-block"> block here (or change
+         SECTION_ORDER in app.js); numbering & header nav update automatically.
          ==================================================================== -->
-    <section id="explanation" class="section-block">
-      <div class="section-header-grid">
-        <div class="section-index">
-          01 / Explanation
-          <span>Current Setup</span>
+    <main id="sectionsContainer" class="sections-stack">
+    <!-- ====================================================================
+         TOPIC SECTION: EXPLANATION (What We Built & How It Works)
+         ==================================================================== -->
+    <section id="explanation" class="section-block" data-section-title="Explanation" data-section-subtitle="Current Setup" data-nav-label="Explanation">
+      <aside class="section-rail" aria-label="Section position indicator">
+        <div class="section-rail-sticky">
+          <span class="section-rail-dot" aria-hidden="true"></span>
+          <span class="section-rail-index">01 / Explanation</span>
+          <span class="section-rail-sep" aria-hidden="true">·</span>
+          <span class="section-rail-sub">Current Setup</span>
         </div>
-        <div>
+      </aside>
+      <div class="section-body">
+        <header class="section-intro">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-index">01 / Explanation</span>
+            <span class="section-eyebrow-sep" aria-hidden="true">·</span>
+            <span class="section-eyebrow-sub">Current Setup</span>
+          </div>
           <h1 class="hero-headline">From 1-hour cloud averages to real-time sensor physics on the edge.</h1>
           <p class="lead-paragraph">
             In our classic manufacturing case (Slides 18–19), telemetry from 100 precision machines is aggregated into 1-hour cloud means—washing out high-frequency bearing and spindle anomalies. Here, we move <em>Ebene 4 (Analyse)</em> directly onto an <strong>Arduino Nano 33 BLE Sense Rev2 (ABX00069)</strong>, streaming five physical sensor modalities directly into this page via Web Serial or Bluetooth Low Energy.
           </p>
-        </div>
-      </div>
+        </header>
 
       <!-- 3-Step Setup Columns -->
       <div class="explanation-grid">
@@ -136,24 +150,33 @@ arduino-cli upload -p COM3 \
           </tbody>
         </table>
       </div>
+      </div><!-- /.section-body -->
     </section>
 
     <!-- ====================================================================
-         PART 02: BOARD ANATOMY & DATA VISUALIZATION
+         TOPIC SECTION: BOARD ANATOMY & DATA VISUALIZATION
          ==================================================================== -->
-    <section id="dataviz" class="section-block">
-      <div class="section-header-grid">
-        <div class="section-index">
-          02 / Data Visualization
-          <span>Live Hardware &amp; Emulator</span>
+    <section id="dataviz" class="section-block" data-section-title="Data Visualization" data-section-subtitle="Live Hardware & Emulator" data-nav-label="Board & Data Viz">
+      <aside class="section-rail" aria-label="Section position indicator">
+        <div class="section-rail-sticky">
+          <span class="section-rail-dot" aria-hidden="true"></span>
+          <span class="section-rail-index">02 / Data Visualization</span>
+          <span class="section-rail-sep" aria-hidden="true">·</span>
+          <span class="section-rail-sub">Live Hardware &amp; Emulator</span>
         </div>
-        <div>
+      </aside>
+      <div class="section-body">
+        <header class="section-intro">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-index">02 / Data Visualization</span>
+            <span class="section-eyebrow-sep" aria-hidden="true">·</span>
+            <span class="section-eyebrow-sub">Live Hardware &amp; Emulator</span>
+          </div>
           <h2 class="hero-headline">Where each value originates on the board—and how it behaves in time.</h2>
           <p class="lead-paragraph">
             Connect your physical Arduino over USB or Bluetooth, or explore the virtual benchtop emulator to inspect live sensor readings, composite anomaly scores, and per-sensor deviations from the calibrated baseline.
           </p>
-        </div>
-      </div>
+        </header>
 
       <!-- Connection & Command Toolbar -->
       <div class="toolbar-row">
@@ -607,24 +630,33 @@ arduino-cli upload -p COM3 \
         <span class="stream-tag">Live Telemetry Frame</span>
         <code id="rawJsonReadout" class="stream-json">{"ms":286646,"vib":0.0006,"p2p":0.0025,"freq":9.5,"gyro":0.2,"mag":38.9,"press":950.27,"temp":26.64,"hum":48.9,"snd":45.9,"score":0.02,"state":"NORMAL","cal":1}</code>
       </div>
+      </div><!-- /.section-body -->
     </section>
 
     <!-- ====================================================================
-         PART 03: CRISP-DM PHASE 2 — INTERACTIVE DATA UNDERSTANDING LAB
+         TOPIC SECTION: CRISP-DM PHASE 2 — INTERACTIVE DATA UNDERSTANDING LAB
          ==================================================================== -->
-    <section id="crispdm" class="section-block" style="border-bottom: none;">
-      <div class="section-header-grid">
-        <div class="section-index">
-          03 / CRISP-DM Phase 2
-          <span>Data Understanding</span>
+    <section id="crispdm" class="section-block" data-section-title="CRISP-DM Phase 2" data-section-subtitle="Data Understanding" data-nav-label="CRISP-DM Lab">
+      <aside class="section-rail" aria-label="Section position indicator">
+        <div class="section-rail-sticky">
+          <span class="section-rail-dot" aria-hidden="true"></span>
+          <span class="section-rail-index">03 / CRISP-DM Phase 2</span>
+          <span class="section-rail-sep" aria-hidden="true">·</span>
+          <span class="section-rail-sub">Data Understanding</span>
         </div>
-        <div>
+      </aside>
+      <div class="section-body">
+        <header class="section-intro">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-index">03 / CRISP-DM Phase 2</span>
+            <span class="section-eyebrow-sep" aria-hidden="true">·</span>
+            <span class="section-eyebrow-sub">Data Understanding</span>
+          </div>
           <h2 class="hero-headline">Inspect, describe, and explore the live sensor buffer in Python.</h2>
           <p class="lead-paragraph">
-            In <strong>CRISP-DM</strong> (Slide 13), <em>Phase 2: Data Understanding</em> bridges raw sensor acquisition and feature engineering. Every frame streamed in Section 02—whether from your physical Arduino over USB/BLE or the virtual emulator—is synced directly into an in-browser Python (Pyodide WebAssembly) DataFrame named <code>df</code>.
+            In <strong>CRISP-DM</strong> (Slide 13), <em>Phase 2: Data Understanding</em> bridges raw sensor acquisition and feature engineering. Every frame from the live telemetry stream—whether from your physical Arduino over USB/BLE or the virtual emulator—is synced directly into an in-browser Python (Pyodide WebAssembly) DataFrame named <code>df</code>.
           </p>
-        </div>
-      </div>
+        </header>
 
       <!-- CRISP-DM Phase Ribbon -->
       <div class="crispdm-ribbon" aria-label="CRISP-DM process phases">
@@ -683,7 +715,7 @@ arduino-cli upload -p COM3 \
           </div>
 
           <div class="py-editor-wrap">
-            <textarea id="code-cell1" class="py-editor" rows="8" spellcheck="false" aria-label="Python code for CRISP-DM Step 2.1"># df contains the live telemetry buffer from Section 02
+            <textarea id="code-cell1" class="py-editor" rows="8" spellcheck="false" aria-label="Python code for CRISP-DM Step 2.1"># df contains the live telemetry buffer from the live telemetry stream
 df["dt_ms"] = df["ms"].diff()
 valid_dt = df["dt_ms"].dropna()
 valid_dt = valid_dt[(valid_dt > 0) & (valid_dt < 1000)]
@@ -773,14 +805,16 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
           </div>
         </article>
       </div>
-
-      <div class="viz-caveats-note">
-        <span>Plots follow <a href="https://www.data-to-viz.com/" target="_blank" rel="noopener">data-to-viz.com</a> principles.</span>
-        <span>CAS Smart Service Engineering · Module A</span>
-      </div>
+      </div><!-- /.section-body -->
     </section>
+    </main>
+
+    <footer class="site-footer viz-caveats-note">
+      <span>Plots follow <a href="https://www.data-to-viz.com/" target="_blank" rel="noopener">data-to-viz.com</a> principles.</span>
+      <span>CAS Smart Service Engineering · Module A</span>
+    </footer>
   </div>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
