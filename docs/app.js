@@ -1499,8 +1499,11 @@ def _execute_crisp_cell(code_str, rows_json):
     }
 
     let spyRafId = null;
+    let presenterApi = null;
+
     function updateActiveSection() {
       spyRafId = null;
+      if (document.body.classList.contains('is-beamer-mode')) return;
       const sections = getSections();
       if (sections.length === 0) return;
 
@@ -1527,6 +1530,10 @@ def _execute_crisp_cell(code_str, rows_json):
         headerNav.querySelectorAll('a[href^="#"]').forEach((link) => {
           link.classList.toggle('is-active', link.getAttribute('href') === `#${activeId}`);
         });
+      }
+
+      if (presenterApi) {
+        presenterApi.syncFromScroll();
       }
     }
 
@@ -1583,6 +1590,9 @@ def _execute_crisp_cell(code_str, rows_json):
         externalNavLinks.forEach((ext) => headerNav.appendChild(ext));
       }
 
+      if (presenterApi) {
+        presenterApi.rebuildStops();
+      }
       updateActiveSection();
     }
 
@@ -1592,6 +1602,11 @@ def _execute_crisp_cell(code_str, rows_json):
     if (isCustomOrder) {
       applyOrder(SECTION_ORDER);
     }
+
+    presenterApi = initPresenterController({
+      getSections,
+      scheduleScrollSync: scheduleActiveSectionUpdate,
+    });
 
     refreshSections();
 
@@ -1608,6 +1623,564 @@ def _execute_crisp_cell(code_str, rows_json):
         scheduleResizeCallback(renderAllCharts);
       },
       refresh: refreshSections,
+    };
+  }
+
+  // -------------------------------------------------------------------------
+  // Presenter Mode: 1D Waypoints, Inline Steps, Jump Dropdown & Beamer Mode
+  // -------------------------------------------------------------------------
+  function initPresenterController({ getSections, scheduleScrollSync }) {
+    const btnBeamerMode = document.getElementById('btnBeamerMode');
+    const presenterHud = document.getElementById('presenterHud');
+    const hudPrevBtn = document.getElementById('hudPrevBtn');
+    const hudNextBtn = document.getElementById('hudNextBtn');
+    const hudJumpBtn = document.getElementById('hudJumpBtn');
+    const hudCurrentLabel = document.getElementById('hudCurrentLabel');
+    const hudJumpMenu = document.getElementById('hudJumpMenu');
+    const hudBeamerBtn = document.getElementById('hudBeamerBtn');
+    const headerNav = document.querySelector('.header-nav');
+
+    let stops = [];
+    let currentStopIndex = 0;
+    let scrollLockUntil = 0;
+    let isBeamerMode = false;
+
+    function redrawInteractiveVisuals() {
+      requestAnimationFrame(() => {
+        updateBoardLayout();
+        renderAllCharts();
+      });
+    }
+
+    function getActiveStepIndex(sectionEl) {
+      const activeBtn = sectionEl.querySelector('.stage-step-btn.is-active');
+      return activeBtn ? Number(activeBtn.dataset.step || 0) : 0;
+    }
+
+    function setStageStep(sectionEl, stepIndex) {
+      const buttons = Array.from(sectionEl.querySelectorAll('.stage-step-btn'));
+      const panels = Array.from(sectionEl.querySelectorAll('.stage-step-panel'));
+      if (buttons.length === 0 || panels.length === 0) return 0;
+
+      const clamped = Math.max(0, Math.min(buttons.length - 1, stepIndex));
+      buttons.forEach((btn) => {
+        const active = Number(btn.dataset.step) === clamped;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-selected', String(active));
+      });
+      panels.forEach((panel) => {
+        panel.classList.toggle('is-active', Number(panel.dataset.step) === clamped);
+      });
+
+      const counterEl = sectionEl.querySelector('.stage-step-counter');
+      if (counterEl) {
+        counterEl.textContent = `Step ${clamped + 1} / ${buttons.length}`;
+      }
+      return clamped;
+    }
+
+    function setLabStep(sectionEl, labStepIndex) {
+      const panes = Array.from(sectionEl.querySelectorAll('.lab-step-pane[data-lab-step]'));
+      const buttons = Array.from(sectionEl.querySelectorAll('.lab-substep-btn[data-lab-step]'));
+      if (panes.length === 0) return 0;
+
+      const clamped = Math.max(0, Math.min(panes.length - 1, labStepIndex));
+      panes.forEach((pane, idx) => {
+        const stepVal = Number(pane.dataset.labStep ?? idx);
+        pane.classList.toggle('is-beamer-pane', stepVal === clamped);
+      });
+      buttons.forEach((btn, idx) => {
+        const stepVal = Number(btn.dataset.labStep ?? idx);
+        const active = stepVal === clamped;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-selected', String(active));
+      });
+      return clamped;
+    }
+
+    function applyBeamerVisibility() {
+      const sections = getSections();
+      const waypoints = Array.from(document.querySelectorAll('.section-stage, .section-lab'));
+      const activeStop = stops[currentStopIndex];
+
+      if (!isBeamerMode || !activeStop) {
+        sections.forEach((sec) => sec.classList.remove('is-beamer-section'));
+        waypoints.forEach((wp) => wp.classList.remove('is-beamer-waypoint'));
+        return;
+      }
+
+      sections.forEach((sec) => {
+        const active = sec === activeStop.sectionEl;
+        sec.classList.toggle('is-beamer-section', active);
+        sec.classList.toggle('is-in-view', active);
+      });
+
+      waypoints.forEach((wp) => {
+        wp.classList.toggle('is-beamer-waypoint', wp === activeStop.targetEl);
+      });
+
+      if (activeStop.type === 'stage') {
+        setStageStep(activeStop.sectionEl, activeStop.stepIndex || 0);
+      } else if (activeStop.type === 'lab') {
+        setLabStep(activeStop.sectionEl, activeStop.labStepIndex || 0);
+      }
+
+      if (headerNav) {
+        headerNav.querySelectorAll('a[href^="#"]').forEach((link) => {
+          link.classList.toggle('is-active', link.getAttribute('href') === `#${activeStop.sectionEl.id}`);
+        });
+      }
+    }
+
+    function updateHudUI() {
+      const currentStop = stops[currentStopIndex];
+      if (!currentStop) return;
+
+      if (hudCurrentLabel) {
+        hudCurrentLabel.textContent = currentStop.hudLabel;
+      }
+      if (hudPrevBtn) {
+        hudPrevBtn.disabled = currentStopIndex <= 0;
+      }
+      if (hudNextBtn) {
+        hudNextBtn.disabled = currentStopIndex >= stops.length - 1;
+      }
+      if (hudJumpMenu) {
+        hudJumpMenu.querySelectorAll('.hud-menu-item').forEach((item) => {
+          item.classList.toggle('is-active', Number(item.dataset.stopIndex) === currentStopIndex);
+        });
+      }
+    }
+
+    function closeJumpMenu() {
+      if (!hudJumpMenu || !hudJumpBtn) return;
+      hudJumpMenu.hidden = true;
+      hudJumpBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function toggleJumpMenu() {
+      if (!hudJumpMenu || !hudJumpBtn) return;
+      const willOpen = hudJumpMenu.hidden;
+      hudJumpMenu.hidden = !willOpen;
+      hudJumpBtn.setAttribute('aria-expanded', String(willOpen));
+      if (willOpen) {
+        const activeItem = hudJumpMenu.querySelector('.hud-menu-item.is-active');
+        if (activeItem) {
+          activeItem.scrollIntoView({ block: 'nearest' });
+        }
+      }
+    }
+
+    function addMenuItem(groupEl, stopIdx, labelText, tagText) {
+      if (!groupEl) return;
+      const itemBtn = document.createElement('button');
+      itemBtn.type = 'button';
+      itemBtn.className = 'hud-menu-item';
+      itemBtn.setAttribute('role', 'menuitem');
+      itemBtn.dataset.stopIndex = String(stopIdx);
+
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = labelText;
+      const tagSpan = document.createElement('span');
+      tagSpan.className = 'hud-menu-item-tag';
+      tagSpan.textContent = tagText;
+
+      itemBtn.appendChild(labelSpan);
+      itemBtn.appendChild(tagSpan);
+      itemBtn.addEventListener('click', () => {
+        navigateToStop(stopIdx, true);
+        closeJumpMenu();
+      });
+      groupEl.appendChild(itemBtn);
+    }
+
+    function rebuildStops() {
+      const sections = getSections();
+      const nextStops = [];
+      if (hudJumpMenu) hudJumpMenu.innerHTML = '';
+
+      sections.forEach((sec, secIdx) => {
+        const num = String(secIdx + 1).padStart(2, '0');
+        const title = sec.dataset.sectionTitle || sec.id;
+        const subtitle = sec.dataset.sectionSubtitle || '';
+        const navLabel = sec.dataset.navLabel || title;
+        const sectionHeading = subtitle ? `${num} / ${title} · ${subtitle}` : `${num} / ${title}`;
+
+        const groupEl = hudJumpMenu ? document.createElement('div') : null;
+        if (groupEl) {
+          groupEl.className = 'hud-menu-group';
+          const groupLabel = document.createElement('div');
+          groupLabel.className = 'hud-menu-group-label';
+          groupLabel.textContent = sectionHeading;
+          groupEl.appendChild(groupLabel);
+        }
+
+        const stageEl = sec.querySelector('.section-stage');
+        const stepButtons = stageEl ? Array.from(stageEl.querySelectorAll('.stage-step-btn')) : [];
+
+        if (stageEl && stepButtons.length > 0) {
+          stepButtons.forEach((btn, stepIdx) => {
+            const rawText = btn.textContent.trim().replace(/^\d+\s*·\s*/, '');
+            const stopIdx = nextStops.length;
+            nextStops.push({
+              type: 'stage',
+              sectionEl: sec,
+              targetEl: stageEl,
+              stepIndex: stepIdx,
+              labStepIndex: null,
+              hudLabel: `${num} / ${navLabel} · Step ${stepIdx + 1}/${stepButtons.length}`,
+            });
+            addMenuItem(groupEl, stopIdx, rawText, `Slide ${stepIdx + 1}/${stepButtons.length}`);
+          });
+        }
+
+        const labEl = sec.querySelector('.section-lab');
+        if (labEl) {
+          const labPanes = Array.from(labEl.querySelectorAll('.lab-step-pane[data-lab-step]'));
+          if (labPanes.length > 0) {
+            labPanes.forEach((pane, paneIdx) => {
+              const stepNum = Number(pane.dataset.labStep ?? paneIdx);
+              const stepTitle = pane.dataset.stepTitle || labEl.dataset.labTitle || `Lab ${paneIdx + 1}`;
+              const stopIdx = nextStops.length;
+              const tagText = labPanes.length > 1 ? `Lab ${paneIdx + 1}/${labPanes.length}` : 'Live Lab';
+              nextStops.push({
+                type: 'lab',
+                sectionEl: sec,
+                targetEl: labEl,
+                paneEl: pane,
+                stepIndex: null,
+                labStepIndex: stepNum,
+                hudLabel: labPanes.length > 1
+                  ? `${num} / ${navLabel} · ${tagText}`
+                  : `${num} / ${navLabel} · Live Lab`,
+              });
+              addMenuItem(groupEl, stopIdx, stepTitle, tagText);
+            });
+          } else {
+            const labTitle = labEl.dataset.labTitle || 'Interactive Lab';
+            const stopIdx = nextStops.length;
+            nextStops.push({
+              type: 'lab',
+              sectionEl: sec,
+              targetEl: labEl,
+              paneEl: null,
+              stepIndex: null,
+              labStepIndex: 0,
+              hudLabel: `${num} / ${navLabel} · Live Lab`,
+            });
+            addMenuItem(groupEl, stopIdx, labTitle, 'Live Lab');
+          }
+        }
+
+        if (hudJumpMenu && groupEl) {
+          hudJumpMenu.appendChild(groupEl);
+        }
+      });
+
+      stops = nextStops;
+      if (currentStopIndex >= stops.length) {
+        currentStopIndex = Math.max(0, stops.length - 1);
+      }
+      applyBeamerVisibility();
+      updateHudUI();
+    }
+
+    function navigateToStop(index, forceScroll = false) {
+      if (stops.length === 0) return;
+      const clamped = Math.max(0, Math.min(stops.length - 1, index));
+      const stop = stops[clamped];
+      currentStopIndex = clamped;
+
+      if (stop.type === 'stage') {
+        setStageStep(stop.sectionEl, stop.stepIndex);
+      } else if (stop.type === 'lab') {
+        setLabStep(stop.sectionEl, stop.labStepIndex || 0);
+      }
+
+      if (isBeamerMode) {
+        applyBeamerVisibility();
+        scrollLockUntil = performance.now() + 250;
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        redrawInteractiveVisuals();
+      } else {
+        const scrollTarget = stop.paneEl || stop.targetEl;
+        if (scrollTarget) {
+          const rect = scrollTarget.getBoundingClientRect();
+          const needsScroll =
+            forceScroll || rect.top < -24 || rect.top > window.innerHeight * 0.35;
+          if (needsScroll) {
+            scrollLockUntil = performance.now() + 600;
+            scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }
+
+      updateHudUI();
+    }
+
+    function goNextStop() {
+      if (currentStopIndex < stops.length - 1) {
+        navigateToStop(currentStopIndex + 1, false);
+      }
+    }
+
+    function goPrevStop() {
+      if (currentStopIndex > 0) {
+        navigateToStop(currentStopIndex - 1, false);
+      }
+    }
+
+    function syncFromScroll(force = false) {
+      if (stops.length === 0) return;
+      if (!force && (isBeamerMode || performance.now() < scrollLockUntil)) return;
+
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+
+      if (atBottom) {
+        currentStopIndex = stops.length - 1;
+        updateHudUI();
+        return;
+      }
+
+      const waypoints = Array.from(document.querySelectorAll('.section-stage, .section-lab'));
+      if (waypoints.length === 0) return;
+
+      const triggerY = window.innerHeight * 0.32;
+      let activeWaypoint = waypoints[0];
+      for (const wp of waypoints) {
+        if (wp.getBoundingClientRect().top <= triggerY) {
+          activeWaypoint = wp;
+        }
+      }
+
+      const parentSec = activeWaypoint.closest('.section-block');
+      const isStage = activeWaypoint.classList.contains('section-stage');
+      let matchIdx = -1;
+
+      if (isStage && parentSec) {
+        const activeStep = getActiveStepIndex(parentSec);
+        matchIdx = stops.findIndex(
+          (s) => s.sectionEl === parentSec && s.type === 'stage' && s.stepIndex === activeStep
+        );
+      } else if (parentSec) {
+        const panes = Array.from(activeWaypoint.querySelectorAll('.lab-step-pane[data-lab-step]'));
+        let activeLabStep = 0;
+        if (panes.length > 0) {
+          activeLabStep = Number(panes[0].dataset.labStep || 0);
+          for (const pane of panes) {
+            if (pane.getBoundingClientRect().top <= triggerY) {
+              activeLabStep = Number(pane.dataset.labStep || 0);
+            }
+          }
+        }
+        matchIdx = stops.findIndex(
+          (s) => s.sectionEl === parentSec && s.type === 'lab' && s.labStepIndex === activeLabStep
+        );
+        if (matchIdx === -1) {
+          matchIdx = stops.findIndex((s) => s.sectionEl === parentSec && s.type === 'lab');
+        }
+      }
+
+      if (matchIdx !== -1 && matchIdx !== currentStopIndex) {
+        currentStopIndex = matchIdx;
+        updateHudUI();
+      }
+    }
+
+    function setBeamerMode(enabled) {
+      const nextMode = Boolean(enabled);
+      if (nextMode && !isBeamerMode) {
+        syncFromScroll(true);
+      }
+
+      isBeamerMode = nextMode;
+      document.body.classList.toggle('is-beamer-mode', isBeamerMode);
+
+      if (btnBeamerMode) {
+        btnBeamerMode.classList.toggle('active', isBeamerMode);
+        btnBeamerMode.setAttribute('aria-pressed', String(isBeamerMode));
+        btnBeamerMode.textContent = isBeamerMode ? 'Exit Beamer Mode ✕' : 'Start Beamer Mode';
+      }
+      if (hudBeamerBtn) {
+        hudBeamerBtn.classList.toggle('active', isBeamerMode);
+        hudBeamerBtn.setAttribute('aria-pressed', String(isBeamerMode));
+      }
+
+      document.querySelectorAll('.tech-drawer').forEach((drawer) => {
+        drawer.open = true;
+      });
+
+      if (!isBeamerMode) {
+        closeJumpMenu();
+      }
+
+      applyBeamerVisibility();
+      updateHudUI();
+
+      if (isBeamerMode) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        redrawInteractiveVisuals();
+      } else {
+        const activeStop = stops[currentStopIndex];
+        const restoreTarget = activeStop?.paneEl || activeStop?.targetEl;
+        requestAnimationFrame(() => {
+          updateBoardLayout();
+          renderAllCharts();
+          if (restoreTarget) {
+            restoreTarget.scrollIntoView({ behavior: 'instant', block: 'start' });
+          }
+          scheduleScrollSync();
+        });
+      }
+    }
+
+    function toggleBeamerMode() {
+      setBeamerMode(!isBeamerMode);
+    }
+
+    // Bind inline stage step pills, lab sub-step pills & footer buttons
+    document.querySelectorAll('.section-block').forEach((sec) => {
+      sec.querySelectorAll('.stage-step-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const stepIdx = Number(btn.dataset.step || 0);
+          setStageStep(sec, stepIdx);
+          const matchIdx = stops.findIndex(
+            (s) => s.sectionEl === sec && s.type === 'stage' && s.stepIndex === stepIdx
+          );
+          if (matchIdx !== -1) {
+            currentStopIndex = matchIdx;
+            updateHudUI();
+          }
+        });
+      });
+
+      sec.querySelectorAll('.lab-substep-btn[data-lab-step]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const labStepIdx = Number(btn.dataset.labStep || 0);
+          setLabStep(sec, labStepIdx);
+          const matchIdx = stops.findIndex(
+            (s) => s.sectionEl === sec && s.type === 'lab' && s.labStepIndex === labStepIdx
+          );
+          if (matchIdx !== -1) {
+            currentStopIndex = matchIdx;
+            updateHudUI();
+          }
+          redrawInteractiveVisuals();
+        });
+      });
+
+      const prevBtn = sec.querySelector('.stage-prev-btn');
+      const nextBtn = sec.querySelector('.stage-next-btn');
+      const labBtn = sec.querySelector('.stage-lab-btn');
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          const curStep = getActiveStepIndex(sec);
+          const curIdx = stops.findIndex(
+            (s) => s.sectionEl === sec && s.type === 'stage' && s.stepIndex === curStep
+          );
+          if (curIdx > 0) navigateToStop(curIdx - 1, false);
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          const curStep = getActiveStepIndex(sec);
+          const curIdx = stops.findIndex(
+            (s) => s.sectionEl === sec && s.type === 'stage' && s.stepIndex === curStep
+          );
+          if (curIdx !== -1 && curIdx < stops.length - 1) {
+            navigateToStop(curIdx + 1, false);
+          }
+        });
+      }
+
+      if (labBtn) {
+        labBtn.addEventListener('click', () => {
+          const labIdx = stops.findIndex((s) => s.sectionEl === sec && s.type === 'lab');
+          if (labIdx !== -1) navigateToStop(labIdx, true);
+        });
+      }
+    });
+
+    // Header navigation links jump to the first stop of that section while in Beamer Mode
+    if (headerNav) {
+      headerNav.addEventListener('click', (e) => {
+        if (!isBeamerMode) return;
+        const link = e.target.closest('a[href^="#"]');
+        if (!link) return;
+        const targetId = link.getAttribute('href').slice(1);
+        const firstStopIdx = stops.findIndex((s) => s.sectionEl.id === targetId);
+        if (firstStopIdx !== -1) {
+          e.preventDefault();
+          navigateToStop(firstStopIdx, true);
+        }
+      });
+    }
+
+    // HUD & Header controls
+    if (hudPrevBtn) hudPrevBtn.addEventListener('click', goPrevStop);
+    if (hudNextBtn) hudNextBtn.addEventListener('click', goNextStop);
+    if (hudJumpBtn) hudJumpBtn.addEventListener('click', toggleJumpMenu);
+    if (btnBeamerMode) btnBeamerMode.addEventListener('click', toggleBeamerMode);
+    if (hudBeamerBtn) hudBeamerBtn.addEventListener('click', toggleBeamerMode);
+
+    document.addEventListener('click', (e) => {
+      if (presenterHud && !presenterHud.contains(e.target)) {
+        closeJumpMenu();
+      }
+    });
+
+    // Logitech Presenter & Keyboard 1D Navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const target = e.target;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        if (hudJumpMenu && !hudJumpMenu.hidden) {
+          closeJumpMenu();
+        } else if (isBeamerMode) {
+          setBeamerMode(false);
+        }
+        return;
+      }
+
+      if (e.key === 'b' || e.key === 'B') {
+        e.preventDefault();
+        toggleBeamerMode();
+        return;
+      }
+
+      if (!isBeamerMode) return;
+
+      if (e.key === 'PageDown' || e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        goNextStop();
+        return;
+      }
+
+      if (e.key === 'PageUp' || e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        goPrevStop();
+      }
+    });
+
+    return {
+      rebuildStops,
+      syncFromScroll,
+      goNextStop,
+      goPrevStop,
+      setBeamerMode,
     };
   }
 

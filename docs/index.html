@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=7" />
 </head>
 <body>
   <div class="page-container">
@@ -17,18 +17,21 @@
         <span class="brand-tag">CAS Smart Service Engineering · Day 4</span>
         <span class="brand-title">Data-to-Service: Edge AI Hardware Setup</span>
       </div>
-      <nav class="header-nav" aria-label="Section navigation">
-        <a href="#explanation">01 / Explanation</a>
-        <a href="#dataviz">02 / Board &amp; Data Viz</a>
-        <a href="#crispdm">03 / CRISP-DM Lab</a>
-        <a href="https://github.com/lukasSchweiger/data-to-service" target="_blank" rel="noopener">GitHub Repo ↗</a>
-      </nav>
+      <div class="header-right">
+        <nav class="header-nav" aria-label="Section navigation">
+          <a href="#explanation">01 / Explanation</a>
+          <a href="#dataviz">02 / Board &amp; Data Viz</a>
+          <a href="#crispdm">03 / CRISP-DM Lab</a>
+          <a href="https://github.com/lukasSchweiger/data-to-service" target="_blank" rel="noopener">GitHub Repo ↗</a>
+        </nav>
+        <button id="btnBeamerMode" class="btn btn-beamer" type="button" aria-pressed="false" title="Start Beamer Presentation Mode (Shortcut: B)">Start Beamer Mode</button>
+      </div>
     </header>
 
     <!-- ====================================================================
          MODULAR SECTIONS CONTAINER
          Move any <section class="section-block"> block here (or change
-         SECTION_ORDER in app.js); numbering & header nav update automatically.
+         SECTION_ORDER in app.js); numbering, nav & Presenter stops update automatically.
          ==================================================================== -->
     <main id="sectionsContainer" class="sections-stack">
     <!-- ====================================================================
@@ -44,112 +47,254 @@
         </div>
       </aside>
       <div class="section-body">
-        <header class="section-intro">
-          <div class="section-eyebrow">
-            <span class="section-eyebrow-index">01 / Explanation</span>
-            <span class="section-eyebrow-sep" aria-hidden="true">·</span>
-            <span class="section-eyebrow-sub">Current Setup</span>
-          </div>
-          <h1 class="hero-headline">From 1-hour cloud averages to real-time sensor physics on the edge.</h1>
-          <p class="lead-paragraph">
-            In our classic manufacturing case (Slides 18–19), telemetry from 100 precision machines is aggregated into 1-hour cloud means—washing out high-frequency bearing and spindle anomalies. Here, we move <em>Ebene 4 (Analyse)</em> directly onto an <strong>Arduino Nano 33 BLE Sense Rev2 (ABX00069)</strong>, streaming five physical sensor modalities directly into this page via Web Serial or Bluetooth Low Energy.
-          </p>
-        </header>
+        <!-- WAYPOINT 1: Slide-Style Section Stage -->
+        <div class="section-stage" data-waypoint="stage">
+          <header class="section-intro">
+            <div class="section-eyebrow">
+              <span class="section-eyebrow-index">01 / Explanation</span>
+              <span class="section-eyebrow-sep" aria-hidden="true">·</span>
+              <span class="section-eyebrow-sub">Current Setup</span>
+            </div>
+            <h1 class="hero-headline">From 1-hour cloud averages to real-time sensor physics on the edge.</h1>
+            <p class="lead-paragraph">
+              In our classic manufacturing case (Slides 18–19), telemetry from 100 precision machines is aggregated into 1-hour cloud means—washing out high-frequency bearing and spindle anomalies. Here, we move <em>Ebene 4 (Analyse)</em> directly onto an <strong>Arduino Nano 33 BLE Sense Rev2 (ABX00069)</strong>, streaming five physical sensor modalities directly into this page via Web Serial or Bluetooth Low Energy.
+            </p>
+          </header>
 
-      <!-- 3-Step Setup Columns -->
-      <div class="explanation-grid">
-        <div class="exp-column">
-          <div class="exp-step-num">Step 01 · Toolchain</div>
-          <h2 class="exp-title">Arduino CLI &amp; Mbed Core</h2>
-          <p class="exp-text">
-            We installed <code>arduino-cli v1.6.0</code> along with the <code>arduino:mbed_nano</code> core and the four official hardware drivers for the Rev2 board without needing the full IDE.
-          </p>
-          <pre class="code-snippet">arduino-cli core install arduino:mbed_nano
+          <div class="stage-visual-card" data-stage-for="explanation">
+            <div class="stage-card-topbar">
+              <span class="stage-card-title">Slide Visual · Edge vs. Cloud Architecture</span>
+              <div class="stage-step-pills" role="tablist" aria-label="Explanation visual steps">
+                <button class="stage-step-btn is-active" type="button" data-step="0" role="tab" aria-selected="true">1 · Cloud Blindspot</button>
+                <button class="stage-step-btn" type="button" data-step="1" role="tab" aria-selected="false">2 · Ebene 4 on Edge</button>
+                <button class="stage-step-btn" type="button" data-step="2" role="tab" aria-selected="false">3 · Zero-Backend Link</button>
+              </div>
+              <span class="stage-step-counter">Step 1 / 3</span>
+            </div>
+
+            <div class="stage-panels">
+              <!-- Step 1: Cloud Averaging Blindspot -->
+              <div class="stage-step-panel is-active" data-step="0">
+                <div class="l-split-2col stage-split">
+                  <div class="stage-diagram-box">
+                    <div class="stage-diagram-caption">Bearing impact transient (250 Hz Edge vs. 1-hour Cloud Mean)</div>
+                    <svg viewBox="0 0 460 175" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison showing a sharp high-frequency vibration spike captured on the edge but averaged away in a 1-hour cloud mean">
+                      <line x1="32" y1="20" x2="32" y2="142" stroke="rgba(89,89,89,0.28)" stroke-width="1" />
+                      <line x1="32" y1="142" x2="442" y2="142" stroke="rgba(89,89,89,0.28)" stroke-width="1" />
+                      <line x1="32" y1="54" x2="442" y2="54" stroke="rgba(181,68,52,0.35)" stroke-dasharray="4 4" />
+                      <text x="438" y="47" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#b54434">Edge Anomaly Threshold</text>
+                      <!-- High-frequency Edge waveform with sharp bearing transient -->
+                      <polyline points="36,126 60,124 85,127 110,123 135,126 160,124 185,125 205,120 218,32 230,132 242,24 254,129 266,46 280,124 305,125 335,123 365,126 395,124 434,125" fill="none" stroke="#2b6f6b" stroke-width="2" />
+                      <!-- 1-Hour Cloud Mean line -->
+                      <line x1="36" y1="121" x2="434" y2="121" stroke="#b87d14" stroke-width="2.2" stroke-dasharray="6 3" />
+                      <circle cx="242" cy="24" r="4" fill="#b54434" />
+                      <text x="252" y="27" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#b54434">Transient captured (250 Hz)</text>
+                      <text x="342" y="114" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="600" fill="#b87d14">1-hr Cloud Mean ≈ flat</text>
+                      <text x="36" y="160" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#8a867a">0 min</text>
+                      <text x="230" y="160" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#8a867a">34 min (impact)</text>
+                      <text x="434" y="160" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#8a867a">60 min</text>
+                    </svg>
+                  </div>
+                  <div class="stage-takeaways">
+                    <h3 class="stage-panel-heading">Why 1-Hour Cloud Telemetry Misses Early Faults</h3>
+                    <ul class="stage-bullets">
+                      <li><strong>Averaging washes out spikes:</strong> In the classic watch-industry case (<code>876,100</code> hourly rows across 100 machines), brief bearing or spindle shocks vanish inside a 60-minute mean.</li>
+                      <li><strong>Streaming raw audio/IMU fails at scale:</strong> Pushing 10 kHz raw waveforms from 100 machines 24/7 saturates bandwidth and hits shop-floor IT security walls.</li>
+                      <li><strong>Edge insight:</strong> Analyze fast physics locally on the microcontroller, and transmit only compact health state and Z-scores.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2: Smart Product Stack Ebene 1-5 -->
+              <div class="stage-step-panel" data-step="1">
+                <div class="stage-panel-header-inline">
+                  <h3 class="stage-panel-heading">Fleisch Smart Product Stack (Slide 45): Moving Ebene 4 to the Device</h3>
+                  <span class="stage-chip-note">nRF52840 · 64 MHz Cortex-M4F</span>
+                </div>
+                <div class="stack-layers">
+                  <div class="stack-layer">
+                    <span class="stack-level">Ebene 5</span>
+                    <span class="stack-name">Smart Service</span>
+                    <span class="stack-detail">Predictive maintenance dispatch, CHF service cost matrix &amp; browser digital twin</span>
+                  </div>
+                  <div class="stack-layer is-highlighted">
+                    <span class="stack-level">Ebene 4 · On Edge</span>
+                    <span class="stack-name">Analyse (Moved onto ABX00069)</span>
+                    <span class="stack-detail">32-pt IMU windows (~250 Hz), RMS, dominant Hz, baseline Z-score &amp; state classification</span>
+                  </div>
+                  <div class="stack-layer">
+                    <span class="stack-level">Ebene 3</span>
+                    <span class="stack-name">Konnektivität</span>
+                    <span class="stack-detail">Compact 10 Hz JSON frames over Micro-USB Serial (<code>115200</code> baud) or BLE 5.0 (<code>CAS-PdM-Twin</code>)</span>
+                  </div>
+                  <div class="stack-layer">
+                    <span class="stack-level">Ebene 2</span>
+                    <span class="stack-name">Sensor / Aktor</span>
+                    <span class="stack-detail">5 onboard sensors (<code>BMI270</code>, <code>BMM150</code>, <code>LPS22HB</code>, <code>HS3003</code>, <code>MP34DT06JTR</code>) + RGB status LED</span>
+                  </div>
+                  <div class="stack-layer">
+                    <span class="stack-level">Ebene 1</span>
+                    <span class="stack-name">Physisches Ding</span>
+                    <span class="stack-detail">Precision rotating machine / Deltaco FT-532 fan surrogate (or desk benchtop rig)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Zero-Backend Classroom Architecture -->
+              <div class="stage-step-panel" data-step="2">
+                <div class="stage-panel-header-inline">
+                  <h3 class="stage-panel-heading">One Static GitHub Pages App — Three Interchangeable Live Data Sources</h3>
+                  <span class="stage-chip-note">Identical 10 Hz JSON Contract</span>
+                </div>
+                <div class="l-grid-auto-sm stage-source-grid">
+                  <div class="stage-info-tile">
+                    <div class="stage-tile-tag">Mode 01 · Wired</div>
+                    <div class="stage-tile-title">Web Serial API</div>
+                    <p>Direct Micro-USB link via <code>navigator.serial</code> (<code>115200</code> baud) with live calibration command <code>'C'</code> back to the board.</p>
+                  </div>
+                  <div class="stage-info-tile">
+                    <div class="stage-tile-tag">Mode 02 · Untethered</div>
+                    <div class="stage-tile-title">Web Bluetooth LE</div>
+                    <p>Wireless GATT stream (<code>CAS-PdM-Twin</code>) from a powerbank-mounted Arduino directly into Chrome/Edge.</p>
+                  </div>
+                  <div class="stage-info-tile is-accent">
+                    <div class="stage-tile-tag">Mode 03 · Every Laptop</div>
+                    <div class="stage-tile-title">Virtual Benchtop Twin</div>
+                    <p>Physics-matched 10 Hz emulator so every student gets the exact same telemetry stream into charts &amp; Python <code>df</code>.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage-card-footer">
+              <span class="stage-presenter-hint">Logitech Presenter / Keys: ← Prev · → Next</span>
+              <div class="stage-card-actions">
+                <button class="btn stage-prev-btn" type="button">← Prev Step</button>
+                <button class="btn stage-next-btn" type="button">Next Step →</button>
+                <button class="btn stage-lab-btn" type="button">Jump to Live Lab ↓</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WAYPOINT 2: Deep Dive & Sensor Mapping -->
+        <div class="section-lab" data-waypoint="lab" data-lab-title="Toolchain &amp; Sensor Reference">
+          <div class="lab-waypoint-header">
+            <span class="lab-waypoint-tag">Deep Dive &amp; Reference</span>
+            <h3 class="lab-waypoint-title">5-Sensor Feature Map &amp; Toolchain Setup</h3>
+          </div>
+
+          <div class="lab-substep-bar" role="tablist" aria-label="Explanation lab screens">
+            <button class="lab-substep-btn is-active" type="button" data-lab-step="0">1 · 5-Sensor Feature Architecture</button>
+            <button class="lab-substep-btn" type="button" data-lab-step="1">2 · Arduino CLI &amp; Firmware Setup</button>
+          </div>
+
+          <div class="lab-step-pane is-beamer-pane" data-lab-step="0" data-step-title="5-Sensor Feature Architecture">
+            <!-- Sensor Mapping Reference Table -->
+            <div class="sensor-table-wrap">
+              <div class="table-caption">Sensor-to-Feature Architecture on Arduino Nano 33 BLE Sense Rev2 (ABX00069)</div>
+              <table class="editorial-table">
+                <thead>
+                  <tr>
+                    <th>Physical IC on Board</th>
+                    <th>JSON Key(s)</th>
+                    <th>Classic Slide 19 Equivalent</th>
+                    <th>Physical Quantity Measured</th>
+                    <th>Benchtop Test (Without Fan)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-vib)"></span><strong>Bosch BMI270</strong> (6-Axis IMU)</td>
+                    <td data-label="JSON Key(s)"><span class="mono-key">vib</span> <span class="mono-key">p2p</span> <span class="mono-key">freq</span> <span class="mono-key">gyro</span></td>
+                    <td data-label="Slide 19 Equivalent"><code>vibration</code> &amp; <code>rotate</code></td>
+                    <td data-label="Quantity Measured">Acceleration RMS (<em>g</em>), dominant frequency (Hz), gyro wobble (°/s)</td>
+                    <td data-label="Benchtop Test">Tap fingers rhythmically on the desk or tilt the foam pad</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-mag)"></span><strong>Bosch BMM150</strong> (Magnetometer)</td>
+                    <td data-label="JSON Key(s)"><span class="mono-key">mag</span></td>
+                    <td data-label="Slide 19 Equivalent"><code>volt</code> (Motor EMF proxy)</td>
+                    <td data-label="Quantity Measured">3-axis magnetic flux density (µT) from stator coils or nearby metal/electronics</td>
+                    <td data-label="Benchtop Test">Move a smartphone or magnetic object near the center of the board</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-press)"></span><strong>STMicro LPS22HB</strong> (Barometer)</td>
+                    <td data-label="JSON Key(s)"><span class="mono-key">press</span></td>
+                    <td data-label="Slide 19 Equivalent"><code>pressure</code></td>
+                    <td data-label="Quantity Measured">Static atmospheric pressure (hPa) (~950.3 hPa at ~540 m altitude)</td>
+                    <td data-label="Benchtop Test">Blow gently across the board surface to induce a pressure spike</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-temp)"></span><strong>Renesas HS3003</strong> (Temp &amp; Hum)</td>
+                    <td data-label="JSON Key(s)"><span class="mono-key">temp</span> <span class="mono-key">hum</span></td>
+                    <td data-label="Slide 19 Equivalent"><em>Thermal load (New)</em></td>
+                    <td data-label="Quantity Measured">Board/housing temperature (°C) and relative humidity (%RH)</td>
+                    <td data-label="Benchtop Test">Rest a warm fingertip lightly near the middle sensor cluster</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-snd)"></span><strong>MP34DT06JTR</strong> (Digital PDM Mic)</td>
+                    <td data-label="JSON Key(s)"><span class="mono-key">snd</span></td>
+                    <td data-label="Slide 19 Equivalent"><em>Acoustic emission (New)</em></td>
+                    <td data-label="Quantity Measured">16 kHz PCM audio converted to acoustic sound level (dB scale)</td>
+                    <td data-label="Benchtop Test">Snap fingers, clap, or speak near the board</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="lab-step-pane" data-lab-step="1" data-step-title="Arduino CLI &amp; Firmware Setup">
+            <details class="tech-drawer" open>
+              <summary class="tech-drawer-summary">
+                <span>Technical Setup: Arduino CLI, Edge Firmware Flash &amp; JSON Protocol</span>
+                <span class="tech-drawer-hint">Click to toggle CLI details</span>
+              </summary>
+              <!-- 3-Step Setup Columns -->
+              <div class="explanation-grid">
+                <div class="exp-column">
+                  <div class="exp-step-num">Step 01 · Toolchain</div>
+                  <h2 class="exp-title">Arduino CLI &amp; Mbed Core</h2>
+                  <p class="exp-text">
+                    We installed <code>arduino-cli v1.6.0</code> along with the <code>arduino:mbed_nano</code> core and the four official hardware drivers for the Rev2 board without needing the full IDE.
+                  </p>
+                  <pre class="code-snippet">arduino-cli core install arduino:mbed_nano
 arduino-cli lib install \
   "Arduino_BMI270_BMM150" \
   "Arduino_LPS22HB" \
   "Arduino_HS300x" "ArduinoBLE"</pre>
-        </div>
+                </div>
 
-        <div class="exp-column">
-          <div class="exp-step-num">Step 02 · Edge Firmware</div>
-          <h2 class="exp-title">On-Device Windowing &amp; Z-Score</h2>
-          <p class="exp-text">
-            The firmware samples 32-point high-frequency IMU windows (~250 Hz), extracts RMS vibration and dominant frequency, auto-calibrates on boot to local altitude (<code>~950.3 hPa</code>), and drives the onboard RGB status LED.
-          </p>
-          <pre class="code-snippet">arduino-cli compile --fqbn \
+                <div class="exp-column">
+                  <div class="exp-step-num">Step 02 · Edge Firmware</div>
+                  <h2 class="exp-title">On-Device Windowing &amp; Z-Score</h2>
+                  <p class="exp-text">
+                    The firmware samples 32-point high-frequency IMU windows (~250 Hz), extracts RMS vibration and dominant frequency, auto-calibrates on boot to local altitude (<code>~950.3 hPa</code>), and drives the onboard RGB status LED.
+                  </p>
+                  <pre class="code-snippet">arduino-cli compile --fqbn \
   arduino:mbed_nano:nano33ble \
   firmware/cas_pdm_edge_twin
 arduino-cli upload -p COM3 \
   --fqbn arduino:mbed_nano:nano33ble \
   firmware/cas_pdm_edge_twin</pre>
-        </div>
+                </div>
 
-        <div class="exp-column">
-          <div class="exp-step-num">Step 03 · Zero-Backend Web</div>
-          <h2 class="exp-title">Direct Browser Hardware Link</h2>
-          <p class="exp-text">
-            Served over HTTPS on GitHub Pages, this static page connects directly to the board via <code>navigator.serial</code> (Micro-USB at 115200 baud) or <code>navigator.bluetooth</code> (<code>CAS-PdM-Twin</code>), or runs a virtual benchtop emulator.
-          </p>
-          <pre class="code-snippet">{"vib":0.0006,"freq":9.5,"mag":37.1,
+                <div class="exp-column">
+                  <div class="exp-step-num">Step 03 · Zero-Backend Web</div>
+                  <h2 class="exp-title">Direct Browser Hardware Link</h2>
+                  <p class="exp-text">
+                    Served over HTTPS on GitHub Pages, this static page connects directly to the board via <code>navigator.serial</code> (Micro-USB at 115200 baud) or <code>navigator.bluetooth</code> (<code>CAS-PdM-Twin</code>), or runs a virtual benchtop emulator.
+                  </p>
+                  <pre class="code-snippet">{"vib":0.0006,"freq":9.5,"mag":37.1,
  "press":950.27,"temp":26.64,
  "snd":45.9,"score":0.02,
  "state":"NORMAL","cal":1}</pre>
-        </div>
-      </div>
-
-      <!-- Sensor Mapping Reference Table -->
-      <div class="sensor-table-wrap">
-        <div class="table-caption">Sensor-to-Feature Architecture on Arduino Nano 33 BLE Sense Rev2 (ABX00069)</div>
-        <table class="editorial-table">
-          <thead>
-            <tr>
-              <th>Physical IC on Board</th>
-              <th>JSON Key(s)</th>
-              <th>Classic Slide 19 Equivalent</th>
-              <th>Physical Quantity Measured</th>
-              <th>Benchtop Test (Without Fan)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-vib)"></span><strong>Bosch BMI270</strong> (6-Axis IMU)</td>
-              <td data-label="JSON Key(s)"><span class="mono-key">vib</span> <span class="mono-key">p2p</span> <span class="mono-key">freq</span> <span class="mono-key">gyro</span></td>
-              <td data-label="Slide 19 Equivalent"><code>vibration</code> &amp; <code>rotate</code></td>
-              <td data-label="Quantity Measured">Acceleration RMS (<em>g</em>), dominant frequency (Hz), gyro wobble (°/s)</td>
-              <td data-label="Benchtop Test">Tap fingers rhythmically on the desk or tilt the foam pad</td>
-            </tr>
-            <tr>
-              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-mag)"></span><strong>Bosch BMM150</strong> (Magnetometer)</td>
-              <td data-label="JSON Key(s)"><span class="mono-key">mag</span></td>
-              <td data-label="Slide 19 Equivalent"><code>volt</code> (Motor EMF proxy)</td>
-              <td data-label="Quantity Measured">3-axis magnetic flux density (µT) from stator coils or nearby metal/electronics</td>
-              <td data-label="Benchtop Test">Move a smartphone or magnetic object near the center of the board</td>
-            </tr>
-            <tr>
-              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-press)"></span><strong>STMicro LPS22HB</strong> (Barometer)</td>
-              <td data-label="JSON Key(s)"><span class="mono-key">press</span></td>
-              <td data-label="Slide 19 Equivalent"><code>pressure</code></td>
-              <td data-label="Quantity Measured">Static atmospheric pressure (hPa) (~950.3 hPa at ~540 m altitude)</td>
-              <td data-label="Benchtop Test">Blow gently across the board surface to induce a pressure spike</td>
-            </tr>
-            <tr>
-              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-temp)"></span><strong>Renesas HS3003</strong> (Temp &amp; Hum)</td>
-              <td data-label="JSON Key(s)"><span class="mono-key">temp</span> <span class="mono-key">hum</span></td>
-              <td data-label="Slide 19 Equivalent"><em>Thermal load (New)</em></td>
-              <td data-label="Quantity Measured">Board/housing temperature (°C) and relative humidity (%RH)</td>
-              <td data-label="Benchtop Test">Rest a warm fingertip lightly near the middle sensor cluster</td>
-            </tr>
-            <tr>
-              <td data-label="Physical IC"><span class="sensor-dot" style="background: var(--c-snd)"></span><strong>MP34DT06JTR</strong> (Digital PDM Mic)</td>
-              <td data-label="JSON Key(s)"><span class="mono-key">snd</span></td>
-              <td data-label="Slide 19 Equivalent"><em>Acoustic emission (New)</em></td>
-              <td data-label="Quantity Measured">16 kHz PCM audio converted to acoustic sound level (dB scale)</td>
-              <td data-label="Benchtop Test">Snap fingers, clap, or speak near the board</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div><!-- /.section-lab -->
       </div><!-- /.section-body -->
     </section>
 
@@ -166,17 +311,146 @@ arduino-cli upload -p COM3 \
         </div>
       </aside>
       <div class="section-body">
-        <header class="section-intro">
-          <div class="section-eyebrow">
-            <span class="section-eyebrow-index">02 / Data Visualization</span>
-            <span class="section-eyebrow-sep" aria-hidden="true">·</span>
-            <span class="section-eyebrow-sub">Live Hardware &amp; Emulator</span>
+        <!-- WAYPOINT 1: Slide-Style Section Stage -->
+        <div class="section-stage" data-waypoint="stage">
+          <header class="section-intro">
+            <div class="section-eyebrow">
+              <span class="section-eyebrow-index">02 / Data Visualization</span>
+              <span class="section-eyebrow-sep" aria-hidden="true">·</span>
+              <span class="section-eyebrow-sub">Live Hardware &amp; Emulator</span>
+            </div>
+            <h2 class="hero-headline">Where each value originates on the board—and how it behaves in time.</h2>
+            <p class="lead-paragraph">
+              Connect your physical Arduino over USB or Bluetooth, or explore the virtual benchtop emulator to inspect live sensor readings, composite anomaly scores, and per-sensor deviations from the calibrated baseline.
+            </p>
+          </header>
+
+          <div class="stage-visual-card" data-stage-for="dataviz">
+            <div class="stage-card-topbar">
+              <span class="stage-card-title">Slide Visual · Sensor Physics &amp; Edge Anomaly Fusion</span>
+              <div class="stage-step-pills" role="tablist" aria-label="Data visualization visual steps">
+                <button class="stage-step-btn is-active" type="button" data-step="0" role="tab" aria-selected="true">1 · 5 Sensors on PCB</button>
+                <button class="stage-step-btn" type="button" data-step="1" role="tab" aria-selected="false">2 · Z-Score Fusion</button>
+                <button class="stage-step-btn" type="button" data-step="2" role="tab" aria-selected="false">3 · Visual Triage</button>
+              </div>
+              <span class="stage-step-counter">Step 1 / 3</span>
+            </div>
+
+            <div class="stage-panels">
+              <!-- Step 1: 5 Modalities on One PCB -->
+              <div class="stage-step-panel is-active" data-step="0">
+                <div class="stage-panel-header-inline">
+                  <h3 class="stage-panel-heading">Five Physical Modalities Replacing &amp; Expanding Slide 19</h3>
+                  <span class="stage-chip-note">45 × 18 mm Headerless Board</span>
+                </div>
+                <div class="l-grid-auto-sm stage-sensor-strip">
+                  <div class="stage-sensor-pill" style="--pill-accent: var(--c-vib)">
+                    <div class="stage-pill-head"><span class="sensor-dot" style="background: var(--c-vib)"></span>BMI270 · IMU</div>
+                    <div class="stage-pill-map"><code>vibration</code> + <code>rotate</code></div>
+                    <p>32-pt RMS (<em>g</em>), peak Hz &amp; gyro wobble (°/s). Test: desk tap.</p>
+                  </div>
+                  <div class="stage-sensor-pill" style="--pill-accent: var(--c-mag)">
+                    <div class="stage-pill-head"><span class="sensor-dot" style="background: var(--c-mag)"></span>BMM150 · Mag</div>
+                    <div class="stage-pill-map"><code>volt</code> (EMF proxy)</div>
+                    <p>Contactless stator magnetic flux (µT). Test: smartphone nearby.</p>
+                  </div>
+                  <div class="stage-sensor-pill" style="--pill-accent: var(--c-press)">
+                    <div class="stage-pill-head"><span class="sensor-dot" style="background: var(--c-press)"></span>LPS22HB · Baro</div>
+                    <div class="stage-pill-map"><code>pressure</code></div>
+                    <p>Static air pressure (hPa) for airflow blockage. Test: blow gently.</p>
+                  </div>
+                  <div class="stage-sensor-pill" style="--pill-accent: var(--c-temp)">
+                    <div class="stage-pill-head"><span class="sensor-dot" style="background: var(--c-temp)"></span>HS3003 · Temp</div>
+                    <div class="stage-pill-map">Thermal load (New)</div>
+                    <p>Surface housing °C &amp; %RH drift. Test: warm fingertip.</p>
+                  </div>
+                  <div class="stage-sensor-pill" style="--pill-accent: var(--c-snd)">
+                    <div class="stage-pill-head"><span class="sensor-dot" style="background: var(--c-snd)"></span>MP34DT06 · Mic</div>
+                    <div class="stage-pill-map">Acoustic (New)</div>
+                    <p>16 kHz PCM converted to dB rattle/turbulence. Test: clap/snap.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2: On-Device Z-Score Fusion -->
+              <div class="stage-step-panel" data-step="1">
+                <div class="l-split-2col stage-split">
+                  <div class="stage-takeaways">
+                    <h3 class="stage-panel-heading">On-Device Baseline Calibration &amp; Z-Score Fusion</h3>
+                    <p class="stage-formula-box">
+                      |Z<sub>i</sub>| = |x<sub>i</sub> − μ<sub>i</sub>| / σ<sub>i</sub> &nbsp;→&nbsp; score ∈ [0.00, 1.00]
+                    </p>
+                    <ul class="stage-bullets">
+                      <li><strong>Auto-calibration (<code>cal=0 → 1</code>):</strong> On boot or <code>'C'</code> command, the board samples 16 normal windows (RGB LED Blue) to lock local μ<sub>i</sub> &amp; σ<sub>i</sub>.</li>
+                      <li><strong>Unit-free fusion:</strong> Normalizing each sensor by σ<sub>i</sub> lets vibration (0.0006 g) and pressure (950 hPa) contribute fairly to one edge health score.</li>
+                    </ul>
+                  </div>
+                  <div class="stage-diagram-box">
+                    <div class="stage-diagram-caption">Edge Decision Thresholds &amp; Onboard RGB Status LED</div>
+                    <div class="threshold-zones">
+                      <div class="zone-card zone-normal">
+                        <span class="zone-range">0.00 – 0.34</span>
+                        <strong>NORMAL · Green LED</strong>
+                        <span>Baseline behavior within calibrated variance (&lt; 2.2σ)</span>
+                      </div>
+                      <div class="zone-card zone-warn">
+                        <span class="zone-range">0.35 – 0.64</span>
+                        <strong>WARNING · Yellow LED</strong>
+                        <span>Early drift or single-modality shift (≥ 2.2σ)</span>
+                      </div>
+                      <div class="zone-card zone-anom">
+                        <span class="zone-range">0.65 – 1.00</span>
+                        <strong>ANOMALY · Red LED</strong>
+                        <span>Multi-sensor fault or severe shock (≥ 4.5σ)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: High-Signal Visual Triage -->
+              <div class="stage-step-panel" data-step="2">
+                <div class="stage-panel-header-inline">
+                  <h3 class="stage-panel-heading">Three Linked Views in the Live Lab Below</h3>
+                  <span class="stage-chip-note">Spatial · Ranked · Un-distorted</span>
+                </div>
+                <div class="l-grid-auto-sm stage-source-grid">
+                  <div class="stage-info-tile">
+                    <div class="stage-tile-tag">View 01 · Spatial PCB Map</div>
+                    <div class="stage-tile-title">Where Did It Happen?</div>
+                    <p>Click any IC callout on the top-down Nano 33 BLE Sense Rev2 schematic to isolate that physical sensor channel.</p>
+                  </div>
+                  <div class="stage-info-tile">
+                    <div class="stage-tile-tag">View 02 · |Z|-Score Lollipops</div>
+                    <div class="stage-tile-title">Which Sensor Drove the Alert?</div>
+                    <p>Horizontal lollipops sort sensors live by standard-deviation shift—pinpointing the root cause in milliseconds.</p>
+                  </div>
+                  <div class="stage-info-tile">
+                    <div class="stage-tile-tag">View 03 · 5 Small Multiples</div>
+                    <div class="stage-tile-title">What Changed in Physical Units?</div>
+                    <p>Dedicated Y-scales with dashed μ baselines avoid dual-axis distortion while tracking raw 6-second dynamics.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage-card-footer">
+              <span class="stage-presenter-hint">Logitech Presenter / Keys: ← Prev · → Next</span>
+              <div class="stage-card-actions">
+                <button class="btn stage-prev-btn" type="button">← Prev Step</button>
+                <button class="btn stage-next-btn" type="button">Next Step →</button>
+                <button class="btn stage-lab-btn" type="button">Jump to Live Lab ↓</button>
+              </div>
+            </div>
           </div>
-          <h2 class="hero-headline">Where each value originates on the board—and how it behaves in time.</h2>
-          <p class="lead-paragraph">
-            Connect your physical Arduino over USB or Bluetooth, or explore the virtual benchtop emulator to inspect live sensor readings, composite anomaly scores, and per-sensor deviations from the calibrated baseline.
-          </p>
-        </header>
+        </div>
+
+        <!-- WAYPOINT 2: Live Hardware & Telemetry Charts Lab -->
+        <div class="section-lab" data-waypoint="lab" data-lab-title="Live Hardware Board &amp; Telemetry Charts">
+          <div class="lab-waypoint-header">
+            <span class="lab-waypoint-tag">Interactive Workspace</span>
+            <h3 class="lab-waypoint-title">Live Hardware Board, Anomaly Score &amp; Sensor Streams</h3>
+          </div>
 
       <!-- Connection & Command Toolbar -->
       <div class="toolbar-row">
@@ -206,6 +480,12 @@ arduino-cli upload -p COM3 \
         </div>
       </div>
 
+      <div class="lab-substep-bar" role="tablist" aria-label="Live workspace screens">
+        <button class="lab-substep-btn is-active" type="button" data-lab-step="0">1 · Live 2D Arduino Map</button>
+        <button class="lab-substep-btn" type="button" data-lab-step="1">2 · Anomaly Score &amp; 5 Streams</button>
+      </div>
+
+      <div class="lab-step-pane is-beamer-pane" data-lab-step="0" data-step-title="Live 2D Arduino Sensor Map">
       <!-- CENTERPIECE: 2D Interactive Arduino Nano 33 BLE Sense Rev2 Map -->
       <div class="board-centerpiece">
         <div class="centerpiece-header">
@@ -487,6 +767,14 @@ arduino-cli upload -p COM3 \
         </div>
       </div>
 
+      <!-- Raw JSON Line Inspector -->
+      <div class="stream-bar">
+        <span class="stream-tag">Live Telemetry Frame</span>
+        <code id="rawJsonReadout" class="stream-json">{"ms":286646,"vib":0.0006,"p2p":0.0025,"freq":9.5,"gyro":0.2,"mag":38.9,"press":950.27,"temp":26.64,"hum":48.9,"snd":45.9,"score":0.02,"state":"NORMAL","cal":1}</code>
+      </div>
+      </div><!-- /.lab-step-pane 0 -->
+
+      <div class="lab-step-pane" data-lab-step="1" data-step-title="Anomaly Score &amp; 5 Sensor Streams">
       <!-- ====================================================================
            TOP VIZ ROW: 1. Anomaly Timeline + 2. Sensor |Z|-Scores
            ==================================================================== -->
@@ -624,12 +912,8 @@ arduino-cli upload -p COM3 \
           </div>
         </div>
       </div>
-
-      <!-- Raw JSON Line Inspector -->
-      <div class="stream-bar">
-        <span class="stream-tag">Live Telemetry Frame</span>
-        <code id="rawJsonReadout" class="stream-json">{"ms":286646,"vib":0.0006,"p2p":0.0025,"freq":9.5,"gyro":0.2,"mag":38.9,"press":950.27,"temp":26.64,"hum":48.9,"snd":45.9,"score":0.02,"state":"NORMAL","cal":1}</code>
-      </div>
+      </div><!-- /.lab-step-pane 1 -->
+        </div><!-- /.section-lab -->
       </div><!-- /.section-body -->
     </section>
 
@@ -646,41 +930,170 @@ arduino-cli upload -p COM3 \
         </div>
       </aside>
       <div class="section-body">
-        <header class="section-intro">
-          <div class="section-eyebrow">
-            <span class="section-eyebrow-index">03 / CRISP-DM Phase 2</span>
-            <span class="section-eyebrow-sep" aria-hidden="true">·</span>
-            <span class="section-eyebrow-sub">Data Understanding</span>
-          </div>
-          <h2 class="hero-headline">Inspect, describe, and explore the live sensor buffer in Python.</h2>
-          <p class="lead-paragraph">
-            In <strong>CRISP-DM</strong> (Slide 13), <em>Phase 2: Data Understanding</em> bridges raw sensor acquisition and feature engineering. Every frame from the live telemetry stream—whether from your physical Arduino over USB/BLE or the virtual emulator—is synced directly into an in-browser Python (Pyodide WebAssembly) DataFrame named <code>df</code>.
-          </p>
-        </header>
+        <!-- WAYPOINT 1: Slide-Style Section Stage -->
+        <div class="section-stage" data-waypoint="stage">
+          <header class="section-intro">
+            <div class="section-eyebrow">
+              <span class="section-eyebrow-index">03 / CRISP-DM Phase 2</span>
+              <span class="section-eyebrow-sep" aria-hidden="true">·</span>
+              <span class="section-eyebrow-sub">Data Understanding</span>
+            </div>
+            <h2 class="hero-headline">Inspect, describe, and explore the live sensor buffer in Python.</h2>
+            <p class="lead-paragraph">
+              In <strong>CRISP-DM</strong> (Slide 13), <em>Phase 2: Data Understanding</em> bridges raw sensor acquisition and feature engineering. Every frame from the live telemetry stream—whether from your physical Arduino over USB/BLE or the virtual emulator—is synced directly into an in-browser Python (Pyodide WebAssembly) DataFrame named <code>df</code>.
+            </p>
+          </header>
 
-      <!-- CRISP-DM Phase Ribbon -->
-      <div class="crispdm-ribbon" aria-label="CRISP-DM process phases">
-        <div class="crispdm-step is-completed">
-          <span class="crispdm-step-num">Phase 01</span>
-          <span class="crispdm-step-name">Business Understanding</span>
-          <span class="crispdm-step-desc">Unplanned spindle/fan downtime vs. Edge monitoring</span>
+          <!-- CRISP-DM Phase Ribbon -->
+          <div class="crispdm-ribbon" aria-label="CRISP-DM process phases">
+            <div class="crispdm-step is-completed">
+              <span class="crispdm-step-num">Phase 01</span>
+              <span class="crispdm-step-name">Business Understanding</span>
+              <span class="crispdm-step-desc">Unplanned spindle/fan downtime vs. Edge monitoring</span>
+            </div>
+            <div class="crispdm-step is-current">
+              <span class="crispdm-step-num">Phase 02 · Active Here</span>
+              <span class="crispdm-step-name">Data Understanding</span>
+              <span class="crispdm-step-desc">Verify sampling quality, scale disparity &amp; transients in <code>df</code></span>
+            </div>
+            <div class="crispdm-step">
+              <span class="crispdm-step-num">Phase 03 · Next</span>
+              <span class="crispdm-step-name">Data Preparation</span>
+              <span class="crispdm-step-desc">32-point windowing &amp; baseline Z-score standardization</span>
+            </div>
+            <div class="crispdm-step">
+              <span class="crispdm-step-num">Phases 04–05</span>
+              <span class="crispdm-step-name">Modeling &amp; Evaluation</span>
+              <span class="crispdm-step-desc">Anomaly thresholds &amp; CHF Service Cost Matrix</span>
+            </div>
+          </div>
+
+          <div class="stage-visual-card" data-stage-for="crispdm">
+            <div class="stage-card-topbar">
+              <span class="stage-card-title">Slide Visual · CRISP-DM Phase 2 Takeaways</span>
+              <div class="stage-step-pills" role="tablist" aria-label="CRISP-DM visual steps">
+                <button class="stage-step-btn is-active" type="button" data-step="0" role="tab" aria-selected="true">1 · 2.1 Data Quality</button>
+                <button class="stage-step-btn" type="button" data-step="1" role="tab" aria-selected="false">2 · 2.2 Scale Disparity</button>
+                <button class="stage-step-btn" type="button" data-step="2" role="tab" aria-selected="false">3 · 2.3 Transients &amp; Corr</button>
+              </div>
+              <span class="stage-step-counter">Step 1 / 3</span>
+            </div>
+
+            <div class="stage-panels">
+              <!-- Step 1: 2.1 Sampling Integrity & Cal Flags -->
+              <div class="stage-step-panel is-active" data-step="0">
+                <div class="l-split-2col stage-split">
+                  <div class="stage-diagram-box">
+                    <div class="stage-diagram-caption">Frame Quality Audit Before Modeling (80-Frame Recording)</div>
+                    <div class="quality-timeline">
+                      <div class="qt-segment qt-cal">
+                        <span class="qt-label">Frames 0–3 · <code>cal = 0</code></span>
+                        <strong>Startup Calibration</strong>
+                        <span>Discard or isolate before baseline statistics</span>
+                      </div>
+                      <div class="qt-segment qt-ok">
+                        <span class="qt-label">Frames 4–79 · <code>cal = 1</code></span>
+                        <strong>Locked Telemetry Stream</strong>
+                        <span><code>dt_ms ≈ 100 ms (±3.8 ms jitter)</code> · 0 NaNs</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="stage-takeaways">
+                    <h3 class="stage-panel-heading">2.1 Collect &amp; Verify Data Quality</h3>
+                    <ul class="stage-bullets">
+                      <li><strong>Check empirical timing:</strong> Embedded streams rarely tick at exact 100.0 ms—inspect <code>dt_ms</code> mean &amp; jitter before computing frequency features.</li>
+                      <li><strong>Respect state flags:</strong> Uncalibrated boot frames (<code>cal == 0</code>) skew baseline mean/std if mixed blindly into normal training data.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2: 2.2 Scale Disparity -->
+              <div class="stage-step-panel" data-step="1">
+                <div class="l-split-2col stage-split">
+                  <div class="stage-diagram-box">
+                    <div class="stage-diagram-caption">Raw Sensor Magnitude Disparity (~1.58 Million× Ratio)</div>
+                    <div class="scale-bars">
+                      <div class="scale-bar-row">
+                        <span class="scale-name">Pressure (<code>press</code>)</span>
+                        <div class="scale-track"><div class="scale-fill" style="width: 100%; background: var(--c-press)"></div></div>
+                        <span class="scale-val">950.27 hPa</span>
+                      </div>
+                      <div class="scale-bar-row">
+                        <span class="scale-name">Acoustic (<code>snd</code>)</span>
+                        <div class="scale-track"><div class="scale-fill" style="width: 48%; background: var(--c-snd)"></div></div>
+                        <span class="scale-val">45.9 dB</span>
+                      </div>
+                      <div class="scale-bar-row">
+                        <span class="scale-name">Mag Flux (<code>mag</code>)</span>
+                        <div class="scale-track"><div class="scale-fill" style="width: 42%; background: var(--c-mag)"></div></div>
+                        <span class="scale-val">38.9 µT</span>
+                      </div>
+                      <div class="scale-bar-row">
+                        <span class="scale-name">Temp (<code>temp</code>)</span>
+                        <div class="scale-track"><div class="scale-fill" style="width: 30%; background: var(--c-temp)"></div></div>
+                        <span class="scale-val">26.64 °C</span>
+                      </div>
+                      <div class="scale-bar-row">
+                        <span class="scale-name">Vibration (<code>vib</code>)</span>
+                        <div class="scale-track"><div class="scale-fill" style="width: 2%; background: var(--c-vib)"></div></div>
+                        <span class="scale-val">0.0006 g</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="stage-takeaways">
+                    <h3 class="stage-panel-heading">2.2 Why Raw Units Break Distance Metrics</h3>
+                    <ul class="stage-bullets">
+                      <li><strong>1,580,000× scale gap:</strong> Barometric pressure (~950 hPa) is over a million times larger numerically than baseline RMS vibration (~0.0006 g).</li>
+                      <li><strong>Standardization is mandatory:</strong> Without Z-score normalization in CRISP-DM Phase 3, k-NN, PCA, or Euclidean anomaly models ignore mechanical vibration completely.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: 2.3 Transients & Cross-Sensor Correlations -->
+              <div class="stage-step-panel" data-step="2">
+                <div class="stage-panel-header-inline">
+                  <h3 class="stage-panel-heading">2.3 Explore Data — Transients &amp; Multi-Sensor Signatures</h3>
+                  <span class="stage-chip-note">Live <code>df</code> → Python Cells Below</span>
+                </div>
+                <div class="l-grid-auto-sm stage-source-grid">
+                  <div class="stage-info-tile is-accent">
+                    <div class="stage-tile-tag">Edge vs. Cloud</div>
+                    <div class="stage-tile-title">4×+ Higher Peak Capture</div>
+                    <p>Comparing 32-pt window <code>p2p</code> against a 30-frame rolling mean proves why on-device windowing preserves shock impulses.</p>
+                  </div>
+                  <div class="stage-info-tile">
+                    <div class="stage-tile-tag">Mechanical Shock</div>
+                    <div class="stage-tile-title"><code>vib</code> ↔ <code>freq</code> ↔ <code>snd</code></div>
+                    <p>Desk taps correlate strongly across vibration RMS, peak-to-peak, frequency shift, and acoustic mic.</p>
+                  </div>
+                  <div class="stage-info-tile">
+                    <div class="stage-tile-tag">Airflow vs. EMF</div>
+                    <div class="stage-tile-title">Orthogonal Fault Modalities</div>
+                    <p>Blowing air couples <code>press</code> + <code>snd</code>, while magnet proximity moves <code>mag</code> independently—enabling root-cause triage.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage-card-footer">
+              <span class="stage-presenter-hint">Logitech Presenter / Keys: ← Prev · → Next</span>
+              <div class="stage-card-actions">
+                <button class="btn stage-prev-btn" type="button">← Prev Step</button>
+                <button class="btn stage-next-btn" type="button">Next Step →</button>
+                <button class="btn stage-lab-btn" type="button">Jump to Live Lab ↓</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="crispdm-step is-current">
-          <span class="crispdm-step-num">Phase 02 · Active Here</span>
-          <span class="crispdm-step-name">Data Understanding</span>
-          <span class="crispdm-step-desc">Verify sampling quality, scale disparity &amp; transients in <code>df</code></span>
-        </div>
-        <div class="crispdm-step">
-          <span class="crispdm-step-num">Phase 03 · Next</span>
-          <span class="crispdm-step-name">Data Preparation</span>
-          <span class="crispdm-step-desc">32-point windowing &amp; baseline Z-score standardization</span>
-        </div>
-        <div class="crispdm-step">
-          <span class="crispdm-step-num">Phases 04–05</span>
-          <span class="crispdm-step-name">Modeling &amp; Evaluation</span>
-          <span class="crispdm-step-desc">Anomaly thresholds &amp; CHF Service Cost Matrix</span>
-        </div>
-      </div>
+
+        <!-- WAYPOINT 2: Interactive Python Cells -->
+        <div class="section-lab" data-waypoint="lab" data-lab-title="Python Data Understanding Cells">
+          <div class="lab-waypoint-header">
+            <span class="lab-waypoint-tag">Interactive Python Lab</span>
+            <h3 class="lab-waypoint-title">Run &amp; Edit CRISP-DM Steps 2.1–2.3 Against Live <code>df</code></h3>
+          </div>
 
       <!-- Python Runtime & Data Buffer Toolbar -->
       <div class="toolbar-row crispdm-toolbar">
@@ -696,8 +1109,15 @@ arduino-cli upload -p COM3 \
         </div>
       </div>
 
+      <div class="lab-substep-bar" role="tablist" aria-label="CRISP-DM Python cells">
+        <button class="lab-substep-btn is-active" type="button" data-lab-step="0">1 · 2.1 Data Quality</button>
+        <button class="lab-substep-btn" type="button" data-lab-step="1">2 · 2.2 Scale Disparity</button>
+        <button class="lab-substep-btn" type="button" data-lab-step="2">3 · 2.3 Transients &amp; Corr</button>
+      </div>
+
       <!-- 3 Interactive CRISP-DM Data Understanding Cells -->
       <div class="crispdm-cells-stack">
+        <div class="lab-step-pane is-beamer-pane" data-lab-step="0" data-step-title="Python 2.1 · Verify Data Quality">
         <!-- CELL 1: 2.1 Verify Data Quality -->
         <article class="py-cell-card" data-cell-id="cell1">
           <div class="py-cell-header">
@@ -733,7 +1153,9 @@ df[["ms", "dt_ms", "vib", "p2p", "freq", "mag", "press", "temp", "snd", "state",
             <span class="py-output-placeholder">Click "Run Cell ▶" (or "Run All 3 Steps ▶") to execute against the live <code>df</code> buffer.</span>
           </div>
         </article>
+        </div><!-- /.lab-step-pane 0 -->
 
+        <div class="lab-step-pane" data-lab-step="1" data-step-title="Python 2.2 · Describe Scale Disparity">
         <!-- CELL 2: 2.2 Describe Data & Scale Disparity -->
         <article class="py-cell-card" data-cell-id="cell2">
           <div class="py-cell-header">
@@ -770,7 +1192,9 @@ summary.round(4)</textarea>
             <span class="py-output-placeholder">Click "Run Cell ▶" to compute summary statistics and peak Z-scores across all 5 sensors.</span>
           </div>
         </article>
+        </div><!-- /.lab-step-pane 1 -->
 
+        <div class="lab-step-pane" data-lab-step="2" data-step-title="Python 2.3 · Transients &amp; Correlation">
         <!-- CELL 3: 2.3 Explore Data (Transients vs Cloud Mean & Correlations) -->
         <article class="py-cell-card" data-cell-id="cell3">
           <div class="py-cell-header">
@@ -804,7 +1228,9 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
             <span class="py-output-placeholder">Click "Run Cell ▶" to compare Edge vs. Cloud aggregation and inspect the sensor correlation matrix.</span>
           </div>
         </article>
+        </div><!-- /.lab-step-pane 2 -->
       </div>
+        </div><!-- /.section-lab -->
       </div><!-- /.section-body -->
     </section>
     </main>
@@ -815,6 +1241,20 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
     </footer>
   </div>
 
-  <script src="app.js?v=4"></script>
+  <!-- Floating Presenter HUD (visible only in Beamer Mode) -->
+  <div id="presenterHud" class="presenter-hud" aria-label="Beamer presentation controls">
+    <div id="hudJumpMenu" class="hud-jump-menu" role="menu" hidden></div>
+    <div class="hud-bar">
+      <button id="hudPrevBtn" class="hud-icon-btn" type="button" title="Previous step or waypoint (← / PageUp)" aria-label="Previous stop">‹</button>
+      <button id="hudJumpBtn" class="hud-jump-trigger" type="button" aria-expanded="false" aria-controls="hudJumpMenu" title="Jump directly to any section, slide step, or lab screen">
+        <span id="hudCurrentLabel">01 / Explanation · Step 1/3</span>
+        <span class="hud-caret" aria-hidden="true">▴</span>
+      </button>
+      <button id="hudNextBtn" class="hud-icon-btn" type="button" title="Next step or waypoint (→ / PageDown)" aria-label="Next stop">›</button>
+      <button id="hudBeamerBtn" class="hud-beamer-pill" type="button" aria-pressed="true" title="Exit Beamer Mode (Shortcut: B)">Exit ✕</button>
+    </div>
+  </div>
+
+  <script src="app.js?v=6"></script>
 </body>
 </html>

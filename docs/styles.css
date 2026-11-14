@@ -28,8 +28,8 @@
   --state-cal: #3d6b99;
 
   /* Fluid layout & spacing tokens */
-  --container-max: 1360px;
-  --space-page-x: clamp(1rem, 4vw, 2.75rem);
+  --container-max: 100%;
+  --space-page-x: clamp(0.75rem, 1.5vw, 1.5rem);
   --space-section-y: clamp(2.5rem, 5vw, 4.5rem);
   --gap-grid: clamp(1rem, 2vw, 2rem);
 
@@ -79,7 +79,7 @@ img, svg, video, canvas {
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--space-page-x) clamp(3rem, 6vw, 5rem);
+  padding: 0 var(--space-page-x) clamp(4.75rem, 8vw, 6.25rem);
 }
 
 /* --------------------------------------------------------------------------
@@ -180,12 +180,31 @@ img, svg, video, canvas {
   letter-spacing: -0.01em;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 0.75rem 1.75rem;
+  gap: 0.75rem 1.5rem;
   flex-wrap: wrap;
   min-width: 0;
+}
+
+.btn-beamer {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.72rem;
+}
+
+.btn-beamer.active {
+  background: var(--c-vib);
+  border-color: var(--c-vib);
+  color: var(--bg);
 }
 
 .header-nav a {
@@ -217,8 +236,8 @@ img, svg, video, canvas {
 
 .section-block {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: clamp(0.85rem, 1.5vw, 1.35rem);
   padding: var(--space-section-y) 0 clamp(2.25rem, 4vw, 3.5rem);
   border-bottom: 1px solid var(--border);
   scroll-margin-top: 1rem;
@@ -238,7 +257,7 @@ img, svg, video, canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 0.55rem;
+  padding-right: 0.4rem;
 }
 
 .section-rail-sticky {
@@ -339,7 +358,7 @@ img, svg, video, canvas {
 .lead-paragraph {
   font-size: clamp(0.98rem, 1.3vw, 1.1rem);
   line-height: 1.65;
-  max-width: 72ch;
+  max-width: 115ch;
   color: var(--text);
 }
 
@@ -1084,7 +1103,7 @@ img, svg, video, canvas {
 .py-cell-desc {
   font-size: 0.86rem;
   color: var(--text);
-  max-width: 78ch;
+  max-width: none;
 }
 
 .py-cell-actions {
@@ -1205,6 +1224,916 @@ img, svg, video, canvas {
 }
 
 /* --------------------------------------------------------------------------
+   Slide-Style Section Stages, Step Visuals, Tech Drawer & Waypoint Labs
+   -------------------------------------------------------------------------- */
+.section-stage {
+  min-height: clamp(500px, 80vh, 840px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  scroll-margin-top: 1.25rem;
+}
+
+.section-stage .section-intro {
+  margin-bottom: clamp(1.25rem, 2.4vw, 2rem);
+}
+
+.section-stage .crispdm-ribbon {
+  margin-bottom: 1.25rem;
+}
+
+.stage-visual-card {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  min-width: 0;
+}
+
+.stage-card-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+}
+
+.stage-card-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.stage-step-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.stage-step-btn {
+  appearance: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  padding: 0.28rem 0.62rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.stage-step-btn:hover {
+  border-color: var(--text-strong);
+  color: var(--text-strong);
+}
+
+.stage-step-btn.is-active {
+  background: var(--text-strong);
+  border-color: var(--text-strong);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.stage-step-counter {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-strong);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.stage-panels {
+  padding: clamp(1.1rem, 2.2vw, 1.75rem) clamp(1rem, 2.2vw, 1.5rem);
+}
+
+.stage-step-panel {
+  display: none;
+}
+
+.stage-step-panel.is-active {
+  display: block;
+}
+
+.stage-split {
+  align-items: center;
+}
+
+.stage-diagram-box {
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  padding: 0.9rem 1rem;
+  min-width: 0;
+}
+
+.stage-diagram-box svg {
+  width: 100%;
+  height: auto;
+}
+
+.stage-diagram-caption {
+  font-family: var(--font-mono);
+  font-size: 0.69rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.65rem;
+}
+
+.stage-takeaways {
+  min-width: 0;
+}
+
+.stage-panel-heading {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.75rem;
+}
+
+.stage-panel-header-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.85rem;
+}
+
+.stage-panel-header-inline .stage-panel-heading {
+  margin-bottom: 0;
+}
+
+.stage-chip-note {
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  color: var(--c-vib);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.5rem;
+}
+
+.stage-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.stage-bullets li {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.stage-bullets li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--c-vib);
+  font-weight: 600;
+}
+
+/* Smart Product Stack Diagram (Section 01 Step 2) */
+.stack-layers {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+}
+
+.stack-layer {
+  display: grid;
+  grid-template-columns: minmax(110px, 145px) minmax(150px, 230px) minmax(0, 1fr);
+  gap: 0.45rem 1rem;
+  align-items: baseline;
+  padding: 0.6rem 0.95rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.86rem;
+}
+
+.stack-layer:last-child {
+  border-bottom: none;
+}
+
+.stack-layer.is-highlighted {
+  background: var(--bg-subtle);
+  border-left: 4px solid var(--c-vib);
+  padding-left: calc(0.95rem - 4px);
+}
+
+.stack-level {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.stack-layer.is-highlighted .stack-level {
+  color: var(--c-vib);
+  font-weight: 600;
+}
+
+.stack-name {
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.stack-detail {
+  color: var(--text);
+  min-width: 0;
+}
+
+/* Source & Triage Info Tiles */
+.stage-source-grid {
+  gap: 1rem;
+}
+
+.stage-info-tile {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 0.95rem 1.05rem;
+  min-width: 0;
+}
+
+.stage-info-tile.is-accent {
+  background: var(--bg-subtle);
+  border-left: 3px solid var(--c-vib);
+}
+
+.stage-tile-tag {
+  font-family: var(--font-mono);
+  font-size: 0.69rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.stage-tile-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 0.35rem;
+}
+
+.stage-info-tile p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* Section 02 Stage Visuals */
+.stage-sensor-strip {
+  gap: 0.85rem;
+}
+
+.stage-sensor-pill {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--pill-accent, var(--border-strong));
+  padding: 0.8rem 0.9rem;
+  background: var(--bg);
+  min-width: 0;
+}
+
+.stage-pill-head {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 0.2rem;
+}
+
+.stage-pill-map {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.stage-sensor-pill p {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.stage-formula-box {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-strong);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.threshold-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.zone-card {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 0.15rem 0.75rem;
+  padding: 0.55rem 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.zone-card strong {
+  color: var(--text-strong);
+}
+
+.zone-card span:last-child {
+  grid-column: 2;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.zone-range {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  grid-row: span 2;
+  align-self: center;
+}
+
+.zone-normal { border-left: 4px solid var(--state-normal); }
+.zone-normal .zone-range { color: var(--state-normal); }
+.zone-warn { border-left: 4px solid var(--state-warn); }
+.zone-warn .zone-range { color: var(--state-warn); }
+.zone-anom { border-left: 4px solid var(--state-anomaly); }
+.zone-anom .zone-range { color: var(--state-anomaly); }
+
+/* Section 03 Stage Visuals */
+.quality-timeline {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.85fr) minmax(0, 1.6fr);
+  gap: 0.65rem;
+}
+
+.qt-segment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 0.85rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.qt-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.qt-cal { border-top: 3px solid var(--state-cal); }
+.qt-ok { border-top: 3px solid var(--state-normal); }
+
+.scale-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.scale-bar-row {
+  display: grid;
+  grid-template-columns: minmax(105px, 130px) minmax(0, 1fr) 78px;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.76rem;
+}
+
+.scale-name {
+  font-family: var(--font-mono);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scale-track {
+  height: 9px;
+  background: rgba(89, 89, 89, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.scale-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.scale-val {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-strong);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.stage-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 1.25rem;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border);
+}
+
+.stage-presenter-hint {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.stage-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+/* Lab Waypoint & Collapsible Tech Drawer */
+.section-lab {
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px dashed var(--border-strong);
+  scroll-margin-top: 1.25rem;
+}
+
+.lab-waypoint-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.lab-waypoint-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-vib);
+  font-weight: 600;
+}
+
+.lab-waypoint-title {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.tech-drawer {
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+  background: var(--bg);
+}
+
+.tech-drawer-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  flex-wrap: wrap;
+  padding: 0.8rem 1.15rem;
+  background: var(--bg-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  cursor: pointer;
+  list-style: none;
+}
+
+.tech-drawer-summary::-webkit-details-marker {
+  display: none;
+}
+
+.tech-drawer-hint {
+  font-weight: 400;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.tech-drawer[open] .explanation-grid {
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+  padding: 0 1.15rem;
+}
+
+.lab-substep-bar {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+
+.lab-substep-btn {
+  appearance: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.32rem 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.lab-substep-btn:hover {
+  border-color: var(--text-strong);
+  color: var(--text-strong);
+}
+
+.lab-substep-btn.is-active {
+  background: var(--text-strong);
+  border-color: var(--text-strong);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.lab-step-pane {
+  min-width: 0;
+}
+
+.lab-step-pane + .lab-step-pane {
+  margin-top: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Beamer / Projector Mode: Single-Screen Slides & Cohesive Lab Steps
+   -------------------------------------------------------------------------- */
+body.is-beamer-mode .page-container {
+  max-width: 100%;
+  padding-left: clamp(0.75rem, 1.25vw, 1.25rem);
+  padding-right: clamp(0.75rem, 1.25vw, 1.25rem);
+  padding-bottom: 3.75rem;
+}
+
+body.is-beamer-mode .site-header {
+  padding: 0.65rem 0;
+}
+
+body.is-beamer-mode .site-footer {
+  display: none;
+}
+
+body.is-beamer-mode .section-block {
+  display: none;
+}
+
+body.is-beamer-mode .section-block.is-beamer-section {
+  display: grid;
+  padding: 1.15rem 0 1rem;
+  border-bottom: none;
+  min-height: calc(100vh - 5rem);
+}
+
+body.is-beamer-mode .section-block.is-beamer-section .section-stage,
+body.is-beamer-mode .section-block.is-beamer-section .section-lab {
+  display: none;
+}
+
+body.is-beamer-mode .section-block.is-beamer-section .section-stage.is-beamer-waypoint {
+  display: flex;
+  min-height: 0;
+  justify-content: flex-start;
+  padding-bottom: 0.5rem;
+}
+
+body.is-beamer-mode .section-block.is-beamer-section .section-lab.is-beamer-waypoint {
+  display: block;
+  padding-top: 0;
+  border-top: none;
+}
+
+body.is-beamer-mode .lab-substep-bar {
+  display: flex;
+}
+
+body.is-beamer-mode .section-lab.is-beamer-waypoint .lab-step-pane {
+  display: none;
+  margin-top: 0;
+}
+
+body.is-beamer-mode .section-lab.is-beamer-waypoint .lab-step-pane.is-beamer-pane {
+  display: block;
+}
+
+body.is-beamer-mode .section-stage .section-intro {
+  margin-bottom: 0.95rem;
+}
+
+body.is-beamer-mode .hero-headline {
+  font-size: clamp(1.55rem, 2.5vw, 2.3rem);
+  margin-bottom: 0.6rem;
+}
+
+body.is-beamer-mode .lead-paragraph {
+  font-size: clamp(0.95rem, 1.15vw, 1.06rem);
+  line-height: 1.5;
+  max-width: none;
+}
+
+body.is-beamer-mode .section-stage .crispdm-ribbon {
+  margin-bottom: 0.85rem;
+}
+
+body.is-beamer-mode .crispdm-step {
+  padding: 0.65rem 0.95rem;
+}
+
+body.is-beamer-mode .stage-panels {
+  padding: 1rem 1.25rem;
+}
+
+body.is-beamer-mode .stage-bullets {
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+body.is-beamer-mode .stage-panel-heading {
+  font-size: clamp(1.1rem, 1.55vw, 1.32rem);
+}
+
+body.is-beamer-mode .stage-info-tile p,
+body.is-beamer-mode .stack-layer {
+  font-size: 0.92rem;
+}
+
+/* Single-Screen Beamer Lab Sizing (Zero Vertical Cutoff) */
+body.is-beamer-mode .lab-waypoint-header {
+  margin-bottom: 0.7rem;
+}
+
+body.is-beamer-mode .toolbar-row {
+  padding: 0.65rem 1rem;
+}
+
+body.is-beamer-mode .sim-stimulus-bar {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+body.is-beamer-mode .board-centerpiece {
+  padding: 0.85rem 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+body.is-beamer-mode .board-svg {
+  max-height: clamp(230px, 43vh, 395px);
+  width: auto;
+  margin: 0 auto;
+}
+
+body.is-beamer-mode .viz-grid-top {
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+body.is-beamer-mode .viz-panel {
+  padding: 0.75rem 1rem;
+}
+
+body.is-beamer-mode .viz-subtitle {
+  margin-bottom: 0.55rem;
+}
+
+body.is-beamer-mode .canvas-container {
+  height: clamp(140px, 20vh, 180px);
+}
+
+body.is-beamer-mode .small-multiples-header {
+  margin-bottom: 0.5rem;
+}
+
+body.is-beamer-mode .small-multiples-grid {
+  gap: 0.75rem;
+  margin-bottom: 0;
+}
+
+body.is-beamer-mode .sm-card {
+  padding: 0.65rem 0.75rem;
+}
+
+body.is-beamer-mode .sm-value-row {
+  margin-bottom: 0.35rem;
+}
+
+body.is-beamer-mode .sm-canvas-wrap {
+  height: 62px;
+}
+
+body.is-beamer-mode .crispdm-toolbar {
+  margin-bottom: 0.85rem;
+}
+
+body.is-beamer-mode .crispdm-cells-stack {
+  margin-bottom: 0;
+}
+
+body.is-beamer-mode .py-cell-header {
+  padding: 0.8rem 1.15rem 0.7rem;
+}
+
+body.is-beamer-mode .py-editor {
+  min-height: 125px;
+  max-height: 24vh;
+  padding: 0.75rem 1.15rem;
+}
+
+body.is-beamer-mode .py-output-box {
+  padding: 0.75rem 1.15rem;
+  max-height: 27vh;
+  overflow-y: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Presenter HUD & Mouse Jump Dropdown (Beamer Mode Only)
+   -------------------------------------------------------------------------- */
+.presenter-hud {
+  position: fixed;
+  right: clamp(0.75rem, 2.5vw, 1.75rem);
+  bottom: clamp(0.75rem, 2.5vw, 1.5rem);
+  z-index: 60;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  max-width: calc(100vw - 1.5rem);
+}
+
+body.is-beamer-mode .presenter-hud {
+  display: flex;
+}
+
+.hud-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.45rem;
+  background: rgba(255, 251, 238, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 6px 20px rgba(61, 61, 61, 0.1);
+  max-width: 100%;
+}
+
+.hud-icon-btn,
+.hud-jump-trigger,
+.hud-beamer-pill {
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-strong);
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  cursor: pointer;
+  padding: 0.32rem 0.55rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.hud-icon-btn {
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  border-color: var(--border);
+}
+
+.hud-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.hud-jump-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: min(56vw, 310px);
+  border-color: var(--border);
+  background: var(--bg-subtle);
+}
+
+#hudCurrentLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hud-caret {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.hud-beamer-pill {
+  border-color: var(--border-strong);
+  font-size: 0.69rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hud-icon-btn:hover:not(:disabled),
+.hud-jump-trigger:hover,
+.hud-beamer-pill:hover {
+  background: var(--text-strong);
+  color: var(--bg);
+}
+
+.hud-beamer-pill.active {
+  background: var(--c-vib);
+  border-color: var(--c-vib);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.hud-jump-menu {
+  width: min(360px, calc(100vw - 1.5rem));
+  max-height: min(62vh, 440px);
+  overflow-y: auto;
+  background: rgba(255, 251, 238, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 10px 28px rgba(61, 61, 61, 0.14);
+  padding: 0.45rem;
+}
+
+.hud-menu-group {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.hud-menu-group:last-child {
+  border-bottom: none;
+}
+
+.hud-menu-group-label {
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 0.25rem 0.55rem 0.35rem;
+  font-weight: 600;
+}
+
+.hud-menu-item {
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 0.42rem 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: 2px;
+}
+
+.hud-menu-item:hover {
+  background: var(--bg-subtle);
+  color: var(--text-strong);
+}
+
+.hud-menu-item.is-active {
+  background: var(--text-strong);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.hud-menu-item-tag {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  opacity: 0.78;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
    Responsive Breakpoints
    -------------------------------------------------------------------------- */
 @media (max-width: 1120px) {
@@ -1227,6 +2156,17 @@ img, svg, video, canvas {
   .section-block {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+  .section-stage {
+    min-height: 0;
+    justify-content: flex-start;
+  }
+  .stack-layer {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+  .quality-timeline {
+    grid-template-columns: 1fr;
   }
   .section-rail {
     position: sticky;
@@ -1383,14 +2323,44 @@ img, svg, video, canvas {
   .stream-json {
     width: 100%;
   }
+  .stage-card-topbar,
+  .stage-panels,
+  .stage-card-footer {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+  .stage-presenter-hint {
+    display: none;
+  }
+  .stage-card-actions {
+    width: 100%;
+  }
+  .stage-card-actions .btn {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+  .scale-bar-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .scale-val {
+    text-align: left;
+  }
 }
 
 @media (max-width: 599px) {
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
   .header-nav {
     width: 100%;
     padding-top: 0.5rem;
     border-top: 1px solid var(--border);
     justify-content: space-between;
+  }
+  .hud-jump-trigger {
+    max-width: 44vw;
   }
 }
 
