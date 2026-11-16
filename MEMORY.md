@@ -44,6 +44,7 @@ data-to-service/
 ├── MEMORY.md                  # Persistent project context & progress log
 ├── README.md                  # Course & repo guide with direct links to GitHub Pages & Colab
 ├── docs/                      # GitHub Pages static web app (HTML/JS/CSS + Three.js + Chart.js)
+│   ├── assets/slides/         # Per-slide replaceable .svg graphic folders + README.md text mappings
 │   ├── GUIDE.md               # Step-by-step hardware, arduino-cli, firmware & classroom guide
 │   ├── index.html             # Live Classroom Dashboard, 3D Digital Twin & WebSerial/WebBLE Connector
 │   ├── app.js                 # Web Serial, Web Bluetooth, FFT, Live Anomaly Detection & Service P&L logic
@@ -82,6 +83,9 @@ data-to-service/
 - **[x] Step 3d — Servitization Slides (6–8) & Presentation Mode UI Refinements:**
   - Added modular section `#servitization` (Original Slides 6–8: *Servitization Shift*, *Beispiele*, *Wieso Servitization?*) as the first entry in `SECTION_ORDER`.
   - Styled `.stage-step-btn` and `.lab-substep-btn` as bottom-anchored index tabs with a 45° chamfered top-right corner (`--tab-cut: 10px`), locked `.stage-visual-card` heights across slides (filling the available screen height and vertically centering slide content in Presentation Mode), blurred/dimmed surrounding chrome (`.site-header`, `.section-rail`, `.presenter-hud`, `.lab-waypoint-header`) until hovered/focused, hid `.section-intro`/`.crispdm-ribbon` in Presentation Mode, and removed the `.stage-card-footer` action bar.
+- **[x] Step 3e — Per-Slide Replaceable SVG Asset Folders & Self-Registering Slides:**
+  - Created `docs/assets/slides/<slide-slug>/` folders (`servitization-shift/`, `beispiele-servitization/`, `wieso-servitization/`) using number-free semantic slugs, standardized `.svg` files (`<item-slug>.svg`), and a `README.md` in each folder mapping every `.svg` to its exact slide text.
+  - Replaced inline slide graphics in `#servitization` with `<img src="assets/slides/...">` and `<image href="assets/slides/...">` references, added `object-fit: contain` CSS rules for resilient logo/icon swapping, and added `syncStagePanels()` + delegated `.stage-step-btn` clicks in `docs/app.js` so `data-slide-tab` / `data-slide-folder` slide panels auto-register, number continuously across all sections on the page (`1..N`, e.g. `Slide 4 / 12`), and sync with the Jump Dropdown automatically.
 
 ## 7. Responsive Design & Layout Standards (Mandatory for All Features)
 Every new feature added to `docs/` (3D Digital Twin / Three.js viewport, FFT spectrum analyzer, CHF Service Cost Confusion Matrix, CRISP-DM modules) **must** follow these rules so the site works seamlessly across **`360px` mobile**, **`640px` split-screen beside Google Colab**, **`1024px` laptop**, and **`1440px+` classroom projector** with zero horizontal overflow (`document.documentElement.scrollWidth <= document.documentElement.clientWidth`):
@@ -99,6 +103,9 @@ Every new feature added to `docs/` (3D Digital Twin / Three.js viewport, FFT spe
    - Every new topic section added inside `<main id="sectionsContainer">` must use `<section id="..." class="section-block" data-section-title="..." data-section-subtitle="..." data-nav-label="...">` containing `<aside class="section-rail">` (with `.section-rail-sticky`) + `<div class="section-body">` split into `<div class="section-stage" data-waypoint="stage">` (intro + `.stage-visual-card` with 1–3 steps) and `<div class="section-lab" data-waypoint="lab" data-lab-title="...">`.
    - Split multi-screen labs or long reference/CLI blocks inside `.section-lab` into cohesive `.lab-step-pane[data-lab-step][data-step-title]` panels paired with a `.lab-substep-bar` so every screen in `body.is-beamer-mode` fits cleanly without vertical cutoff while Normal Mode scrolls continuously.
    - Never hardcode section numbers (e.g. `"Section 02"`) inside prose or Python starter comments; register the section ID in `SECTION_ORDER` in `docs/app.js` (and `DEFAULT_HTML_ORDER` if keeping HTML order as default) so automatic numbering, navigation links, Presenter stops, the Jump Dropdown, and the responsive sticky rail stay synchronized regardless of order.
+5. **Per-Slide Replaceable SVG Assets & Self-Registering Slide Panels (`docs/assets/slides/`):**
+   - Store replaceable slide graphics under `docs/assets/slides/<slide-slug>/<item-slug>.svg` using **number-free semantic slugs** and `.svg` format exclusively (plus a `README.md` inside each slide folder mapping every `.svg` filename to its associated text).
+   - Mark each `.stage-step-panel` with `data-slide-tab="<Tab Title>"` (and `data-slide-folder="assets/slides/<slide-slug>"` when it uses a slide asset folder) so `syncStagePanels()` in `docs/app.js` automatically numbers all slides continuously across the entire page (`1..N`), builds tabs and `Slide X / N` counters, updates `.orig-slide-num` footers, and syncs Presenter Jump Dropdown entries when sections or slides are added or reordered.
 
 
 

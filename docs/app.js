@@ -1459,6 +1459,19 @@ def _execute_crisp_cell(code_str, rows_json):
   }
 
   // -------------------------------------------------------------------------
+  // Sticky Header Height Sync (for scroll-margin-top & side rail top offset)
+  // -------------------------------------------------------------------------
+  function updateStickyHeaderOffset() {
+    const siteHeader = document.querySelector('.site-header');
+    if (siteHeader) {
+      document.documentElement.style.setProperty(
+        '--sticky-header-h',
+        `${siteHeader.offsetHeight}px`
+      );
+    }
+  }
+
+  // -------------------------------------------------------------------------
   // Modular Sections: Reordering, Auto-Numbering, Nav Sync & Scroll Spy
   // -------------------------------------------------------------------------
   function initModularSections() {
@@ -1551,9 +1564,100 @@ def _execute_crisp_cell(code_str, rows_json):
           })
         : null;
 
+    function getStagePanels(stageCard) {
+      const panelsContainer = stageCard.querySelector('.stage-panels');
+      return panelsContainer
+        ? Array.from(panelsContainer.children).filter((el) =>
+            el.classList.contains('stage-step-panel')
+          )
+        : Array.from(stageCard.querySelectorAll('.stage-step-panel'));
+    }
+
+    function syncStagePanels(sectionEl, globalSlideOffset = 0, totalSlides = 0) {
+      const stageCard = sectionEl.querySelector('.stage-visual-card');
+      if (!stageCard) return 0;
+
+      const pillsEl = stageCard.querySelector('.stage-step-pills');
+      const panels = getStagePanels(stageCard);
+      if (panels.length === 0) return 0;
+
+      const resolvedTotal = totalSlides || panels.length;
+      stageCard.dataset.slideOffset = String(globalSlideOffset);
+      stageCard.dataset.totalSlides = String(resolvedTotal);
+
+      let activeIdx = panels.findIndex((p) => p.classList.contains('is-active'));
+      if (activeIdx < 0) activeIdx = 0;
+
+      const existingButtons = pillsEl
+        ? Array.from(pillsEl.querySelectorAll('.stage-step-btn'))
+        : [];
+      const fragment = document.createDocumentFragment();
+
+      panels.forEach((panel, idx) => {
+        const isActive = idx === activeIdx;
+        const globalSlideNum = globalSlideOffset + idx + 1;
+        panel.dataset.step = String(idx);
+        panel.dataset.globalSlide = String(globalSlideNum);
+        panel.classList.toggle('is-active', isActive);
+
+        const rawBtnText = existingButtons[idx]
+          ? existingButtons[idx].textContent.trim().replace(/^\d+\s*·\s*/, '')
+          : '';
+        const headingEl = panel.querySelector('.orig-slide-title, .stage-panel-heading');
+        const tabTitle =
+          (panel.dataset.slideTab && panel.dataset.slideTab.trim()) ||
+          rawBtnText ||
+          (headingEl ? headingEl.textContent.trim() : `Slide ${globalSlideNum}`);
+
+        let slideNumEl = panel.querySelector('.orig-slide-num');
+        if (!slideNumEl) {
+          const footerEl = document.createElement('div');
+          footerEl.className = 'orig-slide-footer';
+          const citEl = document.createElement('span');
+          citEl.className = 'orig-slide-citation';
+          slideNumEl = document.createElement('span');
+          slideNumEl.className = 'orig-slide-num';
+          footerEl.appendChild(citEl);
+          footerEl.appendChild(slideNumEl);
+          panel.appendChild(footerEl);
+        }
+        slideNumEl.textContent = String(globalSlideNum);
+        slideNumEl.setAttribute('aria-label', `Slide ${globalSlideNum}`);
+
+        if (pillsEl) {
+          const btn = document.createElement('button');
+          btn.className = isActive ? 'stage-step-btn is-active' : 'stage-step-btn';
+          btn.type = 'button';
+          btn.dataset.step = String(idx);
+          btn.setAttribute('role', 'tab');
+          btn.setAttribute('aria-selected', String(isActive));
+          btn.textContent = `${globalSlideNum} · ${tabTitle}`;
+          fragment.appendChild(btn);
+        }
+      });
+
+      if (pillsEl) {
+        pillsEl.innerHTML = '';
+        pillsEl.appendChild(fragment);
+      }
+
+      const counterEl = stageCard.querySelector('.stage-step-counter');
+      if (counterEl) {
+        counterEl.textContent = `Slide ${globalSlideOffset + activeIdx + 1} / ${resolvedTotal}`;
+      }
+
+      return panels.length;
+    }
+
     function refreshSections() {
       const sections = getSections();
       if (sectionObserver) sectionObserver.disconnect();
+
+      const totalSlides = sections.reduce((sum, sec) => {
+        const stageCard = sec.querySelector('.stage-visual-card');
+        return sum + (stageCard ? getStagePanels(stageCard).length : 0);
+      }, 0);
+      let globalSlideOffset = 0;
 
       sections.forEach((sec, idx) => {
         const num = String(idx + 1).padStart(2, '0');
@@ -1575,6 +1679,8 @@ def _execute_crisp_cell(code_str, rows_json):
         if (eyebrowSub) eyebrowSub.textContent = subtitle;
         if (eyebrowSep) eyebrowSep.style.display = subtitle ? '' : 'none';
 
+        globalSlideOffset += syncStagePanels(sec, globalSlideOffset, totalSlides);
+
         if (sectionObserver) sectionObserver.observe(sec);
       });
 
@@ -1594,6 +1700,7 @@ def _execute_crisp_cell(code_str, rows_json):
       if (presenterApi) {
         presenterApi.rebuildStops();
       }
+      updateStickyHeaderOffset();
       updateActiveSection();
     }
 
@@ -1673,10 +1780,12 @@ def _execute_crisp_cell(code_str, rows_json):
         panel.classList.toggle('is-active', Number(panel.dataset.step) === clamped);
       });
 
+      const stageCard = sectionEl.querySelector('.stage-visual-card');
+      const slideOffset = Number(stageCard?.dataset.slideOffset || 0);
+      const totalSlides = Number(stageCard?.dataset.totalSlides || buttons.length);
       const counterEl = sectionEl.querySelector('.stage-step-counter');
       if (counterEl) {
-        const prefix = counterEl.dataset.prefix || 'Step';
-        counterEl.textContent = `${prefix} ${clamped + 1} / ${buttons.length}`;
+        counterEl.textContent = `Slide ${slideOffset + clamped + 1} / ${totalSlides}`;
       }
       return clamped;
     }
@@ -1818,11 +1927,15 @@ def _execute_crisp_cell(code_str, rows_json):
         }
 
         const stageEl = sec.querySelector('.section-stage');
+        const stageCard = stageEl ? stageEl.querySelector('.stage-visual-card') : null;
+        const slideOffset = Number(stageCard?.dataset.slideOffset || 0);
         const stepButtons = stageEl ? Array.from(stageEl.querySelectorAll('.stage-step-btn')) : [];
+        const totalSlides = Number(stageCard?.dataset.totalSlides || stepButtons.length);
 
         if (stageEl && stepButtons.length > 0) {
           stepButtons.forEach((btn, stepIdx) => {
             const rawText = btn.textContent.trim().replace(/^\d+\s*·\s*/, '');
+            const globalSlideNum = slideOffset + stepIdx + 1;
             const stopIdx = nextStops.length;
             nextStops.push({
               type: 'stage',
@@ -1830,9 +1943,9 @@ def _execute_crisp_cell(code_str, rows_json):
               targetEl: stageEl,
               stepIndex: stepIdx,
               labStepIndex: null,
-              hudLabel: `${num} / ${navLabel} · Step ${stepIdx + 1}/${stepButtons.length}`,
+              hudLabel: `${num} / ${navLabel} · Slide ${globalSlideNum}/${totalSlides}`,
             });
-            addMenuItem(groupEl, stopIdx, rawText, `Slide ${stepIdx + 1}/${stepButtons.length}`);
+            addMenuItem(groupEl, stopIdx, rawText, `Slide ${globalSlideNum}/${totalSlides}`);
           });
         }
 
@@ -2041,20 +2154,20 @@ def _execute_crisp_cell(code_str, rows_json):
       setBeamerMode(!isBeamerMode);
     }
 
-    // Bind inline stage step tabs and lab sub-step tabs
+    // Bind inline stage step tabs (delegated for self-registering slides) and lab sub-step tabs
     document.querySelectorAll('.section-block').forEach((sec) => {
-      sec.querySelectorAll('.stage-step-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const stepIdx = Number(btn.dataset.step || 0);
-          setStageStep(sec, stepIdx);
-          const matchIdx = stops.findIndex(
-            (s) => s.sectionEl === sec && s.type === 'stage' && s.stepIndex === stepIdx
-          );
-          if (matchIdx !== -1) {
-            currentStopIndex = matchIdx;
-            updateHudUI();
-          }
-        });
+      sec.addEventListener('click', (e) => {
+        const btn = e.target.closest('.stage-step-btn');
+        if (!btn || !sec.contains(btn)) return;
+        const stepIdx = Number(btn.dataset.step || 0);
+        setStageStep(sec, stepIdx);
+        const matchIdx = stops.findIndex(
+          (s) => s.sectionEl === sec && s.type === 'stage' && s.stepIndex === stepIdx
+        );
+        if (matchIdx !== -1) {
+          currentStopIndex = matchIdx;
+          updateHudUI();
+        }
       });
 
       sec.querySelectorAll('.lab-substep-btn[data-lab-step]').forEach((btn) => {
@@ -2170,6 +2283,10 @@ def _execute_crisp_cell(code_str, rows_json):
   btnCalibrate.addEventListener('click', () => sendCommand('C'));
   btnExportCsv.addEventListener('click', exportCsv);
 
+  const siteHeaderEl = document.querySelector('.site-header');
+  if (siteHeaderEl) {
+    registerResponsiveElement(siteHeaderEl, updateStickyHeaderOffset);
+  }
   if (boardCenterpiece) {
     registerResponsiveElement(boardCenterpiece, updateBoardLayout);
   }
@@ -2178,6 +2295,7 @@ def _execute_crisp_cell(code_str, rows_json):
   });
 
   window.addEventListener('resize', () => {
+    scheduleResizeCallback(updateStickyHeaderOffset);
     scheduleResizeCallback(updateBoardLayout);
     scheduleResizeCallback(renderAllCharts);
   });
@@ -2192,6 +2310,7 @@ def _execute_crisp_cell(code_str, rows_json):
 
   // Initial modular section setup, layout & render
   initModularSections();
+  updateStickyHeaderOffset();
   updateBoardLayout();
   updateDomReadouts(latestFrame);
   renderAllCharts();
