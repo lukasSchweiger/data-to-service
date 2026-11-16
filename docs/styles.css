@@ -1244,6 +1244,8 @@ img, svg, video, canvas {
 }
 
 .stage-visual-card {
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--border);
   background: var(--bg);
   min-width: 0;
@@ -1251,11 +1253,11 @@ img, svg, video, canvas {
 
 .stage-card-topbar {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 0.65rem 1rem;
+  gap: 0.5rem 1rem;
   flex-wrap: wrap;
-  padding: 0.75rem 1.25rem;
+  padding: 0.55rem 1.25rem 0;
   background: var(--bg-subtle);
   border-bottom: 1px solid var(--border);
 }
@@ -1266,38 +1268,75 @@ img, svg, video, canvas {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
+  padding-bottom: 0.55rem;
 }
 
 .stage-step-pills {
   display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  align-items: flex-end;
+  gap: 0.28rem;
   flex-wrap: wrap;
 }
 
-.stage-step-btn {
+.stage-step-btn,
+.lab-substep-btn {
+  --tab-cut: 10px;
+  --tab-border: var(--border-strong);
+  position: relative;
   appearance: none;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: rgba(255, 251, 238, 0.72);
+  border: 1px solid var(--tab-border);
+  border-bottom: 0;
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 0.71rem;
-  padding: 0.28rem 0.62rem;
+  line-height: 1.25;
+  padding: 0.42rem 0.95rem 0.4rem 0.72rem;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   white-space: nowrap;
+  clip-path: polygon(0 0, calc(100% - var(--tab-cut)) 0, 100% var(--tab-cut), 100% 100%, 0 100%);
 }
 
-.stage-step-btn:hover {
-  border-color: var(--text-strong);
+.stage-step-btn::after,
+.lab-substep-btn::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: var(--tab-cut);
+  height: var(--tab-cut);
+  pointer-events: none;
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 1.25px),
+    var(--tab-border) calc(50% - 0.5px),
+    var(--tab-border) calc(50% + 0.5px),
+    transparent calc(50% + 1.25px)
+  );
+}
+
+.stage-step-btn:hover,
+.lab-substep-btn:hover {
+  background: var(--bg);
+  --tab-border: var(--text-strong);
   color: var(--text-strong);
 }
 
-.stage-step-btn.is-active {
+.stage-step-btn:focus-visible,
+.lab-substep-btn:focus-visible {
+  outline: 2px solid var(--c-vib);
+  outline-offset: -2px;
+}
+
+.stage-step-btn.is-active,
+.lab-substep-btn.is-active {
   background: var(--text-strong);
-  border-color: var(--text-strong);
+  --tab-border: var(--text-strong);
   color: var(--bg);
   font-weight: 600;
+  margin-bottom: -1px;
+  padding-bottom: calc(0.4rem + 1px);
 }
 
 .stage-step-counter {
@@ -1306,9 +1345,15 @@ img, svg, video, canvas {
   color: var(--text-strong);
   font-weight: 500;
   white-space: nowrap;
+  padding-bottom: 0.55rem;
 }
 
 .stage-panels {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: clamp(320px, 42vh, 420px);
   padding: clamp(1.1rem, 2.2vw, 1.75rem) clamp(1rem, 2.2vw, 1.5rem);
 }
 
@@ -1317,7 +1362,11 @@ img, svg, video, canvas {
 }
 
 .stage-step-panel.is-active {
-  display: block;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
 .stage-split {
@@ -1644,30 +1693,6 @@ img, svg, video, canvas {
   white-space: nowrap;
 }
 
-.stage-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1rem;
-  flex-wrap: wrap;
-  padding: 0.7rem 1.25rem;
-  background: var(--bg-subtle);
-  border-top: 1px solid var(--border);
-}
-
-.stage-presenter-hint {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-
-.stage-card-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  flex-wrap: wrap;
-}
-
 /* Lab Waypoint & Collapsible Tech Drawer */
 .section-lab {
   padding-top: clamp(1.5rem, 3vw, 2.25rem);
@@ -1739,35 +1764,12 @@ img, svg, video, canvas {
 
 .lab-substep-bar {
   display: none;
-  align-items: center;
-  gap: 0.45rem;
+  align-items: flex-end;
+  gap: 0.28rem;
   flex-wrap: wrap;
   margin-bottom: 0.9rem;
-}
-
-.lab-substep-btn {
-  appearance: none;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.32rem 0.7rem;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.lab-substep-btn:hover {
-  border-color: var(--text-strong);
-  color: var(--text-strong);
-}
-
-.lab-substep-btn.is-active {
-  background: var(--text-strong);
-  border-color: var(--text-strong);
-  color: var(--bg);
-  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
 }
 
 .lab-step-pane {
@@ -1779,7 +1781,7 @@ img, svg, video, canvas {
 }
 
 /* --------------------------------------------------------------------------
-   Beamer / Projector Mode: Single-Screen Slides & Cohesive Lab Steps
+   Presentation Mode: Single-Screen Slides & Cohesive Lab Steps
    -------------------------------------------------------------------------- */
 body.is-beamer-mode .page-container {
   max-width: 100%;
@@ -1802,9 +1804,22 @@ body.is-beamer-mode .section-block {
 
 body.is-beamer-mode .section-block.is-beamer-section {
   display: grid;
-  padding: 1.15rem 0 1rem;
+  padding: 0.9rem 0 0.5rem;
   border-bottom: none;
-  min-height: calc(100vh - 5rem);
+  height: calc(100vh - 7.25rem);
+  min-height: 500px;
+}
+
+body.is-beamer-mode .section-block.is-beamer-section:has(.section-lab.is-beamer-waypoint) {
+  height: auto;
+  min-height: calc(100vh - 7.25rem);
+}
+
+body.is-beamer-mode .section-block.is-beamer-section > .section-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
 body.is-beamer-mode .section-block.is-beamer-section .section-stage,
@@ -1814,9 +1829,19 @@ body.is-beamer-mode .section-block.is-beamer-section .section-lab {
 
 body.is-beamer-mode .section-block.is-beamer-section .section-stage.is-beamer-waypoint {
   display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
   min-height: 0;
   justify-content: flex-start;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0;
+}
+
+body.is-beamer-mode .stage-visual-card {
+  flex: 1 1 auto;
+  min-height: 0;
+  border-color: var(--border-strong);
+  box-shadow: 0 10px 32px rgba(61, 61, 61, 0.06);
 }
 
 body.is-beamer-mode .section-block.is-beamer-section .section-lab.is-beamer-waypoint {
@@ -1838,31 +1863,37 @@ body.is-beamer-mode .section-lab.is-beamer-waypoint .lab-step-pane.is-beamer-pan
   display: block;
 }
 
-body.is-beamer-mode .section-stage .section-intro {
-  margin-bottom: 0.95rem;
-}
-
-body.is-beamer-mode .hero-headline {
-  font-size: clamp(1.55rem, 2.5vw, 2.3rem);
-  margin-bottom: 0.6rem;
-}
-
-body.is-beamer-mode .lead-paragraph {
-  font-size: clamp(0.95rem, 1.15vw, 1.06rem);
-  line-height: 1.5;
-  max-width: none;
-}
-
+body.is-beamer-mode .section-stage .section-intro,
 body.is-beamer-mode .section-stage .crispdm-ribbon {
-  margin-bottom: 0.85rem;
+  display: none;
 }
 
-body.is-beamer-mode .crispdm-step {
-  padding: 0.65rem 0.95rem;
+body.is-beamer-mode .site-header,
+body.is-beamer-mode .section-rail,
+body.is-beamer-mode .presenter-hud,
+body.is-beamer-mode .lab-waypoint-header {
+  filter: blur(3.5px);
+  opacity: 0.32;
+  transition: filter 0.22s ease, opacity 0.22s ease;
+}
+
+body.is-beamer-mode .site-header:hover,
+body.is-beamer-mode .site-header:focus-within,
+body.is-beamer-mode .section-rail:hover,
+body.is-beamer-mode .section-rail:focus-within,
+body.is-beamer-mode .presenter-hud:hover,
+body.is-beamer-mode .presenter-hud:focus-within,
+body.is-beamer-mode .presenter-hud:has(.hud-jump-menu:not([hidden])),
+body.is-beamer-mode .lab-waypoint-header:hover,
+body.is-beamer-mode .lab-waypoint-header:focus-within {
+  filter: blur(0);
+  opacity: 1;
 }
 
 body.is-beamer-mode .stage-panels {
-  padding: 1rem 1.25rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: clamp(1rem, 2vh, 1.6rem) clamp(1.25rem, 2.5vw, 2.25rem);
 }
 
 body.is-beamer-mode .stage-bullets {
@@ -1879,7 +1910,7 @@ body.is-beamer-mode .stack-layer {
   font-size: 0.92rem;
 }
 
-/* Single-Screen Beamer Lab Sizing (Zero Vertical Cutoff) */
+/* Single-Screen Presentation Lab Sizing (Zero Vertical Cutoff) */
 body.is-beamer-mode .lab-waypoint-header {
   margin-bottom: 0.7rem;
 }
@@ -1967,7 +1998,7 @@ body.is-beamer-mode .py-output-box {
 }
 
 /* --------------------------------------------------------------------------
-   Floating Presenter HUD & Mouse Jump Dropdown (Beamer Mode Only)
+   Floating Presenter HUD & Mouse Jump Dropdown (Presentation Mode Only)
    -------------------------------------------------------------------------- */
 .presenter-hud {
   position: fixed;
@@ -2134,6 +2165,203 @@ body.is-beamer-mode .presenter-hud {
 }
 
 /* --------------------------------------------------------------------------
+   Migrated Original Slides 6–8 (Servitization Stage)
+   -------------------------------------------------------------------------- */
+.orig-stage-only {
+  min-height: 0;
+  justify-content: flex-start;
+  padding-bottom: 0;
+}
+
+.orig-slide-deck {
+  background: var(--bg);
+}
+
+.orig-slide-panels {
+  padding: clamp(1.35rem, 2.8vw, 2.5rem) clamp(1.35rem, 3.2vw, 3.25rem) clamp(0.95rem, 1.8vw, 1.35rem);
+}
+
+.orig-slide-panel.is-active {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: clamp(380px, 56vh, 520px);
+}
+
+body.is-beamer-mode .orig-slide-panel.is-active {
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.orig-slide-title {
+  font-size: clamp(1.55rem, 2.7vw, 2.35rem);
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: clamp(0.85rem, 1.8vw, 1.5rem);
+}
+
+/* Slide 6 SVG Canvas */
+.orig-slide6-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.orig-slide6-svg {
+  width: 100%;
+  max-width: 980px;
+  max-height: 48vh;
+  height: auto;
+}
+
+/* Slide 7 Beispiele Table + Logos */
+.orig-examples-grid {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) minmax(0, 1fr);
+  width: min(100%, 1020px);
+  margin: auto;
+  align-items: stretch;
+  align-content: center;
+}
+
+.orig-ex-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1.35rem 0.45rem 0;
+}
+
+.orig-brand-svg {
+  width: auto;
+  height: clamp(34px, 4.8vh, 48px);
+  max-width: 100%;
+}
+
+.orig-ex-cell {
+  border-left: 1px solid var(--text);
+  border-right: 1px solid var(--text);
+  border-bottom: 1px solid var(--text);
+  padding: clamp(0.7rem, 1.35vw, 1.05rem) clamp(1rem, 1.8vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.12rem;
+  background: var(--bg);
+}
+
+body.is-beamer-mode .orig-ex-cell {
+  padding: clamp(0.45rem, 1vh, 0.8rem) clamp(1rem, 1.8vw, 1.6rem);
+}
+
+.orig-ex-cell:nth-child(2) {
+  border-top: 1px solid var(--text);
+}
+
+.orig-ex-heading {
+  font-size: clamp(1.02rem, 1.4vw, 1.28rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.orig-ex-shift {
+  font-size: clamp(0.98rem, 1.35vw, 1.24rem);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.orig-arrow {
+  display: inline-block;
+  margin: 0 0.25rem;
+}
+
+/* Slide 8 Five Perspectives Grid */
+.orig-slide8-grid {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.8vw, 1.65rem);
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.orig-persp-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(0.6rem, 1.3vw, 1rem);
+  min-width: 0;
+}
+
+.orig-persp-icon {
+  width: clamp(58px, 6.8vw, 88px);
+  height: clamp(58px, 6.8vw, 88px);
+}
+
+.orig-persp-label {
+  font-size: clamp(0.92rem, 1.25vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.orig-slide-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: clamp(0.65rem, 1.3vw, 1rem);
+  padding-top: 0.45rem;
+}
+
+.orig-slide-citation {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: right;
+  flex: 1 1 auto;
+  line-height: 1.35;
+}
+
+.orig-slide-num {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  flex-shrink: 0;
+  padding-left: 0.5rem;
+}
+
+@media (max-width: 820px) {
+  .orig-slide-panel.is-active {
+    min-height: 0;
+  }
+  .orig-examples-grid {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+  .orig-ex-logo {
+    justify-content: flex-start;
+    padding: 0.65rem 0 0.2rem;
+  }
+  .orig-ex-cell {
+    border: 1px solid var(--text);
+    margin-bottom: 0.45rem;
+  }
+  .orig-slide8-grid {
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+    gap: 1.2rem 0.85rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Responsive Breakpoints
    -------------------------------------------------------------------------- */
 @media (max-width: 1120px) {
@@ -2153,6 +2381,10 @@ body.is-beamer-mode .presenter-hud {
 }
 
 @media (max-width: 960px) {
+  body.is-beamer-mode .section-block.is-beamer-section {
+    height: auto;
+    min-height: calc(100vh - 6.5rem);
+  }
   .section-block {
     grid-template-columns: 1fr;
     gap: 0;
@@ -2218,6 +2450,17 @@ body.is-beamer-mode .presenter-hud {
   .l-split-2col,
   .l-split-sidebar {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .stage-step-pills {
+    order: 3;
+    width: 100%;
+  }
+  .stage-card-title,
+  .stage-step-counter {
+    padding-bottom: 0.15rem;
   }
 }
 
@@ -2324,20 +2567,9 @@ body.is-beamer-mode .presenter-hud {
     width: 100%;
   }
   .stage-card-topbar,
-  .stage-panels,
-  .stage-card-footer {
+  .stage-panels {
     padding-left: 0.9rem;
     padding-right: 0.9rem;
-  }
-  .stage-presenter-hint {
-    display: none;
-  }
-  .stage-card-actions {
-    width: 100%;
-  }
-  .stage-card-actions .btn {
-    flex: 1 1 auto;
-    text-align: center;
   }
   .scale-bar-row {
     grid-template-columns: 1fr;

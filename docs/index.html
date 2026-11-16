@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=7" />
+  <link rel="stylesheet" href="styles.css?v=12" />
 </head>
 <body>
   <div class="page-container">
@@ -19,12 +19,13 @@
       </div>
       <div class="header-right">
         <nav class="header-nav" aria-label="Section navigation">
-          <a href="#explanation">01 / Explanation</a>
-          <a href="#dataviz">02 / Board &amp; Data Viz</a>
-          <a href="#crispdm">03 / CRISP-DM Lab</a>
+          <a href="#servitization">01 / Servitization</a>
+          <a href="#explanation">02 / Explanation</a>
+          <a href="#dataviz">03 / Board &amp; Data Viz</a>
+          <a href="#crispdm">04 / CRISP-DM Lab</a>
           <a href="https://github.com/lukasSchweiger/data-to-service" target="_blank" rel="noopener">GitHub Repo ↗</a>
         </nav>
-        <button id="btnBeamerMode" class="btn btn-beamer" type="button" aria-pressed="false" title="Start Beamer Presentation Mode (Shortcut: B)">Start Beamer Mode</button>
+        <button id="btnBeamerMode" class="btn btn-beamer" type="button" aria-pressed="false" title="Start Presentation Mode (Shortcut: P)">Start Presentation Mode</button>
       </div>
     </header>
 
@@ -34,6 +35,237 @@
          SECTION_ORDER in app.js); numbering, nav & Presenter stops update automatically.
          ==================================================================== -->
     <main id="sectionsContainer" class="sections-stack">
+    <!-- ====================================================================
+         TOPIC SECTION: SERVITIZATION (Original Slides 6–8)
+         ==================================================================== -->
+    <section id="servitization" class="section-block" data-section-title="Servitization" data-section-subtitle="Slides 6–8 · Einführung" data-nav-label="Servitization">
+      <aside class="section-rail" aria-label="Section position indicator">
+        <div class="section-rail-sticky">
+          <span class="section-rail-dot" aria-hidden="true"></span>
+          <span class="section-rail-index">01 / Servitization</span>
+          <span class="section-rail-sep" aria-hidden="true">·</span>
+          <span class="section-rail-sub">Slides 6–8 · Einführung</span>
+        </div>
+      </aside>
+      <div class="section-body">
+        <div class="section-stage orig-stage-only" data-waypoint="stage">
+          <div class="stage-visual-card orig-slide-deck" data-stage-for="servitization">
+            <div class="stage-card-topbar">
+              <span class="stage-card-title">Original Slides 6–8 · Servitization</span>
+              <div class="stage-step-pills" role="tablist" aria-label="Servitization slides">
+                <button class="stage-step-btn is-active" type="button" data-step="0" role="tab" aria-selected="true">6 · Servitization Shift</button>
+                <button class="stage-step-btn" type="button" data-step="1" role="tab" aria-selected="false">7 · Beispiele</button>
+                <button class="stage-step-btn" type="button" data-step="2" role="tab" aria-selected="false">8 · Wieso Servitization?</button>
+              </div>
+              <span class="stage-step-counter" data-prefix="Slide">Slide 1 / 3</span>
+            </div>
+
+            <div class="stage-panels orig-slide-panels">
+              <!-- Slide 6: Servitization of Manufacturers -->
+              <div class="stage-step-panel orig-slide-panel is-active" data-step="0">
+                <h1 class="orig-slide-title">Servitization of Manufacturers</h1>
+
+                <div class="orig-slide6-wrap">
+                  <svg class="orig-slide6-svg" viewBox="0 0 960 410" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Servitization of Manufacturers: Übergang von Wir verkaufen Produkte über Added Value, Servitization und Total Shift hin zu Wir verkaufen Leistung">
+                    <!-- Connecting thick horizontal bridge -->
+                    <line x1="316" y1="168" x2="644" y2="168" stroke="#595959" stroke-width="18" />
+
+                    <!-- Left Circle: Wir verkaufen Produkte -->
+                    <circle cx="195" cy="168" r="126" fill="#f7f2e2" stroke="#595959" stroke-width="18" />
+                    <!-- Manufacturing / Product gear + cube icon inside left circle -->
+                    <g fill="none" stroke="#595959" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(195, 168)">
+                      <path d="M-42 18 L0 40 L42 18 L42 -18 L0 -40 L-42 -18 Z" fill="#fffbee" />
+                      <polyline points="-42,-18 0,4 42,-18" />
+                      <line x1="0" y1="4" x2="0" y2="40" />
+                      <circle cx="0" cy="-16" r="9" fill="#595959" stroke="none" />
+                    </g>
+
+                    <!-- Right Circle: Wir verkaufen Leistung -->
+                    <circle cx="765" cy="168" r="126" fill="#f7f2e2" stroke="#595959" stroke-width="18" />
+                    <!-- Service / Handshake + Value cycle icon inside right circle -->
+                    <g fill="none" stroke="#595959" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(765, 168)">
+                      <path d="M-38 2 C-38 -26 2 -38 22 -18" />
+                      <polyline points="12,-18 24,-18 22,-6" />
+                      <path d="M38 -2 C38 26 -2 38 -22 18" />
+                      <polyline points="-12,18 -24,18 -22,6" />
+                      <circle cx="0" cy="0" r="12" fill="#fffbee" />
+                      <polyline points="-5,0 -1,4 6,-4" stroke-width="4" />
+                    </g>
+
+                    <!-- Three progression chevrons -->
+                    <g fill="#595959" stroke="#fffbee" stroke-width="3" stroke-linejoin="round">
+                      <polygon points="384,142 414,142 434,168 414,194 384,194 404,168" />
+                      <polygon points="454,142 484,142 504,168 484,194 454,194 474,168" />
+                      <polygon points="524,142 554,142 574,168 554,194 524,194 544,168" />
+                    </g>
+
+                    <!-- Angled labels matching original slide tilt -->
+                    <text x="414" y="220" text-anchor="end" font-family="Plus Jakarta Sans, sans-serif" font-size="18" font-weight="500" fill="#595959" transform="rotate(-40 414 220)">Added Value</text>
+                    <text x="484" y="220" text-anchor="end" font-family="Plus Jakarta Sans, sans-serif" font-size="18" font-weight="500" fill="#595959" transform="rotate(-40 484 220)">Servitization</text>
+                    <text x="554" y="220" text-anchor="end" font-family="Plus Jakarta Sans, sans-serif" font-size="18" font-weight="500" fill="#595959" transform="rotate(-40 554 220)">Total Shift</text>
+
+                    <!-- Bottom captions below each circle -->
+                    <text x="195" y="362" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="22" font-weight="500" fill="#3d3d3d">Wir verkaufen Produkte</text>
+                    <text x="765" y="362" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="22" font-weight="500" fill="#3d3d3d">Wir verkaufen Leistung</text>
+                  </svg>
+                </div>
+
+                <div class="orig-slide-footer">
+                  <span class="orig-slide-citation"></span>
+                  <span class="orig-slide-num" aria-label="Slide 6">6</span>
+                </div>
+              </div>
+
+              <!-- Slide 7: Beispiele Servitization -->
+              <div class="stage-step-panel orig-slide-panel" data-step="1">
+                <h2 class="orig-slide-title">Beispiele Servitization</h2>
+
+                <div class="orig-examples-grid" role="table" aria-label="Beispiele für Servitization">
+                  <!-- Row 1: Rolls-Royce -->
+                  <div class="orig-ex-logo" role="cell">
+                    <svg viewBox="0 0 180 64" class="orig-brand-svg orig-brand-rr" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rolls-Royce Logo">
+                      <rect x="66" y="4" width="48" height="56" rx="5" fill="#1e3250" />
+                      <rect x="70" y="8" width="40" height="48" rx="3" fill="none" stroke="#fffbee" stroke-width="1.5" />
+                      <line x1="70" y1="18" x2="110" y2="18" stroke="#fffbee" stroke-width="1" />
+                      <line x1="70" y1="46" x2="110" y2="46" stroke="#fffbee" stroke-width="1" />
+                      <text x="90" y="15.5" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="6" font-weight="600" letter-spacing="0.8" fill="#fffbee">ROLLS</text>
+                      <text x="90" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="23" font-weight="700" fill="#fffbee">RR</text>
+                      <text x="90" y="53.5" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="6" font-weight="600" letter-spacing="0.8" fill="#fffbee">ROYCE</text>
+                    </svg>
+                  </div>
+                  <div class="orig-ex-cell" role="cell">
+                    <div class="orig-ex-heading">Total Care</div>
+                    <div class="orig-ex-shift">Verkauf von Triebwerken <span class="orig-arrow" aria-hidden="true">→</span> Verkauf von Flugstunden</div>
+                  </div>
+
+                  <!-- Row 2: Xerox -->
+                  <div class="orig-ex-logo" role="cell">
+                    <svg viewBox="0 0 180 54" class="orig-brand-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Xerox Logo">
+                      <text x="64" y="35" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="27" font-weight="700" letter-spacing="-0.8" fill="#b54434">xerox</text>
+                      <circle cx="130" cy="27" r="15" fill="#b54434" />
+                      <path d="M120 19 Q130 27 141 18" fill="none" stroke="#fffbee" stroke-width="2.4" />
+                      <path d="M120 35 Q130 27 141 36" fill="none" stroke="#fffbee" stroke-width="2.4" />
+                      <path d="M121 17 Q129 27 121 37" fill="none" stroke="#fffbee" stroke-width="2.4" />
+                    </svg>
+                  </div>
+                  <div class="orig-ex-cell" role="cell">
+                    <div class="orig-ex-heading">Pay-per-Copy</div>
+                    <div class="orig-ex-shift">Verkauf von Kopiermaschinen <span class="orig-arrow" aria-hidden="true">→</span> Printing as a Service</div>
+                  </div>
+
+                  <!-- Row 3: Hilti -->
+                  <div class="orig-ex-logo" role="cell">
+                    <svg viewBox="0 0 180 52" class="orig-brand-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hilti Logo">
+                      <rect x="26" y="8" width="128" height="36" fill="#b54434" />
+                      <text x="90" y="34" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="24" font-weight="700" letter-spacing="2.2" fill="#fffbee">HILTI</text>
+                    </svg>
+                  </div>
+                  <div class="orig-ex-cell" role="cell">
+                    <div class="orig-ex-heading">Fleet Management</div>
+                    <div class="orig-ex-shift">Verkauf von Werkzeug <span class="orig-arrow" aria-hidden="true">→</span> Verkauf von Verfügbarkeit</div>
+                  </div>
+
+                  <!-- Row 4: Philips -->
+                  <div class="orig-ex-logo" role="cell">
+                    <svg viewBox="0 0 180 54" class="orig-brand-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Philips Logo">
+                      <text x="90" y="36" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="24" font-weight="700" letter-spacing="1.6" fill="#1e4b8f">PHILIPS</text>
+                    </svg>
+                  </div>
+                  <div class="orig-ex-cell" role="cell">
+                    <div class="orig-ex-heading">Pay-per-Lux</div>
+                    <div class="orig-ex-shift">Verkauf von Leuchtmitteln <span class="orig-arrow" aria-hidden="true">→</span> Verkauf von Beleuchtung</div>
+                  </div>
+                </div>
+
+                <div class="orig-slide-footer">
+                  <span class="orig-slide-citation"></span>
+                  <span class="orig-slide-num" aria-label="Slide 7">7</span>
+                </div>
+              </div>
+
+              <!-- Slide 8: Wieso Servitization? -->
+              <div class="stage-step-panel orig-slide-panel" data-step="2">
+                <h2 class="orig-slide-title">Wieso Servitization?</h2>
+
+                <div class="orig-slide8-grid">
+                  <!-- 1: Wirtschaftliche Perspektive -->
+                  <div class="orig-persp-item">
+                    <svg class="orig-persp-icon" viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <polyline points="12,58 30,42 44,50 70,22" fill="none" stroke="#595959" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+                      <polyline points="56,22 70,22 70,36" fill="none" stroke="#595959" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+                      <line x1="16" y1="68" x2="16" y2="62" stroke="#595959" stroke-width="5" stroke-linecap="round" />
+                      <line x1="34" y1="68" x2="34" y2="54" stroke="#595959" stroke-width="5" stroke-linecap="round" />
+                      <line x1="52" y1="68" x2="52" y2="48" stroke="#595959" stroke-width="5" stroke-linecap="round" />
+                      <line x1="70" y1="68" x2="70" y2="44" stroke="#595959" stroke-width="5" stroke-linecap="round" />
+                    </svg>
+                    <div class="orig-persp-label">Wirtschaftliche<br />Perspektive</div>
+                  </div>
+
+                  <!-- 2: Ökologische Perspektive -->
+                  <div class="orig-persp-item">
+                    <svg class="orig-persp-icon" viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M22 58 C20 34 40 16 66 18 C64 46 46 62 22 58 Z" fill="none" stroke="#595959" stroke-width="3.6" stroke-linejoin="round" />
+                      <path d="M22 58 C34 46 46 34 60 22" fill="none" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                      <path d="M16 64 L22 58" fill="none" stroke="#595959" stroke-width="3.6" stroke-linecap="round" />
+                      <path d="M44 68 A28 28 0 0 0 70 42" fill="none" stroke="#595959" stroke-width="3" stroke-dasharray="4 4" stroke-linecap="round" />
+                    </svg>
+                    <div class="orig-persp-label">Ökologische<br />Perspektive</div>
+                  </div>
+
+                  <!-- 3: Markt und Soziale Perspektive -->
+                  <div class="orig-persp-item">
+                    <svg class="orig-persp-icon" viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <circle cx="42" cy="27" r="9" fill="none" stroke="#595959" stroke-width="3.5" />
+                      <path d="M27 64 C27 49 57 49 57 64" fill="none" stroke="#595959" stroke-width="3.5" stroke-linecap="round" />
+                      <circle cx="20" cy="34" r="6.5" fill="none" stroke="#595959" stroke-width="3" />
+                      <path d="M10 62 C10 51 25 50 28 56" fill="none" stroke="#595959" stroke-width="3" stroke-linecap="round" />
+                      <circle cx="64" cy="34" r="6.5" fill="none" stroke="#595959" stroke-width="3" />
+                      <path d="M74 62 C74 51 59 50 56 56" fill="none" stroke="#595959" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <div class="orig-persp-label">Markt und Soziale<br />Perspektive</div>
+                  </div>
+
+                  <!-- 4: Technologische Perspektive -->
+                  <div class="orig-persp-item">
+                    <svg class="orig-persp-icon" viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <rect x="26" y="26" width="32" height="32" rx="3" fill="none" stroke="#595959" stroke-width="3.5" />
+                      <rect x="35" y="35" width="14" height="14" fill="none" stroke="#595959" stroke-width="3" />
+                      <line x1="35" y1="15" x2="35" y2="26" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                      <line x1="49" y1="15" x2="49" y2="26" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                      <line x1="35" y1="58" x2="35" y2="69" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                      <line x1="49" y1="58" x2="49" y2="69" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                      <line x1="15" y1="35" x2="26" y2="35" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                      <line x1="15" y1="49" x2="26" y2="49" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                      <line x1="58" y1="35" x2="69" y2="35" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                      <line x1="58" y1="49" x2="69" y2="49" stroke="#595959" stroke-width="3.2" stroke-linecap="round" />
+                    </svg>
+                    <div class="orig-persp-label">Technologische<br />Perspektive</div>
+                  </div>
+
+                  <!-- 5: Wissens Perspektive -->
+                  <div class="orig-persp-item">
+                    <svg class="orig-persp-icon" viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M32 52 C24 46 22 33 30 24 C37 16 51 17 57 26 C62 34 58 46 52 52 L50 60 L34 60 Z" fill="none" stroke="#595959" stroke-width="3.5" stroke-linejoin="round" />
+                      <line x1="35" y1="67" x2="49" y2="67" stroke="#595959" stroke-width="3.5" stroke-linecap="round" />
+                      <line x1="42" y1="10" x2="42" y2="14" stroke="#595959" stroke-width="3" stroke-linecap="round" />
+                      <line x1="18" y1="24" x2="22" y2="27" stroke="#595959" stroke-width="3" stroke-linecap="round" />
+                      <line x1="66" y1="24" x2="62" y2="27" stroke="#595959" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <div class="orig-persp-label">Wissens<br />Perspektive</div>
+                  </div>
+                </div>
+
+                <div class="orig-slide-footer">
+                  <span class="orig-slide-citation">Baines, Tim, and Howard Lightfoot. <em>Made to Serve : How Manufacturers Can Compete through Servitization and Product-Service Systems</em>. Chichester, UK: Wiley, 2013. Print.</span>
+                  <span class="orig-slide-num" aria-label="Slide 8">8</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.section-body -->
+    </section>
+
     <!-- ====================================================================
          TOPIC SECTION: EXPLANATION (What We Built & How It Works)
          ==================================================================== -->
@@ -164,15 +396,6 @@
                     <p>Physics-matched 10 Hz emulator so every student gets the exact same telemetry stream into charts &amp; Python <code>df</code>.</p>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="stage-card-footer">
-              <span class="stage-presenter-hint">Logitech Presenter / Keys: ← Prev · → Next</span>
-              <div class="stage-card-actions">
-                <button class="btn stage-prev-btn" type="button">← Prev Step</button>
-                <button class="btn stage-next-btn" type="button">Next Step →</button>
-                <button class="btn stage-lab-btn" type="button">Jump to Live Lab ↓</button>
               </div>
             </div>
           </div>
@@ -431,15 +654,6 @@ arduino-cli upload -p COM3 \
                     <p>Dedicated Y-scales with dashed μ baselines avoid dual-axis distortion while tracking raw 6-second dynamics.</p>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="stage-card-footer">
-              <span class="stage-presenter-hint">Logitech Presenter / Keys: ← Prev · → Next</span>
-              <div class="stage-card-actions">
-                <button class="btn stage-prev-btn" type="button">← Prev Step</button>
-                <button class="btn stage-next-btn" type="button">Next Step →</button>
-                <button class="btn stage-lab-btn" type="button">Jump to Live Lab ↓</button>
               </div>
             </div>
           </div>
@@ -1076,15 +1290,6 @@ arduino-cli upload -p COM3 \
                 </div>
               </div>
             </div>
-
-            <div class="stage-card-footer">
-              <span class="stage-presenter-hint">Logitech Presenter / Keys: ← Prev · → Next</span>
-              <div class="stage-card-actions">
-                <button class="btn stage-prev-btn" type="button">← Prev Step</button>
-                <button class="btn stage-next-btn" type="button">Next Step →</button>
-                <button class="btn stage-lab-btn" type="button">Jump to Live Lab ↓</button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -1241,20 +1446,20 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
     </footer>
   </div>
 
-  <!-- Floating Presenter HUD (visible only in Beamer Mode) -->
-  <div id="presenterHud" class="presenter-hud" aria-label="Beamer presentation controls">
+  <!-- Floating Presenter HUD (visible only in Presentation Mode) -->
+  <div id="presenterHud" class="presenter-hud" aria-label="Presentation mode controls">
     <div id="hudJumpMenu" class="hud-jump-menu" role="menu" hidden></div>
     <div class="hud-bar">
       <button id="hudPrevBtn" class="hud-icon-btn" type="button" title="Previous step or waypoint (← / PageUp)" aria-label="Previous stop">‹</button>
       <button id="hudJumpBtn" class="hud-jump-trigger" type="button" aria-expanded="false" aria-controls="hudJumpMenu" title="Jump directly to any section, slide step, or lab screen">
-        <span id="hudCurrentLabel">01 / Explanation · Step 1/3</span>
+        <span id="hudCurrentLabel">01 / Servitization · Slide 1/3</span>
         <span class="hud-caret" aria-hidden="true">▴</span>
       </button>
       <button id="hudNextBtn" class="hud-icon-btn" type="button" title="Next step or waypoint (→ / PageDown)" aria-label="Next stop">›</button>
-      <button id="hudBeamerBtn" class="hud-beamer-pill" type="button" aria-pressed="true" title="Exit Beamer Mode (Shortcut: B)">Exit ✕</button>
+      <button id="hudBeamerBtn" class="hud-beamer-pill" type="button" aria-pressed="true" title="Exit Presentation Mode (Shortcut: P)">Exit ✕</button>
     </div>
   </div>
 
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>

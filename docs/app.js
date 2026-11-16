@@ -37,11 +37,12 @@
   // -------------------------------------------------------------------------
   // Modular Section Order (Reorder IDs here OR move <section> blocks in HTML)
   // -------------------------------------------------------------------------
-  const DEFAULT_HTML_ORDER = ['explanation', 'dataviz', 'crispdm'];
+  const DEFAULT_HTML_ORDER = ['servitization', 'explanation', 'dataviz', 'crispdm'];
   const SECTION_ORDER = [
-    'explanation', // Explanation · Current Setup
-    'dataviz',     // Data Visualization · Live Hardware & Emulator
-    'crispdm',     // CRISP-DM Phase 2 · Data Understanding
+    'servitization', // Servitization · Original Slides 6–8
+    'explanation',   // Explanation · Current Setup
+    'dataviz',       // Data Visualization · Live Hardware & Emulator
+    'crispdm',       // CRISP-DM Phase 2 · Data Understanding
   ];
 
   // -------------------------------------------------------------------------
@@ -1627,7 +1628,7 @@ def _execute_crisp_cell(code_str, rows_json):
   }
 
   // -------------------------------------------------------------------------
-  // Presenter Mode: 1D Waypoints, Inline Steps, Jump Dropdown & Beamer Mode
+  // Presenter Mode: 1D Waypoints, Inline Steps, Jump Dropdown & Presentation Mode
   // -------------------------------------------------------------------------
   function initPresenterController({ getSections, scheduleScrollSync }) {
     const btnBeamerMode = document.getElementById('btnBeamerMode');
@@ -1674,7 +1675,8 @@ def _execute_crisp_cell(code_str, rows_json):
 
       const counterEl = sectionEl.querySelector('.stage-step-counter');
       if (counterEl) {
-        counterEl.textContent = `Step ${clamped + 1} / ${buttons.length}`;
+        const prefix = counterEl.dataset.prefix || 'Step';
+        counterEl.textContent = `${prefix} ${clamped + 1} / ${buttons.length}`;
       }
       return clamped;
     }
@@ -2000,7 +2002,7 @@ def _execute_crisp_cell(code_str, rows_json):
       if (btnBeamerMode) {
         btnBeamerMode.classList.toggle('active', isBeamerMode);
         btnBeamerMode.setAttribute('aria-pressed', String(isBeamerMode));
-        btnBeamerMode.textContent = isBeamerMode ? 'Exit Beamer Mode ✕' : 'Start Beamer Mode';
+        btnBeamerMode.textContent = isBeamerMode ? 'Exit Presentation Mode ✕' : 'Start Presentation Mode';
       }
       if (hudBeamerBtn) {
         hudBeamerBtn.classList.toggle('active', isBeamerMode);
@@ -2039,7 +2041,7 @@ def _execute_crisp_cell(code_str, rows_json):
       setBeamerMode(!isBeamerMode);
     }
 
-    // Bind inline stage step pills, lab sub-step pills & footer buttons
+    // Bind inline stage step tabs and lab sub-step tabs
     document.querySelectorAll('.section-block').forEach((sec) => {
       sec.querySelectorAll('.stage-step-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -2069,42 +2071,9 @@ def _execute_crisp_cell(code_str, rows_json):
           redrawInteractiveVisuals();
         });
       });
-
-      const prevBtn = sec.querySelector('.stage-prev-btn');
-      const nextBtn = sec.querySelector('.stage-next-btn');
-      const labBtn = sec.querySelector('.stage-lab-btn');
-
-      if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-          const curStep = getActiveStepIndex(sec);
-          const curIdx = stops.findIndex(
-            (s) => s.sectionEl === sec && s.type === 'stage' && s.stepIndex === curStep
-          );
-          if (curIdx > 0) navigateToStop(curIdx - 1, false);
-        });
-      }
-
-      if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-          const curStep = getActiveStepIndex(sec);
-          const curIdx = stops.findIndex(
-            (s) => s.sectionEl === sec && s.type === 'stage' && s.stepIndex === curStep
-          );
-          if (curIdx !== -1 && curIdx < stops.length - 1) {
-            navigateToStop(curIdx + 1, false);
-          }
-        });
-      }
-
-      if (labBtn) {
-        labBtn.addEventListener('click', () => {
-          const labIdx = stops.findIndex((s) => s.sectionEl === sec && s.type === 'lab');
-          if (labIdx !== -1) navigateToStop(labIdx, true);
-        });
-      }
     });
 
-    // Header navigation links jump to the first stop of that section while in Beamer Mode
+    // Header navigation links jump to the first stop of that section while in Presentation Mode
     if (headerNav) {
       headerNav.addEventListener('click', (e) => {
         if (!isBeamerMode) return;
@@ -2155,7 +2124,7 @@ def _execute_crisp_cell(code_str, rows_json):
         return;
       }
 
-      if (e.key === 'b' || e.key === 'B') {
+      if (e.key === 'p' || e.key === 'P' || e.key === 'b' || e.key === 'B') {
         e.preventDefault();
         toggleBeamerMode();
         return;
