@@ -1459,6 +1459,450 @@ def _execute_crisp_cell(code_str, rows_json):
   }
 
   // -------------------------------------------------------------------------
+  // Interactive BibTeX Citations, Floating Popover & Bottom Bibliography
+  // -------------------------------------------------------------------------
+  const FALLBACK_BIBTEX = `@book{baines2013made,
+  author         = {Baines, Tim and Lightfoot, Howard},
+  author_display = {Baines, Tim, and Howard Lightfoot},
+  title          = {Made to Serve: How Manufacturers Can Compete through Servitization and Product-Service Systems},
+  year           = {2013},
+  publisher      = {Wiley},
+  address        = {Chichester, UK},
+  isbn           = {978-1-118-58531-3},
+  url            = {https://www.wiley.com/en-us/Made+to+Serve%3A+How+Manufacturers+Can+Compete+through+Servitization+and+Product+Service+Systems-p-9781118585313},
+  zhaw_url       = {https://zhaw.swisscovery.slsp.ch/discovery/fulldisplay?docid=alma99116839140005510&context=L&vid=41SLSP_ZAW:ZHAW&lang=de&search_scope=MyInst_and_CI&adaptor=Local%20Search%20Engine&tab=41SLSP_ZAW_MyInst_and_CI&query=any,contains,ISBN%20978-1-118-58531-3&sortby=date_d&facet=frbrgroupid,include,9003518664329503750&offset=0}
+}`;
+
+  function cleanBibValue(val) {
+    return String(val || '')
+      .replace(/[{}]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function parseBibTeX(bibText) {
+    const entries = new Map();
+    if (!bibText) return entries;
+
+    const cleanText = bibText
+      .split(/\r?\n/)
+      .filter((line) => !line.trimStart().startsWith('%'))
+      .join('\n');
+
+    let pos = 0;
+    while (pos < cleanText.length) {
+      const atIdx = cleanText.indexOf('@', pos);
+      if (atIdx === -1) break;
+
+      const headerMatch = cleanText.slice(atIdx).match(/^@([a-zA-Z]+)\s*([{(])/);
+      if (!headerMatch) {
+        pos = atIdx + 1;
+        continue;
+      }
+
+      const entryType = headerMatch[1].toLowerCase();
+      const openChar = headerMatch[2];
+      const closeChar = openChar === '{' ? '}' : ')';
+      const bodyStart = atIdx + headerMatch[0].length;
+
+      let depth = 1;
+      let cursor = bodyStart;
+      while (cursor < cleanText.length && depth > 0) {
+        const ch = cleanText[cursor];
+        if (ch === openChar) depth++;
+        else if (ch === closeChar) depth--;
+        cursor++;
+      }
+
+      const raw = cleanText.slice(atIdx, cursor).trim();
+      const inner = cleanText.slice(bodyStart, cursor - 1);
+      pos = cursor;
+
+      if (entryType === 'comment' || entryType === 'preamble' || entryType === 'string') {
+        continue;
+      }
+
+      const commaIdx = inner.indexOf(',');
+      if (commaIdx === -1) continue;
+
+      const key = inner.slice(0, commaIdx).trim();
+      const fieldsStr = inner.slice(commaIdx + 1);
+      const fields = {};
+
+      let fi = 0;
+      while (fi < fieldsStr.length) {
+        while (fi < fieldsStr.length && /[\s,]/.test(fieldsStr[fi])) fi++;
+        if (fi >= fieldsStr.length) break;
+
+        const eqIdx = fieldsStr.indexOf('=', fi);
+        if (eqIdx === -1) break;
+
+        const fieldName = fieldsStr.slice(fi, eqIdx).trim().toLowerCase();
+        let vi = eqIdx + 1;
+        while (vi < fieldsStr.length && /\s/.test(fieldsStr[vi])) vi++;
+        if (vi >= fieldsStr.length) break;
+
+        let value = '';
+        if (fieldsStr[vi] === '{') {
+          let bDepth = 1;
+          const vStart = vi + 1;
+          vi++;
+          while (vi < fieldsStr.length && bDepth > 0) {
+            if (fieldsStr[vi] === '{') bDepth++;
+            else if (fieldsStr[vi] === '}') bDepth--;
+            vi++;
+          }
+          value = fieldsStr.slice(vStart, vi - 1);
+        } else if (fieldsStr[vi] === '"') {
+          const vStart = vi + 1;
+          vi++;
+          while (vi < fieldsStr.length && fieldsStr[vi] !== '"') {
+            if (fieldsStr[vi] === '\\' && vi + 1 < fieldsStr.length) vi++;
+            vi++;
+          }
+          value = fieldsStr.slice(vStart, vi);
+          vi++;
+        } else {
+          const vStart = vi;
+          while (vi < fieldsStr.length && fieldsStr[vi] !== ',' && fieldsStr[vi] !== '\n') vi++;
+          value = fieldsStr.slice(vStart, vi);
+        }
+
+        if (fieldName) {
+          fields[fieldName] = cleanBibValue(value);
+        }
+        fi = vi;
+      }
+
+      if (key) {
+        entries.set(key, { key, type: entryType, fields, raw });
+      }
+    }
+
+    return entries;
+  }
+
+  function formatBibAuthors(authorStr) {
+    if (!authorStr) return '';
+    const parts = authorStr.split(/\s+and\s+/i).map((s) => s.trim()).filter(Boolean);
+    if (parts.length <= 1) return parts[0] || '';
+    if (parts.length === 2) return `${parts[0]}, and ${parts[1]}`;
+    return `${parts.slice(0, -1).join(', ')}, and ${parts[parts.length - 1]}`;
+  }
+
+  function formatShortAuthor(authorStr) {
+    if (!authorStr) return 'Ref';
+    const parts = authorStr.split(/\s+and\s+/i).map((s) => s.trim()).filter(Boolean);
+    const surname = (name) => (name.includes(',') ? name.split(',')[0] : name.split(/\s+/).pop()).trim();
+    if (parts.length === 1) return surname(parts[0]);
+    if (parts.length === 2) return `${surname(parts[0])} & ${surname(parts[1])}`;
+    return `${surname(parts[0])} et al.`;
+  }
+
+  function formatCitationHtml(entry) {
+    const f = entry.fields;
+    const authors = f.author_display || formatBibAuthors(f.author);
+    const title = f.title || entry.key;
+    const year = f.year || '';
+
+    if (entry.type === 'book') {
+      const pubParts = [f.address, f.publisher].filter(Boolean).join(': ');
+      const tail = [pubParts, year].filter(Boolean).join(', ');
+      return `${authors ? `${escapeHtml(authors)}. ` : ''}<em>${escapeHtml(title)}</em>.${tail ? ` ${escapeHtml(tail)}.` : ''}`;
+    }
+
+    const venue = f.journal || f.booktitle || f.publisher || '';
+    const volNum = f.volume ? (f.number ? `${f.volume}(${f.number})` : f.volume) : '';
+    const pages = f.pages ? `pp. ${f.pages.replace(/--/g, '–')}` : '';
+    const details = [volNum, pages, year].filter(Boolean).join(', ');
+    return `${authors ? `${escapeHtml(authors)}. ` : ''}&ldquo;${escapeHtml(title)}.&rdquo;${venue ? ` <em>${escapeHtml(venue)}</em>` : ''}${details ? `, ${escapeHtml(details)}` : ''}.`;
+  }
+
+  function getSourceUrl(entry) {
+    const f = entry.fields;
+    if (f.url) return f.url;
+    if (f.doi) return f.doi.startsWith('http') ? f.doi : `https://doi.org/${f.doi}`;
+    return '';
+  }
+
+  function getScholarUrl(entry) {
+    const f = entry.fields;
+    const q = [f.author, f.title, f.year].filter(Boolean).join(' ');
+    return `https://scholar.google.com/scholar?q=${encodeURIComponent(q)}`;
+  }
+
+  function buildRefActionLinksHtml(entry) {
+    const sourceUrl = getSourceUrl(entry);
+    const zhawUrl = entry.fields.zhaw_url || entry.fields.zhaw || '';
+    const scholarUrl = getScholarUrl(entry);
+    let html = '';
+    if (zhawUrl) {
+      html += `<a class="btn ref-action-btn" href="${escapeHtml(zhawUrl)}" target="_blank" rel="noopener">ZHAW Library ↗</a>`;
+    }
+    if (sourceUrl) {
+      html += `<a class="btn ref-action-btn" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener">Source / Publisher ↗</a>`;
+    }
+    html += `<a class="btn ref-action-btn" href="${escapeHtml(scholarUrl)}" target="_blank" rel="noopener">Google Scholar ↗</a>`;
+    html += `<button type="button" class="btn ref-action-btn btn-copy-bib" data-cite-key="${escapeHtml(entry.key)}">Copy BibTeX</button>`;
+    return html;
+  }
+
+  let bibEntries = parseBibTeX(FALLBACK_BIBTEX);
+  let citationOrder = new Map();
+  let activeCiteTrigger = null;
+
+  async function copyBibTeX(key, btnEl) {
+    const entry = bibEntries.get(key);
+    if (!entry) return;
+    let copied = false;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(entry.raw);
+        copied = true;
+      } catch (_) {}
+    }
+    if (!copied) {
+      const ta = document.createElement('textarea');
+      ta.value = entry.raw;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        copied = document.execCommand('copy');
+      } catch (_) {}
+      document.body.removeChild(ta);
+    }
+    if (btnEl && copied) {
+      const orig = btnEl.textContent;
+      btnEl.textContent = 'Copied ✓';
+      setTimeout(() => {
+        btnEl.textContent = orig;
+      }, 1500);
+    }
+  }
+
+  function closeCitePopover() {
+    const popover = document.getElementById('citePopover');
+    if (popover) popover.hidden = true;
+    if (activeCiteTrigger) {
+      activeCiteTrigger.setAttribute('aria-expanded', 'false');
+      activeCiteTrigger = null;
+    }
+  }
+
+  function jumpToBibliography(key) {
+    closeCitePopover();
+    if (document.body.classList.contains('is-beamer-mode') && window.CASPresenter) {
+      window.CASPresenter.setBeamerMode(false);
+    }
+    requestAnimationFrame(() => {
+      const card = document.getElementById(`ref-${key}`);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('is-highlighted');
+      void card.offsetWidth;
+      card.classList.add('is-highlighted');
+      setTimeout(() => card.classList.remove('is-highlighted'), 2200);
+    });
+  }
+
+  function openCitePopover(triggerEl, key) {
+    const popover = document.getElementById('citePopover');
+    const entry = bibEntries.get(key);
+    if (!popover || !entry) return;
+
+    if (activeCiteTrigger === triggerEl && !popover.hidden) {
+      closeCitePopover();
+      return;
+    }
+    if (activeCiteTrigger) {
+      activeCiteTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    activeCiteTrigger = triggerEl;
+    triggerEl.setAttribute('aria-expanded', 'true');
+
+    const num = citationOrder.get(key) || 1;
+    const typeLabel = entry.type.toUpperCase();
+    const yearLabel = entry.fields.year ? ` · ${entry.fields.year}` : '';
+
+    popover.innerHTML = `
+      <div class="cite-popover-top">
+        <span class="cite-popover-meta">[${num}] · ${escapeHtml(typeLabel)}${escapeHtml(yearLabel)}</span>
+        <button type="button" class="cite-popover-close" aria-label="Close citation details">✕</button>
+      </div>
+      <div class="cite-popover-body">${formatCitationHtml(entry)}</div>
+      <div class="cite-popover-actions">
+        <button type="button" class="btn btn-cite-jump" data-cite-key="${escapeHtml(key)}">Jump to Bibliography ↓</button>
+        ${buildRefActionLinksHtml(entry)}
+      </div>
+    `;
+
+    popover.hidden = false;
+    popover.style.left = '12px';
+    popover.style.top = '12px';
+
+    const tRect = triggerEl.getBoundingClientRect();
+    const pRect = popover.getBoundingClientRect();
+    const pad = 12;
+    const left = Math.max(
+      pad,
+      Math.min(window.innerWidth - pRect.width - pad, tRect.right - pRect.width)
+    );
+    let top = tRect.top - pRect.height - 8;
+    if (top < pad) {
+      top = Math.min(window.innerHeight - pRect.height - pad, tRect.bottom + 8);
+    }
+    popover.style.left = `${Math.round(left)}px`;
+    popover.style.top = `${Math.round(Math.max(pad, top))}px`;
+
+    popover.querySelector('.cite-popover-close')?.addEventListener('click', closeCitePopover);
+    popover.querySelector('.btn-cite-jump')?.addEventListener('click', () => jumpToBibliography(key));
+    popover.querySelector('.btn-copy-bib')?.addEventListener('click', (e) => copyBibTeX(key, e.currentTarget));
+  }
+
+  function syncCitations() {
+    const citeEls = Array.from(document.querySelectorAll('[data-cite]'));
+    const nextOrder = new Map();
+    const occurrences = new Map();
+
+    citeEls.forEach((el) => {
+      const key = (el.dataset.cite || '').trim();
+      if (!key || !bibEntries.has(key)) return;
+
+      if (!nextOrder.has(key)) {
+        nextOrder.set(key, nextOrder.size + 1);
+      }
+
+      const panel = el.closest('.stage-step-panel');
+      const sec = el.closest('.section-block');
+      if (panel && sec) {
+        if (!occurrences.has(key)) occurrences.set(key, []);
+        const stepIndex = Number(panel.dataset.step || 0);
+        const globalSlideNum = Number(panel.dataset.globalSlide || stepIndex + 1);
+        const slideTitle =
+          (panel.dataset.slideTab && panel.dataset.slideTab.trim()) ||
+          panel.querySelector('.orig-slide-title, .stage-panel-heading')?.textContent.trim() ||
+          `Slide ${globalSlideNum}`;
+        const list = occurrences.get(key);
+        if (!list.some((o) => o.sectionEl === sec && o.stepIndex === stepIndex)) {
+          list.push({ sectionEl: sec, stepIndex, globalSlideNum, slideTitle });
+        }
+      }
+    });
+
+    bibEntries.forEach((_, key) => {
+      if (!nextOrder.has(key)) {
+        nextOrder.set(key, nextOrder.size + 1);
+      }
+    });
+
+    citationOrder = nextOrder;
+
+    citeEls.forEach((el) => {
+      const key = (el.dataset.cite || '').trim();
+      const entry = bibEntries.get(key);
+      if (!entry) return;
+      const num = citationOrder.get(key);
+      const isFull = el.classList.contains('orig-slide-citation') || el.dataset.citeStyle === 'full';
+      const innerHtml = isFull
+        ? `<span class="cite-num">[${num}]</span> <span class="cite-text">${formatCitationHtml(entry)}</span>`
+        : `<span class="cite-num">[${num}]</span> ${escapeHtml(formatShortAuthor(entry.fields.author))}${entry.fields.year ? ` (${escapeHtml(entry.fields.year)})` : ''}`;
+
+      el.innerHTML = `<button type="button" class="cite-trigger${isFull ? '' : ' cite-inline-badge'}" data-cite-key="${escapeHtml(key)}" aria-haspopup="dialog" aria-expanded="false" title="Click for citation details, BibTeX &amp; links">${innerHtml}</button>`;
+    });
+
+    const refListEl = document.getElementById('referencesList');
+    if (!refListEl) return;
+
+    const cardsHtml = [];
+    citationOrder.forEach((num, key) => {
+      const entry = bibEntries.get(key);
+      if (!entry) return;
+      const f = entry.fields;
+      const occs = occurrences.get(key) || [];
+      const backlinksHtml = occs
+        .map(
+          (o) =>
+            `<button type="button" class="ref-backlink-btn" data-section-id="${escapeHtml(o.sectionEl.id)}" data-step-index="${o.stepIndex}">↩ Slide ${o.globalSlideNum} · ${escapeHtml(o.slideTitle)}</button>`
+        )
+        .join('');
+
+      const badges = [
+        `<span class="ref-badge">${escapeHtml(entry.type)}${f.year ? ` · ${escapeHtml(f.year)}` : ''}</span>`,
+        f.isbn ? `<span class="ref-badge">ISBN ${escapeHtml(f.isbn)}</span>` : '',
+        f.doi ? `<span class="ref-badge">DOI ${escapeHtml(f.doi)}</span>` : '',
+      ]
+        .filter(Boolean)
+        .join('');
+
+      cardsHtml.push(`
+        <article id="ref-${escapeHtml(key)}" class="ref-card">
+          <div class="ref-index">[${num}]</div>
+          <div class="ref-content">
+            <div class="ref-meta-row">${badges}</div>
+            <div class="ref-citation-text">${formatCitationHtml(entry)}</div>
+            <div class="ref-controls-row">
+              <div class="ref-backlinks">${backlinksHtml}</div>
+              <div class="ref-actions">${buildRefActionLinksHtml(entry)}</div>
+            </div>
+            <details class="bib-raw-drawer">
+              <summary>BibTeX (.bib)</summary>
+              <pre class="code-snippet">${escapeHtml(entry.raw)}</pre>
+            </details>
+          </div>
+        </article>
+      `);
+    });
+
+    refListEl.innerHTML = cardsHtml.join('');
+  }
+
+  async function loadBibTeX() {
+    try {
+      const res = await fetch('references.bib', { cache: 'no-cache' });
+      if (!res.ok) return;
+      const text = await res.text();
+      const parsed = parseBibTeX(text);
+      if (parsed.size > 0) {
+        bibEntries = parsed;
+        syncCitations();
+      }
+    } catch (_) {}
+  }
+
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('.cite-trigger[data-cite-key]');
+    if (trigger) {
+      e.stopPropagation();
+      openCitePopover(trigger, trigger.dataset.citeKey);
+      return;
+    }
+
+    const backlink = e.target.closest('.ref-backlink-btn[data-section-id]');
+    if (backlink) {
+      const secId = backlink.dataset.sectionId;
+      const stepIdx = Number(backlink.dataset.stepIndex || 0);
+      if (window.CASPresenter && window.CASPresenter.goToSectionSlide) {
+        window.CASPresenter.goToSectionSlide(secId, stepIdx);
+      }
+      return;
+    }
+
+    const copyBtn = e.target.closest('.btn-copy-bib[data-cite-key]');
+    if (copyBtn && !copyBtn.closest('#citePopover')) {
+      copyBibTeX(copyBtn.dataset.citeKey, copyBtn);
+      return;
+    }
+
+    const popover = document.getElementById('citePopover');
+    if (popover && !popover.hidden && !popover.contains(e.target)) {
+      closeCitePopover();
+    }
+  });
+
+  // -------------------------------------------------------------------------
   // Sticky Header Height Sync (for scroll-margin-top & side rail top offset)
   // -------------------------------------------------------------------------
   function updateStickyHeaderOffset() {
@@ -1700,6 +2144,7 @@ def _execute_crisp_cell(code_str, rows_json):
       if (presenterApi) {
         presenterApi.rebuildStops();
       }
+      syncCitations();
       updateStickyHeaderOffset();
       updateActiveSection();
     }
@@ -1715,6 +2160,7 @@ def _execute_crisp_cell(code_str, rows_json):
       getSections,
       scheduleScrollSync: scheduleActiveSectionUpdate,
     });
+    window.CASPresenter = presenterApi;
 
     refreshSections();
 
@@ -2034,15 +2480,43 @@ def _execute_crisp_cell(code_str, rows_json):
     }
 
     function goNextStop() {
+      closeCitePopover();
       if (currentStopIndex < stops.length - 1) {
         navigateToStop(currentStopIndex + 1, false);
       }
     }
 
     function goPrevStop() {
+      closeCitePopover();
       if (currentStopIndex > 0) {
         navigateToStop(currentStopIndex - 1, false);
       }
+    }
+
+    function goToSectionSlide(sectionId, stepIndex) {
+      const sec = document.getElementById(sectionId);
+      if (!sec) return;
+      const clamped = setStageStep(sec, stepIndex);
+      const matchIdx = stops.findIndex(
+        (s) => s.sectionEl === sec && s.type === 'stage' && s.stepIndex === clamped
+      );
+      if (matchIdx !== -1) {
+        currentStopIndex = matchIdx;
+        updateHudUI();
+      }
+      if (isBeamerMode) {
+        applyBeamerVisibility();
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        redrawInteractiveVisuals();
+        return;
+      }
+      const card = sec.querySelector('.stage-visual-card') || sec;
+      scrollLockUntil = performance.now() + 650;
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      card.classList.remove('is-cite-flash');
+      void card.offsetWidth;
+      card.classList.add('is-cite-flash');
+      setTimeout(() => card.classList.remove('is-cite-flash'), 1800);
     }
 
     function syncFromScroll(force = false) {
@@ -2104,6 +2578,7 @@ def _execute_crisp_cell(code_str, rows_json):
     }
 
     function setBeamerMode(enabled) {
+      closeCitePopover();
       const nextMode = Boolean(enabled);
       if (nextMode && !isBeamerMode) {
         syncFromScroll(true);
@@ -2229,6 +2704,11 @@ def _execute_crisp_cell(code_str, rows_json):
       }
 
       if (e.key === 'Escape') {
+        const popover = document.getElementById('citePopover');
+        if (popover && !popover.hidden) {
+          closeCitePopover();
+          return;
+        }
         if (hudJumpMenu && !hudJumpMenu.hidden) {
           closeJumpMenu();
         } else if (isBeamerMode) {
@@ -2263,6 +2743,7 @@ def _execute_crisp_cell(code_str, rows_json):
       goNextStop,
       goPrevStop,
       setBeamerMode,
+      goToSectionSlide,
     };
   }
 
@@ -2310,6 +2791,7 @@ def _execute_crisp_cell(code_str, rows_json):
 
   // Initial modular section setup, layout & render
   initModularSections();
+  loadBibTeX();
   updateStickyHeaderOffset();
   updateBoardLayout();
   updateDomReadouts(latestFrame);

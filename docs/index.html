@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20" />
+  <link rel="stylesheet" href="styles.css?v=21" />
 </head>
 <body>
   <div class="page-container">
@@ -186,7 +186,7 @@
                 </div>
 
                 <div class="orig-slide-footer">
-                  <span class="orig-slide-citation">Baines, Tim, and Howard Lightfoot. <em>Made to Serve : How Manufacturers Can Compete through Servitization and Product-Service Systems</em>. Chichester, UK: Wiley, 2013. Print.</span>
+                  <span class="orig-slide-citation" data-cite="baines2013made">Baines, Tim, and Howard Lightfoot. <em>Made to Serve: How Manufacturers Can Compete through Servitization and Product-Service Systems</em>. Chichester, UK: Wiley, 2013. Print.</span>
                   <span class="orig-slide-num" aria-label="Slide 3">3</span>
                 </div>
               </div>
@@ -1367,6 +1367,20 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
     </section>
     </main>
 
+    <!-- ====================================================================
+         DEDICATED BIBLIOGRAPHY / REFERENCES (Populated from references.bib)
+         ==================================================================== -->
+    <section id="references" class="references-section" aria-label="References and Bibliography">
+      <div class="references-header">
+        <div>
+          <div class="references-eyebrow">Bibliography · <a href="references.bib" target="_blank" rel="noopener">references.bib ↗</a></div>
+          <h2 class="references-title">References</h2>
+        </div>
+        <p class="references-subtitle">Click any slide citation to inspect BibTeX details, or jump back directly to the slide where a source is cited.</p>
+      </div>
+      <div id="referencesList" class="references-list"></div>
+    </section>
+
     <footer class="site-footer viz-caveats-note">
       <span>Plots follow <a href="https://www.data-to-viz.com/" target="_blank" rel="noopener">data-to-viz.com</a> principles.</span>
       <span>CAS Smart Service Engineering · Module A</span>
@@ -1387,6 +1401,9 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
     </div>
   </div>
 
-  <script src="app.js?v=13"></script>
+  <!-- Floating Citation Popover -->
+  <div id="citePopover" class="cite-popover" role="dialog" aria-label="Citation details" hidden></div>
+
+  <script src="app.js?v=15"></script>
 </body>
 </html>
