@@ -91,6 +91,9 @@ data-to-service/
   - Added `docs/references.bib` using standard BibTeX entries and a client-side `parseBibTeX()` / `syncCitations()` engine in `docs/app.js`.
   - Any element with `data-cite="<key>"` renders an interactive clickable citation (`[1] Author...` on slide footers or `[1] Author (Year)` inline) that opens a floating `#citePopover` with **Jump to Bibliography ↓**, **Copy BibTeX**, **Google Scholar ↗**, and **Source / Publisher ↗** actions.
   - Added `<section id="references">` above `<footer>` listing all references with slide back-links (`↩ Slide X · ...`) that dynamically track slide numbering and jump straight back to the citing slide.
+- **[x] Step 3g — Pre-Push Copyright, Provenance & Citation Audit Skill & Hook:**
+  - Created workspace skill `.agents/skills/copyright-and-citation-audit/` with `SKILL.md` and `scripts/audit_assets.py` checking `README.md` `Source / License` provenance, stock-agency metadata, external hotlinks, embedded raster bitmaps inside SVGs, raster photo licensing, and `docs/references.bib` / `FALLBACK_BIBTEX` / `data-cite` sync.
+  - Added `Source / License` columns to all slide `README.md` tables under `docs/assets/slides/`, added always-on workspace rule `AGENTS.md`, and installed `.git/hooks/pre-push` to enforce the audit automatically before pushing.
 
 ## 7. Responsive Design & Layout Standards (Mandatory for All Features)
 Every new feature added to `docs/` (3D Digital Twin / Three.js viewport, FFT spectrum analyzer, CHF Service Cost Confusion Matrix, CRISP-DM modules) **must** follow these rules so the site works seamlessly across **`360px` mobile**, **`640px` split-screen beside Google Colab**, **`1024px` laptop**, and **`1440px+` classroom projector** with zero horizontal overflow (`document.documentElement.scrollWidth <= document.documentElement.clientWidth`):

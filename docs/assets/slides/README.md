@@ -10,8 +10,10 @@ All replaceable slide graphics live here in **one folder per slide** so you can 
 2. **Standardized on `.svg` (`<item-slug>.svg`):**
    - Every graphic uses `.svg` so icons and logos scale razor-sharp on 4K classroom projectors and large screens.
    - Dropping a replacement `.svg` with the same name into a slide folder triggers your OS **"Replace existing file?"** prompt—confirming the filename matches and preventing duplicate files or `404` requests.
-3. **Graphic-to-Text `README.md` in Every Folder:**
-   - Each slide folder includes a `README.md` mapping every `.svg` filename to the exact heading, label, or slide caption it belongs to.
+3. **Graphic-to-Text `README.md` with `Source / License` in Every Folder:**
+   - Each slide folder includes a `README.md` mapping every graphic filename to the exact heading, label, or slide caption it belongs to **plus a `Source / License` column** (e.g., `Own SVG (Custom Redraw)`, `Own Photo`, `CC BY 4.0`, `CC0`, `Nominative Case-Study Logo`, or `Bildzitat (Art. 25 URG)` with `data-cite="..."`).
+4. **Pre-Push Copyright & Citation Audit:**
+   - Before pushing changes to GitHub Pages, run `python .agents/skills/copyright-and-citation-audit/scripts/audit_assets.py` (also enforced automatically by `.git/hooks/pre-push`) to catch undocumented images, unsafe raster photos, or broken BibTeX `data-cite` references.
 
 ## Current Slide Folders
 
