@@ -28,8 +28,8 @@
   --state-cal: #3d6b99;
 
   /* Fluid layout & spacing tokens */
-  --container-max: 1360px;
-  --space-page-x: clamp(1rem, 4vw, 2.75rem);
+  --container-max: 100%;
+  --space-page-x: clamp(0.75rem, 1.5vw, 1.5rem);
   --space-section-y: clamp(2.5rem, 5vw, 4.5rem);
   --gap-grid: clamp(1rem, 2vw, 2rem);
 
@@ -79,7 +79,7 @@ img, svg, video, canvas {
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--space-page-x) clamp(3rem, 6vw, 5rem);
+  padding: 0 var(--space-page-x) clamp(4.75rem, 8vw, 6.25rem);
 }
 
 /* --------------------------------------------------------------------------
@@ -180,12 +180,31 @@ img, svg, video, canvas {
   letter-spacing: -0.01em;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 0.75rem 1.75rem;
+  gap: 0.75rem 1.5rem;
   flex-wrap: wrap;
   min-width: 0;
+}
+
+.btn-beamer {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.72rem;
+}
+
+.btn-beamer.active {
+  background: var(--c-vib);
+  border-color: var(--c-vib);
+  color: var(--bg);
 }
 
 .header-nav a {
@@ -201,39 +220,129 @@ img, svg, video, canvas {
   opacity: 0.65;
 }
 
+.header-nav a.is-active {
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
 /* --------------------------------------------------------------------------
-   Section Layout & Editorial Typography
+   Modular Section Layout, Sticky Side Rail & Editorial Typography
    -------------------------------------------------------------------------- */
+.sections-stack {
+  display: block;
+}
+
 .section-block {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: clamp(0.85rem, 1.5vw, 1.35rem);
   padding: var(--space-section-y) 0 clamp(2.25rem, 4vw, 3.5rem);
   border-bottom: 1px solid var(--border);
+  scroll-margin-top: 1rem;
 }
 
-.section-header-grid {
-  display: grid;
-  grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
-  gap: clamp(1rem, 3vw, 3rem);
-  margin-bottom: clamp(1.75rem, 3vw, 3rem);
+.section-block:last-of-type {
+  border-bottom: none;
 }
 
-.section-header-grid > * {
+.section-block > * {
   min-width: 0;
 }
 
-.section-index {
+.section-rail {
+  position: relative;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 0.4rem;
+}
+
+.section-rail-sticky {
+  position: sticky;
+  top: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-muted);
-  padding-top: 0.4rem;
+  padding: 0.25rem 0;
+  opacity: 0.78;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.section-index span {
-  display: block;
-  margin-top: 0.35rem;
-  color: var(--text);
-  font-weight: 500;
+.section-block.is-in-view .section-rail-sticky {
+  opacity: 1;
+}
+
+.section-rail-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.section-block.is-in-view .section-rail-dot {
+  background: var(--c-vib);
+  transform: scale(1.15);
+}
+
+.section-rail-index {
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.section-rail-sep {
+  color: var(--border-strong);
+}
+
+.section-rail-sub {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.section-body {
+  min-width: 0;
+}
+
+.section-intro {
+  margin-bottom: clamp(1.75rem, 3vw, 2.75rem);
+}
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 0.7rem;
+}
+
+.section-eyebrow-index {
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.section-eyebrow-sep {
+  color: var(--border-strong);
+}
+
+.section-eyebrow-sub {
+  color: var(--text-muted);
 }
 
 .hero-headline {
@@ -249,7 +358,7 @@ img, svg, video, canvas {
 .lead-paragraph {
   font-size: clamp(0.98rem, 1.3vw, 1.1rem);
   line-height: 1.65;
-  max-width: 72ch;
+  max-width: 115ch;
   color: var(--text);
 }
 
@@ -868,6 +977,1390 @@ img, svg, video, canvas {
   text-underline-offset: 3px;
 }
 
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Part 03: CRISP-DM Phase 2 — Interactive Python Data Understanding Lab
+   -------------------------------------------------------------------------- */
+.crispdm-ribbon {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--border);
+  background: var(--bg);
+  margin-bottom: 1.5rem;
+}
+
+.crispdm-step {
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.crispdm-step:last-child {
+  border-right: none;
+}
+
+.crispdm-step.is-current {
+  background: var(--bg-subtle);
+  border-top: 3px solid var(--c-vib);
+  padding-top: calc(1rem - 2px);
+}
+
+.crispdm-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.crispdm-step.is-current .crispdm-step-num {
+  color: var(--c-vib);
+  font-weight: 600;
+}
+
+.crispdm-step-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.crispdm-step-desc {
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.crispdm-toolbar {
+  margin-bottom: 1.75rem;
+}
+
+.py-dot-idle {
+  background-color: var(--text-muted);
+}
+
+.py-dot-loading {
+  background-color: var(--state-warn);
+}
+
+.py-dot-ready {
+  background-color: var(--state-normal);
+}
+
+.crispdm-cells-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.py-cell-card {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  min-width: 0;
+}
+
+.py-cell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.py-cell-meta {
+  min-width: 0;
+  flex: 1 1 420px;
+}
+
+.py-cell-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-vib);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.py-cell-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 0.3rem;
+}
+
+.py-cell-desc {
+  font-size: 0.86rem;
+  color: var(--text);
+  max-width: none;
+}
+
+.py-cell-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.py-shortcut-hint {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.py-editor-wrap {
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+}
+
+.py-editor {
+  width: 100%;
+  min-height: 155px;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--text-strong);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.58;
+  resize: vertical;
+  outline: none;
+  display: block;
+}
+
+.py-editor:focus {
+  background: rgba(247, 242, 226, 0.65);
+  box-shadow: inset 3px 0 0 var(--c-vib);
+}
+
+.py-output-box {
+  padding: 1rem 1.5rem;
+  background: var(--bg);
+  font-size: 0.82rem;
+  min-width: 0;
+}
+
+.py-output-box.is-empty {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
+.py-output-placeholder {
+  color: var(--text-muted);
+}
+
+.py-stdout {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--text-strong);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--border);
+}
+
+.py-stdout:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.py-error {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--state-anomaly);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.py-output-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.py-df-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
+.py-df-table th,
+.py-df-table td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.py-df-table th:first-child,
+.py-df-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.py-df-table thead th {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   Slide-Style Section Stages, Step Visuals, Tech Drawer & Waypoint Labs
+   -------------------------------------------------------------------------- */
+.section-stage {
+  min-height: clamp(500px, 80vh, 840px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  scroll-margin-top: 1.25rem;
+}
+
+.section-stage .section-intro {
+  margin-bottom: clamp(1.25rem, 2.4vw, 2rem);
+}
+
+.section-stage .crispdm-ribbon {
+  margin-bottom: 1.25rem;
+}
+
+.stage-visual-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  min-width: 0;
+}
+
+.stage-card-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  flex-wrap: wrap;
+  padding: 0.55rem 1.25rem 0;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+}
+
+.stage-card-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding-bottom: 0.55rem;
+}
+
+.stage-step-pills {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.28rem;
+  flex-wrap: wrap;
+}
+
+.stage-step-btn,
+.lab-substep-btn {
+  --tab-cut: 10px;
+  --tab-border: var(--border-strong);
+  position: relative;
+  appearance: none;
+  background: rgba(255, 251, 238, 0.72);
+  border: 1px solid var(--tab-border);
+  border-bottom: 0;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  line-height: 1.25;
+  padding: 0.42rem 0.95rem 0.4rem 0.72rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+  clip-path: polygon(0 0, calc(100% - var(--tab-cut)) 0, 100% var(--tab-cut), 100% 100%, 0 100%);
+}
+
+.stage-step-btn::after,
+.lab-substep-btn::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: var(--tab-cut);
+  height: var(--tab-cut);
+  pointer-events: none;
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 1.25px),
+    var(--tab-border) calc(50% - 0.5px),
+    var(--tab-border) calc(50% + 0.5px),
+    transparent calc(50% + 1.25px)
+  );
+}
+
+.stage-step-btn:hover,
+.lab-substep-btn:hover {
+  background: var(--bg);
+  --tab-border: var(--text-strong);
+  color: var(--text-strong);
+}
+
+.stage-step-btn:focus-visible,
+.lab-substep-btn:focus-visible {
+  outline: 2px solid var(--c-vib);
+  outline-offset: -2px;
+}
+
+.stage-step-btn.is-active,
+.lab-substep-btn.is-active {
+  background: var(--text-strong);
+  --tab-border: var(--text-strong);
+  color: var(--bg);
+  font-weight: 600;
+  margin-bottom: -1px;
+  padding-bottom: calc(0.4rem + 1px);
+}
+
+.stage-step-counter {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-strong);
+  font-weight: 500;
+  white-space: nowrap;
+  padding-bottom: 0.55rem;
+}
+
+.stage-panels {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: clamp(320px, 42vh, 420px);
+  padding: clamp(1.1rem, 2.2vw, 1.75rem) clamp(1rem, 2.2vw, 1.5rem);
+}
+
+.stage-step-panel {
+  display: none;
+}
+
+.stage-step-panel.is-active {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.stage-split {
+  align-items: center;
+}
+
+.stage-diagram-box {
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  padding: 0.9rem 1rem;
+  min-width: 0;
+}
+
+.stage-diagram-box svg {
+  width: 100%;
+  height: auto;
+}
+
+.stage-diagram-caption {
+  font-family: var(--font-mono);
+  font-size: 0.69rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.65rem;
+}
+
+.stage-takeaways {
+  min-width: 0;
+}
+
+.stage-panel-heading {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.75rem;
+}
+
+.stage-panel-header-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.85rem;
+}
+
+.stage-panel-header-inline .stage-panel-heading {
+  margin-bottom: 0;
+}
+
+.stage-chip-note {
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  color: var(--c-vib);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.5rem;
+}
+
+.stage-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.stage-bullets li {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.stage-bullets li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--c-vib);
+  font-weight: 600;
+}
+
+/* Smart Product Stack Diagram (Section 01 Step 2) */
+.stack-layers {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+}
+
+.stack-layer {
+  display: grid;
+  grid-template-columns: minmax(110px, 145px) minmax(150px, 230px) minmax(0, 1fr);
+  gap: 0.45rem 1rem;
+  align-items: baseline;
+  padding: 0.6rem 0.95rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.86rem;
+}
+
+.stack-layer:last-child {
+  border-bottom: none;
+}
+
+.stack-layer.is-highlighted {
+  background: var(--bg-subtle);
+  border-left: 4px solid var(--c-vib);
+  padding-left: calc(0.95rem - 4px);
+}
+
+.stack-level {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.stack-layer.is-highlighted .stack-level {
+  color: var(--c-vib);
+  font-weight: 600;
+}
+
+.stack-name {
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.stack-detail {
+  color: var(--text);
+  min-width: 0;
+}
+
+/* Source & Triage Info Tiles */
+.stage-source-grid {
+  gap: 1rem;
+}
+
+.stage-info-tile {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 0.95rem 1.05rem;
+  min-width: 0;
+}
+
+.stage-info-tile.is-accent {
+  background: var(--bg-subtle);
+  border-left: 3px solid var(--c-vib);
+}
+
+.stage-tile-tag {
+  font-family: var(--font-mono);
+  font-size: 0.69rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.stage-tile-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 0.35rem;
+}
+
+.stage-info-tile p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* Section 02 Stage Visuals */
+.stage-sensor-strip {
+  gap: 0.85rem;
+}
+
+.stage-sensor-pill {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--pill-accent, var(--border-strong));
+  padding: 0.8rem 0.9rem;
+  background: var(--bg);
+  min-width: 0;
+}
+
+.stage-pill-head {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 0.2rem;
+}
+
+.stage-pill-map {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.stage-sensor-pill p {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.stage-formula-box {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-strong);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.threshold-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.zone-card {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 0.15rem 0.75rem;
+  padding: 0.55rem 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.zone-card strong {
+  color: var(--text-strong);
+}
+
+.zone-card span:last-child {
+  grid-column: 2;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.zone-range {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  grid-row: span 2;
+  align-self: center;
+}
+
+.zone-normal { border-left: 4px solid var(--state-normal); }
+.zone-normal .zone-range { color: var(--state-normal); }
+.zone-warn { border-left: 4px solid var(--state-warn); }
+.zone-warn .zone-range { color: var(--state-warn); }
+.zone-anom { border-left: 4px solid var(--state-anomaly); }
+.zone-anom .zone-range { color: var(--state-anomaly); }
+
+/* Section 03 Stage Visuals */
+.quality-timeline {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.85fr) minmax(0, 1.6fr);
+  gap: 0.65rem;
+}
+
+.qt-segment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 0.85rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+.qt-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.qt-cal { border-top: 3px solid var(--state-cal); }
+.qt-ok { border-top: 3px solid var(--state-normal); }
+
+.scale-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.scale-bar-row {
+  display: grid;
+  grid-template-columns: minmax(105px, 130px) minmax(0, 1fr) 78px;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.76rem;
+}
+
+.scale-name {
+  font-family: var(--font-mono);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scale-track {
+  height: 9px;
+  background: rgba(89, 89, 89, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.scale-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.scale-val {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-strong);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Lab Waypoint & Collapsible Tech Drawer */
+.section-lab {
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px dashed var(--border-strong);
+  scroll-margin-top: 1.25rem;
+}
+
+.lab-waypoint-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.lab-waypoint-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-vib);
+  font-weight: 600;
+}
+
+.lab-waypoint-title {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.tech-drawer {
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+  background: var(--bg);
+}
+
+.tech-drawer-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  flex-wrap: wrap;
+  padding: 0.8rem 1.15rem;
+  background: var(--bg-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  cursor: pointer;
+  list-style: none;
+}
+
+.tech-drawer-summary::-webkit-details-marker {
+  display: none;
+}
+
+.tech-drawer-hint {
+  font-weight: 400;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.tech-drawer[open] .explanation-grid {
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+  padding: 0 1.15rem;
+}
+
+.lab-substep-bar {
+  display: none;
+  align-items: flex-end;
+  gap: 0.28rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.lab-step-pane {
+  min-width: 0;
+}
+
+.lab-step-pane + .lab-step-pane {
+  margin-top: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Presentation Mode: Single-Screen Slides & Cohesive Lab Steps
+   -------------------------------------------------------------------------- */
+body.is-beamer-mode .page-container {
+  max-width: 100%;
+  padding-left: clamp(0.75rem, 1.25vw, 1.25rem);
+  padding-right: clamp(0.75rem, 1.25vw, 1.25rem);
+  padding-bottom: 3.75rem;
+}
+
+body.is-beamer-mode .site-header {
+  padding: 0.65rem 0;
+}
+
+body.is-beamer-mode .site-footer {
+  display: none;
+}
+
+body.is-beamer-mode .section-block {
+  display: none;
+}
+
+body.is-beamer-mode .section-block.is-beamer-section {
+  display: grid;
+  padding: 0.9rem 0 0.5rem;
+  border-bottom: none;
+  height: calc(100vh - 7.25rem);
+  min-height: 500px;
+}
+
+body.is-beamer-mode .section-block.is-beamer-section:has(.section-lab.is-beamer-waypoint) {
+  height: auto;
+  min-height: calc(100vh - 7.25rem);
+}
+
+body.is-beamer-mode .section-block.is-beamer-section > .section-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+body.is-beamer-mode .section-block.is-beamer-section .section-stage,
+body.is-beamer-mode .section-block.is-beamer-section .section-lab {
+  display: none;
+}
+
+body.is-beamer-mode .section-block.is-beamer-section .section-stage.is-beamer-waypoint {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  justify-content: flex-start;
+  padding-bottom: 0;
+}
+
+body.is-beamer-mode .stage-visual-card {
+  flex: 1 1 auto;
+  min-height: 0;
+  border-color: var(--border-strong);
+  box-shadow: 0 10px 32px rgba(61, 61, 61, 0.06);
+}
+
+body.is-beamer-mode .section-block.is-beamer-section .section-lab.is-beamer-waypoint {
+  display: block;
+  padding-top: 0;
+  border-top: none;
+}
+
+body.is-beamer-mode .lab-substep-bar {
+  display: flex;
+}
+
+body.is-beamer-mode .section-lab.is-beamer-waypoint .lab-step-pane {
+  display: none;
+  margin-top: 0;
+}
+
+body.is-beamer-mode .section-lab.is-beamer-waypoint .lab-step-pane.is-beamer-pane {
+  display: block;
+}
+
+body.is-beamer-mode .section-stage .section-intro,
+body.is-beamer-mode .section-stage .crispdm-ribbon {
+  display: none;
+}
+
+body.is-beamer-mode .site-header,
+body.is-beamer-mode .section-rail,
+body.is-beamer-mode .presenter-hud,
+body.is-beamer-mode .lab-waypoint-header {
+  filter: blur(3.5px);
+  opacity: 0.32;
+  transition: filter 0.22s ease, opacity 0.22s ease;
+}
+
+body.is-beamer-mode .site-header:hover,
+body.is-beamer-mode .site-header:focus-within,
+body.is-beamer-mode .section-rail:hover,
+body.is-beamer-mode .section-rail:focus-within,
+body.is-beamer-mode .presenter-hud:hover,
+body.is-beamer-mode .presenter-hud:focus-within,
+body.is-beamer-mode .presenter-hud:has(.hud-jump-menu:not([hidden])),
+body.is-beamer-mode .lab-waypoint-header:hover,
+body.is-beamer-mode .lab-waypoint-header:focus-within {
+  filter: blur(0);
+  opacity: 1;
+}
+
+body.is-beamer-mode .stage-panels {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: clamp(1rem, 2vh, 1.6rem) clamp(1.25rem, 2.5vw, 2.25rem);
+}
+
+body.is-beamer-mode .stage-bullets {
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+body.is-beamer-mode .stage-panel-heading {
+  font-size: clamp(1.1rem, 1.55vw, 1.32rem);
+}
+
+body.is-beamer-mode .stage-info-tile p,
+body.is-beamer-mode .stack-layer {
+  font-size: 0.92rem;
+}
+
+/* Single-Screen Presentation Lab Sizing (Zero Vertical Cutoff) */
+body.is-beamer-mode .lab-waypoint-header {
+  margin-bottom: 0.7rem;
+}
+
+body.is-beamer-mode .toolbar-row {
+  padding: 0.65rem 1rem;
+}
+
+body.is-beamer-mode .sim-stimulus-bar {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+body.is-beamer-mode .board-centerpiece {
+  padding: 0.85rem 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+body.is-beamer-mode .board-svg {
+  max-height: clamp(230px, 43vh, 395px);
+  width: auto;
+  margin: 0 auto;
+}
+
+body.is-beamer-mode .viz-grid-top {
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+body.is-beamer-mode .viz-panel {
+  padding: 0.75rem 1rem;
+}
+
+body.is-beamer-mode .viz-subtitle {
+  margin-bottom: 0.55rem;
+}
+
+body.is-beamer-mode .canvas-container {
+  height: clamp(140px, 20vh, 180px);
+}
+
+body.is-beamer-mode .small-multiples-header {
+  margin-bottom: 0.5rem;
+}
+
+body.is-beamer-mode .small-multiples-grid {
+  gap: 0.75rem;
+  margin-bottom: 0;
+}
+
+body.is-beamer-mode .sm-card {
+  padding: 0.65rem 0.75rem;
+}
+
+body.is-beamer-mode .sm-value-row {
+  margin-bottom: 0.35rem;
+}
+
+body.is-beamer-mode .sm-canvas-wrap {
+  height: 62px;
+}
+
+body.is-beamer-mode .crispdm-toolbar {
+  margin-bottom: 0.85rem;
+}
+
+body.is-beamer-mode .crispdm-cells-stack {
+  margin-bottom: 0;
+}
+
+body.is-beamer-mode .py-cell-header {
+  padding: 0.8rem 1.15rem 0.7rem;
+}
+
+body.is-beamer-mode .py-editor {
+  min-height: 125px;
+  max-height: 24vh;
+  padding: 0.75rem 1.15rem;
+}
+
+body.is-beamer-mode .py-output-box {
+  padding: 0.75rem 1.15rem;
+  max-height: 27vh;
+  overflow-y: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Presenter HUD & Mouse Jump Dropdown (Presentation Mode Only)
+   -------------------------------------------------------------------------- */
+.presenter-hud {
+  position: fixed;
+  right: clamp(0.75rem, 2.5vw, 1.75rem);
+  bottom: clamp(0.75rem, 2.5vw, 1.5rem);
+  z-index: 60;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  max-width: calc(100vw - 1.5rem);
+}
+
+body.is-beamer-mode .presenter-hud {
+  display: flex;
+}
+
+.hud-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.45rem;
+  background: rgba(255, 251, 238, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 6px 20px rgba(61, 61, 61, 0.1);
+  max-width: 100%;
+}
+
+.hud-icon-btn,
+.hud-jump-trigger,
+.hud-beamer-pill {
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-strong);
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  cursor: pointer;
+  padding: 0.32rem 0.55rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.hud-icon-btn {
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  border-color: var(--border);
+}
+
+.hud-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.hud-jump-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: min(56vw, 310px);
+  border-color: var(--border);
+  background: var(--bg-subtle);
+}
+
+#hudCurrentLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hud-caret {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.hud-beamer-pill {
+  border-color: var(--border-strong);
+  font-size: 0.69rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hud-icon-btn:hover:not(:disabled),
+.hud-jump-trigger:hover,
+.hud-beamer-pill:hover {
+  background: var(--text-strong);
+  color: var(--bg);
+}
+
+.hud-beamer-pill.active {
+  background: var(--c-vib);
+  border-color: var(--c-vib);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.hud-jump-menu {
+  width: min(360px, calc(100vw - 1.5rem));
+  max-height: min(62vh, 440px);
+  overflow-y: auto;
+  background: rgba(255, 251, 238, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 10px 28px rgba(61, 61, 61, 0.14);
+  padding: 0.45rem;
+}
+
+.hud-menu-group {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.hud-menu-group:last-child {
+  border-bottom: none;
+}
+
+.hud-menu-group-label {
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 0.25rem 0.55rem 0.35rem;
+  font-weight: 600;
+}
+
+.hud-menu-item {
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 0.42rem 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: 2px;
+}
+
+.hud-menu-item:hover {
+  background: var(--bg-subtle);
+  color: var(--text-strong);
+}
+
+.hud-menu-item.is-active {
+  background: var(--text-strong);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.hud-menu-item-tag {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  opacity: 0.78;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Migrated Original Slides 6–8 (Servitization Stage)
+   -------------------------------------------------------------------------- */
+.orig-stage-only {
+  min-height: 0;
+  justify-content: flex-start;
+  padding-bottom: 0;
+}
+
+.orig-slide-deck {
+  background: var(--bg);
+}
+
+.orig-slide-panels {
+  padding: clamp(1.35rem, 2.8vw, 2.5rem) clamp(1.35rem, 3.2vw, 3.25rem) clamp(0.95rem, 1.8vw, 1.35rem);
+}
+
+.orig-slide-panel.is-active {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: clamp(380px, 56vh, 520px);
+}
+
+body.is-beamer-mode .orig-slide-panel.is-active {
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.orig-slide-title {
+  font-size: clamp(1.55rem, 2.7vw, 2.35rem);
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: clamp(0.85rem, 1.8vw, 1.5rem);
+}
+
+/* Slide 6 SVG Canvas */
+.orig-slide6-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.orig-slide6-svg {
+  width: 100%;
+  max-width: 980px;
+  max-height: 48vh;
+  height: auto;
+}
+
+/* Slide 7 Beispiele Table + Logos */
+.orig-examples-grid {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) minmax(0, 1fr);
+  width: min(100%, 1020px);
+  margin: auto;
+  align-items: stretch;
+  align-content: center;
+}
+
+.orig-ex-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1.35rem 0.45rem 0;
+}
+
+.orig-brand-svg {
+  width: auto;
+  height: clamp(34px, 4.8vh, 48px);
+  max-width: 100%;
+}
+
+.orig-ex-cell {
+  border-left: 1px solid var(--text);
+  border-right: 1px solid var(--text);
+  border-bottom: 1px solid var(--text);
+  padding: clamp(0.7rem, 1.35vw, 1.05rem) clamp(1rem, 1.8vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.12rem;
+  background: var(--bg);
+}
+
+body.is-beamer-mode .orig-ex-cell {
+  padding: clamp(0.45rem, 1vh, 0.8rem) clamp(1rem, 1.8vw, 1.6rem);
+}
+
+.orig-ex-cell:nth-child(2) {
+  border-top: 1px solid var(--text);
+}
+
+.orig-ex-heading {
+  font-size: clamp(1.02rem, 1.4vw, 1.28rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.orig-ex-shift {
+  font-size: clamp(0.98rem, 1.35vw, 1.24rem);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.orig-arrow {
+  display: inline-block;
+  margin: 0 0.25rem;
+}
+
+/* Slide 8 Five Perspectives Grid */
+.orig-slide8-grid {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.8vw, 1.65rem);
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.orig-persp-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(0.6rem, 1.3vw, 1rem);
+  min-width: 0;
+}
+
+.orig-persp-icon {
+  width: clamp(58px, 6.8vw, 88px);
+  height: clamp(58px, 6.8vw, 88px);
+}
+
+.orig-persp-label {
+  font-size: clamp(0.92rem, 1.25vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.orig-slide-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: clamp(0.65rem, 1.3vw, 1rem);
+  padding-top: 0.45rem;
+}
+
+.orig-slide-citation {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: right;
+  flex: 1 1 auto;
+  line-height: 1.35;
+}
+
+.orig-slide-num {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  flex-shrink: 0;
+  padding-left: 0.5rem;
+}
+
+@media (max-width: 820px) {
+  .orig-slide-panel.is-active {
+    min-height: 0;
+  }
+  .orig-examples-grid {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+  .orig-ex-logo {
+    justify-content: flex-start;
+    padding: 0.65rem 0 0.2rem;
+  }
+  .orig-ex-cell {
+    border: 1px solid var(--text);
+    margin-bottom: 0.45rem;
+  }
+  .orig-slide8-grid {
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+    gap: 1.2rem 0.85rem;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Responsive Breakpoints
    -------------------------------------------------------------------------- */
@@ -875,12 +2368,65 @@ img, svg, video, canvas {
   .small-multiples-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
   }
+  .crispdm-ribbon {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .crispdm-step:nth-child(2) {
+    border-right: none;
+  }
+  .crispdm-step:nth-child(1),
+  .crispdm-step:nth-child(2) {
+    border-bottom: 1px solid var(--border);
+  }
 }
 
 @media (max-width: 960px) {
-  .section-header-grid {
+  body.is-beamer-mode .section-block.is-beamer-section {
+    height: auto;
+    min-height: calc(100vh - 6.5rem);
+  }
+  .section-block {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0;
+  }
+  .section-stage {
+    min-height: 0;
+    justify-content: flex-start;
+  }
+  .stack-layer {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+  .quality-timeline {
+    grid-template-columns: 1fr;
+  }
+  .section-rail {
+    position: sticky;
+    top: 0;
+    z-index: 25;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 251, 238, 0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: block;
+    padding: 0.6rem 0;
+    margin-bottom: 1.35rem;
+  }
+  .section-rail-sticky {
+    position: static;
+    writing-mode: horizontal-tb;
+    transform: none;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    white-space: normal;
+    padding: 0;
+    opacity: 1;
+  }
+  .section-eyebrow {
+    display: none;
   }
   .explanation-grid {
     grid-template-columns: 1fr;
@@ -907,18 +2453,29 @@ img, svg, video, canvas {
   }
 }
 
+@media (max-width: 860px) {
+  .stage-step-pills {
+    order: 3;
+    width: 100%;
+  }
+  .stage-card-title,
+  .stage-step-counter {
+    padding-bottom: 0.15rem;
+  }
+}
+
 /* Responsive Sensor Mapping Cards below 680px */
 @media (max-width: 679px) {
   .sensor-table-wrap {
     overflow-x: visible;
   }
-  .editorial-table,
-  .editorial-table tbody,
-  .editorial-table tr {
+  .sensor-table-wrap .editorial-table,
+  .sensor-table-wrap .editorial-table tbody,
+  .sensor-table-wrap .editorial-table tr {
     display: block;
     width: 100%;
   }
-  .editorial-table thead {
+  .sensor-table-wrap .editorial-table thead {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -929,30 +2486,30 @@ img, svg, video, canvas {
     white-space: nowrap;
     border: 0;
   }
-  .editorial-table tr {
+  .sensor-table-wrap .editorial-table tr {
     border: 1px solid var(--border);
     background: var(--bg);
     padding: 0.75rem 0.9rem;
     margin-bottom: 0.85rem;
   }
-  .editorial-table tr:last-child {
+  .sensor-table-wrap .editorial-table tr:last-child {
     margin-bottom: 0;
   }
-  .editorial-table td {
+  .sensor-table-wrap .editorial-table td {
     position: relative;
     display: block;
     min-height: 2.2rem;
     padding: 0.45rem 0 0.45rem 10rem;
     border-bottom: 1px solid var(--border);
   }
-  .editorial-table td:last-child {
+  .sensor-table-wrap .editorial-table td:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
-  .editorial-table td:first-child {
+  .sensor-table-wrap .editorial-table td:first-child {
     padding-top: 0;
   }
-  .editorial-table td::before {
+  .sensor-table-wrap .editorial-table td::before {
     content: attr(data-label);
     position: absolute;
     left: 0;
@@ -965,12 +2522,31 @@ img, svg, video, canvas {
     color: var(--text-muted);
     line-height: 1.35;
   }
-  .editorial-table td:first-child::before {
+  .sensor-table-wrap .editorial-table td:first-child::before {
     top: 0.12rem;
   }
 }
 
 @media (max-width: 640px) {
+  .crispdm-ribbon {
+    grid-template-columns: 1fr;
+  }
+  .crispdm-step {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .crispdm-step:last-child {
+    border-bottom: none;
+  }
+  .py-cell-header,
+  .py-editor,
+  .py-output-box {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .py-shortcut-hint {
+    display: none;
+  }
   .toolbar-actions {
     width: 100%;
   }
@@ -990,23 +2566,42 @@ img, svg, video, canvas {
   .stream-json {
     width: 100%;
   }
+  .stage-card-topbar,
+  .stage-panels {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+  .scale-bar-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .scale-val {
+    text-align: left;
+  }
 }
 
 @media (max-width: 599px) {
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
   .header-nav {
     width: 100%;
     padding-top: 0.5rem;
     border-top: 1px solid var(--border);
     justify-content: space-between;
   }
+  .hud-jump-trigger {
+    max-width: 44vw;
+  }
 }
 
 @media (max-width: 460px) {
-  .editorial-table td {
+  .sensor-table-wrap .editorial-table td {
     padding-left: 0;
     min-height: 0;
   }
-  .editorial-table td::before {
+  .sensor-table-wrap .editorial-table td::before {
     position: static;
     display: block;
     width: auto;
