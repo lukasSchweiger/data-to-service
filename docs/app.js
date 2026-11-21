@@ -1471,6 +1471,60 @@ def _execute_crisp_cell(code_str, rows_json):
   isbn           = {978-1-118-58531-3},
   url            = {https://www.wiley.com/en-us/Made+to+Serve%3A+How+Manufacturers+Can+Compete+through+Servitization+and+Product+Service+Systems-p-9781118585313},
   zhaw_url       = {https://zhaw.swisscovery.slsp.ch/discovery/fulldisplay?docid=alma99116839140005510&context=L&vid=41SLSP_ZAW:ZHAW&lang=de&search_scope=MyInst_and_CI&adaptor=Local%20Search%20Engine&tab=41SLSP_ZAW_MyInst_and_CI&query=any,contains,ISBN%20978-1-118-58531-3&sortby=date_d&facet=frbrgroupid,include,9003518664329503750&offset=0}
+}
+
+@article{smith2013power,
+  author         = {Smith, David J.},
+  title          = {Power-by-the-hour: the role of technology in reshaping business strategy at Rolls-Royce},
+  journal        = {Technology Analysis & Strategic Management},
+  year           = {2013},
+  volume         = {25},
+  number         = {8},
+  pages          = {987--1007},
+  doi            = {10.1080/09537325.2013.823147}
+}
+
+@book{gassmann2014navigator,
+  author         = {Gassmann, Oliver and Frankenberger, Karolin and Csik, Michaela},
+  title          = {The Business Model Navigator: 55 Models That Will Revolutionise Your Business},
+  year           = {2014},
+  publisher      = {Pearson},
+  address        = {Harlow, UK},
+  isbn           = {978-1-292-06581-6}
+}
+
+@book{owen2004copies,
+  author         = {Owen, David},
+  title          = {Copies in Seconds: How a Lone Inventor and an Unknown Company Created the Biggest Communication Breakthrough Since Gutenberg},
+  year           = {2004},
+  publisher      = {Simon & Schuster},
+  address        = {New York}
+}
+
+@article{tukker2004eight,
+  author         = {Tukker, Arnold},
+  title          = {Eight types of product-service system: eight ways to sustainability? Experiences from SusProNet},
+  journal        = {Business Strategy and the Environment},
+  year           = {2004},
+  volume         = {13},
+  number         = {4},
+  pages          = {246--260},
+  doi            = {10.1002/bse.414}
+}
+
+@misc{philips2015schiphol,
+  author         = {Royal Philips},
+  title          = {Philips provides Light as a Service to Schiphol Airport},
+  publisher      = {Philips Newsroom, press release},
+  year           = {2015}
+}
+
+@book{rau2016material,
+  author         = {Rau, Thomas and Oberhuber, Sabine},
+  title          = {Material Matters},
+  year           = {2016},
+  publisher      = {Econ},
+  address        = {Berlin}
 }`;
 
   function cleanBibValue(val) {
@@ -1602,20 +1656,21 @@ def _execute_crisp_cell(code_str, rows_json):
   function formatCitationHtml(entry) {
     const f = entry.fields;
     const authors = f.author_display || formatBibAuthors(f.author);
+    const authorPrefix = authors ? `${escapeHtml(authors)}${authors.endsWith('.') ? ' ' : '. '}` : '';
     const title = f.title || entry.key;
     const year = f.year || '';
 
     if (entry.type === 'book') {
       const pubParts = [f.address, f.publisher].filter(Boolean).join(': ');
       const tail = [pubParts, year].filter(Boolean).join(', ');
-      return `${authors ? `${escapeHtml(authors)}. ` : ''}<em>${escapeHtml(title)}</em>.${tail ? ` ${escapeHtml(tail)}.` : ''}`;
+      return `${authorPrefix}<em>${escapeHtml(title)}</em>.${tail ? ` ${escapeHtml(tail)}.` : ''}`;
     }
 
     const venue = f.journal || f.booktitle || f.publisher || '';
     const volNum = f.volume ? (f.number ? `${f.volume}(${f.number})` : f.volume) : '';
     const pages = f.pages ? `pp. ${f.pages.replace(/--/g, '–')}` : '';
     const details = [volNum, pages, year].filter(Boolean).join(', ');
-    return `${authors ? `${escapeHtml(authors)}. ` : ''}&ldquo;${escapeHtml(title)}.&rdquo;${venue ? ` <em>${escapeHtml(venue)}</em>` : ''}${details ? `, ${escapeHtml(details)}` : ''}.`;
+    return `${authorPrefix}&ldquo;${escapeHtml(title)}.&rdquo;${venue ? ` <em>${escapeHtml(venue)}</em>` : ''}${details ? `, ${escapeHtml(details)}` : ''}.`;
   }
 
   function getSourceUrl(entry) {
