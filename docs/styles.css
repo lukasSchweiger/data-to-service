@@ -3073,21 +3073,26 @@ body.is-beamer-mode .stage-step-panel.is-diving .orig-slide-footer {
 
 .ch-map-svg {
   width: 100%;
-  max-width: 960px;
-  max-height: clamp(340px, 54vh, 500px);
+  max-width: 980px;
+  max-height: clamp(330px, 53vh, 495px);
   height: auto;
   display: block;
   overflow: visible;
 }
 
 body.is-beamer-mode .ch-map-svg {
-  max-height: clamp(380px, 64vh, 565px);
+  max-height: clamp(360px, 60vh, 534px);
 }
 
 .ch-pin {
   cursor: pointer;
   outline: none;
   transition: opacity 0.2s ease;
+}
+
+.ch-map-svg:has(.ch-pin:hover) .ch-pin:not(:hover),
+.ch-map-svg:has(.ch-pin:focus-visible) .ch-pin:not(:focus-visible) {
+  opacity: 0.44;
 }
 
 .ch-pin .ch-pin-halo {
@@ -3100,29 +3105,97 @@ body.is-beamer-mode .ch-map-svg {
   opacity: 1;
 }
 
-.ch-pin-logo {
-  transition: opacity 0.16s ease, filter 0.16s ease;
-  opacity: 0.92;
+.ch-pin-leader {
+  fill: none;
+  stroke: rgba(89, 83, 70, 0.34);
+  stroke-width: 1.15;
+  stroke-dasharray: 2.5 2.2;
+  stroke-linecap: round;
+  transition: stroke 0.16s ease, stroke-width 0.16s ease;
 }
 
-.ch-pin:hover .ch-pin-logo,
-.ch-pin:focus-visible .ch-pin-logo {
+.ch-pin-anchor {
+  fill: rgba(89, 83, 70, 0.44);
+  transition: fill 0.16s ease;
+}
+
+.ch-pin[data-group="kmu"]:hover .ch-pin-leader,
+.ch-pin[data-group="kmu"]:focus-visible .ch-pin-leader {
+  stroke: var(--c-vib);
+  stroke-width: 1.45;
+  stroke-dasharray: none;
+}
+
+.ch-pin[data-group="kmu"]:hover .ch-pin-anchor,
+.ch-pin[data-group="kmu"]:focus-visible .ch-pin-anchor {
+  fill: var(--c-vib);
+}
+
+.ch-pin[data-group="mem"]:hover .ch-pin-leader,
+.ch-pin[data-group="mem"]:focus-visible .ch-pin-leader {
+  stroke: #7f6000;
+  stroke-width: 1.45;
+  stroke-dasharray: none;
+}
+
+.ch-pin[data-group="mem"]:hover .ch-pin-anchor,
+.ch-pin[data-group="mem"]:focus-visible .ch-pin-anchor {
+  fill: #7f6000;
+}
+
+.ch-pin-card {
+  fill: var(--bg-subtle);
+  stroke: var(--border-strong);
+  stroke-width: 1.05;
+  filter: url(#chChipShadow);
+  transition: fill 0.16s ease, stroke 0.16s ease, stroke-width 0.16s ease;
+}
+
+.ch-pin[data-group="kmu"] .ch-pin-card {
+  stroke: rgba(43, 111, 107, 0.34);
+}
+
+.ch-pin[data-group="mem"] .ch-pin-card {
+  stroke: rgba(136, 116, 62, 0.42);
+}
+
+.ch-pin[data-group="kmu"]:hover .ch-pin-card,
+.ch-pin[data-group="kmu"]:focus-visible .ch-pin-card {
+  fill: var(--bg);
+  stroke: var(--c-vib);
+  stroke-width: 1.6;
+}
+
+.ch-pin[data-group="mem"]:hover .ch-pin-card,
+.ch-pin[data-group="mem"]:focus-visible .ch-pin-card {
+  fill: var(--bg);
+  stroke: #7f6000;
+  stroke-width: 1.6;
+}
+
+.ch-pin-brand {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 700;
+  fill: #1a1a1a;
+}
+
+.ch-pin-logo {
   opacity: 1;
-  filter: drop-shadow(0 1px 2px rgba(61, 61, 61, 0.22));
 }
 
 .ch-pin-tag {
   font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 500;
+  font-size: 12.2px;
+  font-weight: 600;
 }
 
 .ch-pin-tag--kmu {
-  fill: var(--c-vib);
+  fill: #1f5c58;
 }
 
 .ch-pin-tag--mem {
-  fill: #7f6000;
+  fill: #6e5200;
 }
 
 .ch-mobile-list {
@@ -3263,7 +3336,8 @@ body.is-beamer-mode .orig-slide10-svg {
 
 @media (max-width: 679px) {
   .ch-pin-label,
-  .ch-pin-leader {
+  .ch-pin-leader,
+  .ch-pin-anchor {
     display: none;
   }
   .ch-map-svg {

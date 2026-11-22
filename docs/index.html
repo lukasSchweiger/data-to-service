@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=42" />
+  <link rel="stylesheet" href="styles.css?v=46" />
 </head>
 <body>
   <div class="page-container">
@@ -546,144 +546,239 @@
 
                 <div class="ex-dive-overview ch-map-overview" aria-label="Interaktive Schweizer Servitization-Karte mit zwölf Unternehmen">
                   <div class="ch-map-stage">
-                    <svg class="ch-map-svg" viewBox="-55 -24 970 534" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schweizer Karte mit zwölf Servitization-Beispielen aus KMU und MEM-Industrie">
-                      <!-- Authentic WGS84-projected Switzerland outline -->
-                      <path
-                        d="M 91,397 L 121,369 L 112,330 L 153,276 L 166,239 L 207,200 L 241,152 L 247,109 L 253,105 L 300,120 L 336,86 L 406,92 L 439,81 L 463,66 L 487,38 L 526,70 L 572,72 L 604,90 L 631,107 L 643,127 L 626,155 L 622,200 L 679,209 L 752,219 L 767,237 L 770,293 L 761,312 L 704,317 L 718,377 L 652,356 L 623,358 L 587,321 L 569,379 L 550,468 L 524,436 L 503,405 L 461,364 L 455,328 L 418,388 L 378,442 L 322,440 L 273,457 L 253,446 L 223,377 L 217,345 L 135,364 L 97,399 Z"
-                        fill="#f7f2e2"
-                        stroke="rgba(89,89,89,0.34)"
-                        stroke-width="1.6"
-                        stroke-linejoin="round"
-                      />
+                    <svg class="ch-map-svg" viewBox="-36 -28 912 508" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schweizer Karte mit zwölf Servitization-Beispielen aus KMU und MEM-Industrie">
+                      <defs>
+                        <linearGradient id="chPaperGrad" x1="0%" y1="0%" x2="22%" y2="100%">
+                          <stop offset="0%" stop-color="#faf6e8" />
+                          <stop offset="62%" stop-color="#f6f0dd" />
+                          <stop offset="100%" stop-color="#efe6cd" />
+                        </linearGradient>
+                        <filter id="chSoftShadow" x="-6%" y="-6%" width="114%" height="118%">
+                          <feDropShadow dx="0" dy="3.5" stdDeviation="4.5" flood-color="#5c523b" flood-opacity="0.11" />
+                        </filter>
+                        <filter id="chChipShadow" x="-10%" y="-10%" width="122%" height="128%">
+                          <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#5c523b" flood-opacity="0.13" />
+                        </filter>
+                        <path
+                          id="chOutline"
+                          d="M 100,401.1 Q 93.7,401.9 95.4,397.5 L 98.7,388.9 Q 100.4,384.5 105.2,380.2 L 115,371.5 Q 119.8,367.2 117.4,360.4 L 112.5,346.8 Q 110.1,340 113.3,333.8 L 119.6,321.2 Q 122.8,315 127.6,308.2 L 137.3,294.7 Q 142.1,287.9 147.7,280.5 L 158.9,265.9 Q 164.5,258.5 168.1,250.3 L 175.1,234.1 Q 178.7,225.9 184.5,219.1 L 196,205.6 Q 201.8,198.8 208.1,192.6 L 220.8,180.1 Q 227.1,173.8 229.3,167.3 L 233.8,154.2 Q 236.1,147.7 234.4,143.6 L 231.1,135.5 Q 229.4,131.4 232.6,126.8 L 238.8,117.6 Q 242,113 246.5,111.3 L 255.4,108.1 Q 259.9,106.4 264.9,108.3 L 275,112.1 Q 280,114 285.8,115.4 L 297.4,118.1 Q 303.2,119.5 307.5,117.3 L 316,113 Q 320.3,110.8 323.9,104.8 L 330.9,92.9 Q 334.5,86.9 339.9,88.2 L 350.7,91 Q 356.1,92.3 363.7,92.8 L 379,94 Q 386.6,94.5 395.9,91.8 L 414.6,86.3 Q 423.9,83.6 430.4,83.9 L 443.5,84.4 Q 450,84.7 455,85.5 L 465.1,87.2 Q 470.1,88 470.3,81.5 L 470.7,68.4 Q 470.9,61.9 474.6,57 L 482.1,47.3 Q 485.8,42.4 489.7,44.3 L 497.5,48.1 Q 501.4,50 503.4,54.3 L 507.6,63 Q 509.6,67.3 520.6,67.8 L 542.6,69 Q 553.6,69.5 559.6,70.8 L 571.5,73.6 Q 577.5,74.9 584,79 L 597.1,87.1 Q 603.6,91.2 610.3,95 L 623.7,102.6 Q 630.4,106.4 632.3,113.5 L 636,127.6 Q 637.9,134.7 634.5,140.7 L 627.8,152.6 Q 624.4,158.6 623.1,163.8 L 620.5,174 Q 619.2,179.2 621.5,184.6 L 626,195.6 Q 628.2,201 635.5,202.6 L 650,205.9 Q 657.2,207.5 665,209.9 L 680.7,214.8 Q 688.5,217.2 696,222.4 L 710.9,232.7 Q 718.4,237.9 726.8,234.1 L 743.5,226.5 Q 751.9,222.7 755.6,225.1 L 763.1,230.1 Q 766.8,232.5 764.9,240.4 L 761.2,256.1 Q 759.4,264 761.6,272.1 L 766.1,288.4 Q 768.3,296.5 765.9,300.1 L 761,307.1 Q 758.6,310.7 751.1,309.6 L 736.2,307.4 Q 728.8,306.3 724.9,312.6 L 717,325.1 Q 713.1,331.3 713.7,343 L 714.8,366.3 Q 715.4,378 710.4,376.6 L 700.3,374 Q 695.3,372.6 691.8,367.4 L 684.6,357.1 Q 681.1,351.9 667.9,353.8 L 641.4,357.7 Q 628.2,359.6 622.2,351.7 L 610.3,335.9 Q 604.3,328 599.1,331 L 588.6,337 Q 583.4,340 581,350.1 L 576.1,370.1 Q 573.7,380.2 570.6,388.4 L 564.2,404.6 Q 561.1,412.8 558.1,426.4 L 552.2,453.5 Q 549.2,467.1 546,466.3 L 539.7,464.6 Q 536.5,463.8 533.7,456.8 L 528.1,442.7 Q 525.3,435.6 521.4,433.4 L 513.5,429.1 Q 509.6,426.9 507.6,420.4 L 503.4,407.3 Q 501.4,400.8 495.2,396.4 L 482.9,387.8 Q 476.8,383.4 472.5,376.1 L 464,361.4 Q 459.7,354.1 458.6,348.1 L 456.3,336.2 Q 455.2,330.2 448.5,341.6 L 435.1,364.4 Q 428.4,375.8 423.2,381.5 L 412.7,393 Q 407.5,398.7 400.1,410.1 L 385.1,432.9 Q 377.7,444.3 369.3,442.9 L 352.6,440.2 Q 344.2,438.9 333.9,441.9 L 313.4,447.8 Q 303.2,450.8 295.7,452.7 L 280.8,456.5 Q 273.3,458.4 268.3,454.9 L 258.2,447.8 Q 253.2,444.3 249.8,437.5 L 243.2,423.9 Q 239.8,417.1 236.2,410.3 L 229.2,396.8 Q 225.6,390 223.9,379.7 L 220.6,359 Q 218.9,348.7 212,347.9 L 198.2,346.2 Q 191.3,345.4 181.6,347 L 162.3,350.3 Q 152.6,351.9 147.6,355.4 L 137.4,362.6 Q 132.4,366.1 132.8,370.2 L 133.5,378.3 Q 133.9,382.4 130.2,386.5 L 122.7,394.6 Q 119,398.7 112.7,399.5 Z"
+                        />
+                        <clipPath id="chLandClip"><use href="#chOutline" /></clipPath>
+                        <path id="chLakeLeman" d="M 125.3,383.5 Q 122,385.6 123.8,376.9 Q 125.7,368.2 132.4,356.8 Q 139.2,345.4 150.8,337.2 Q 162.3,329.1 177.6,324.8 Q 192.8,320.4 209.2,325.3 Q 225.6,330.2 231.6,337.8 Q 237.6,345.4 231.6,346.5 Q 225.6,347.6 210.3,345.5 Q 195.1,343.3 179.4,346.6 Q 163.8,349.8 152.2,356.3 Q 140.6,362.8 134.6,372.1 Q 128.7,381.3 125.3,383.5 Z" />
+                        <path id="chLakeBodensee" d="M 542.1,70 Q 532.8,69.5 542.8,62.5 Q 552.9,55.4 564,52.1 Q 575.2,48.9 587.5,56.5 Q 599.8,64.1 615.5,72.2 Q 631.1,80.4 643.8,91.2 Q 656.5,102.1 650.1,104.2 Q 643.8,106.4 631.5,105.3 Q 619.2,104.3 609.2,96.2 Q 599.1,88 586.8,81 Q 574.5,73.9 563,72.2 Q 551.4,70.6 542.1,70 Z" />
+                        <path id="chLakeMaggiore" d="M 522.4,399.8 Q 523.1,394.3 517.5,397.6 Q 511.9,400.8 507.4,411.7 Q 502.9,422.6 506.6,425.3 Q 510.4,428 516,416.6 Q 521.6,405.2 522.4,399.8 Z" />
+                        <path id="chLakeLugano" d="M 539.5,432.4 Q 543.2,428 547.7,431.8 Q 552.1,435.6 549.2,438.9 Q 546.2,442.1 544.7,447 Q 543.2,451.9 539.1,449.7 Q 535,447.5 535.4,442.1 Q 535.7,436.7 539.5,432.4 Z" />
+                      </defs>
 
-                      <!-- Subtle Stylized Lakes -->
-                      <g fill="rgba(43,111,107,0.13)" stroke="rgba(43,111,107,0.22)" stroke-width="0.9">
-                        <path d="M 104,380 C 122,350 156,341 196,350 C 208,354 214,363 206,370 C 176,363 142,367 116,386 Z" />
-                        <path d="M 176,289 C 190,271 213,254 233,245 C 238,249 236,256 225,264 C 207,276 190,290 180,295 Z" />
-                        <path d="M 432,208 C 446,204 462,209 476,220 C 483,225 480,231 471,229 C 458,225 444,218 432,216 Z" />
-                        <path d="M 467,140 C 479,149 494,160 515,168 C 517,173 511,176 501,172 C 485,165 473,153 465,144 Z" />
-                        <path d="M 541,72 C 566,73 598,84 624,99 C 624,106 614,108 597,102 C 577,94 555,84 539,79 Z" />
+                      <!-- Outer Border-Lake Water Footprint (Genfersee, Bodensee, Maggiore, Lugano) -->
+                      <g fill="rgba(43,111,107,0.095)" stroke="rgba(43,111,107,0.20)" stroke-width="0.7">
+                        <use href="#chLakeLeman" />
+                        <use href="#chLakeBodensee" />
+                        <use href="#chLakeMaggiore" />
+                        <use href="#chLakeLugano" />
                       </g>
+
+                      <!-- Warm Parchment Switzerland Base with Soft Cartographic Lift -->
+                      <use href="#chOutline" fill="url(#chPaperGrad)" filter="url(#chSoftShadow)" />
+
+                      <!-- Clipped Interior: Topographic Relief, River Network & Swiss Lakes -->
+                      <g clip-path="url(#chLandClip)">
+                        <!-- Soft Relief Shading (Jura Arc, Voralpen, Hochalpen) -->
+                        <path d="M 111.5,361.7 Q 102.6,361.7 117.5,325.9 Q 132.4,290 159.2,249.8 Q 186.1,209.6 213.7,170.5 Q 241.3,131.4 278.6,116.2 Q 315.8,101 353.1,107.5 Q 390.4,114 390.4,122.7 Q 390.4,131.4 355.4,145.6 Q 320.3,159.7 287.5,182.5 Q 254.7,205.3 223.4,233.6 Q 192.1,261.8 165.2,296.6 Q 138.4,331.3 129.4,346.5 Q 120.5,361.7 111.5,361.7 Z" fill="rgba(164,146,108,0.08)" />
+                        <path d="M 211.5,373.7 Q 226.4,348.7 241.3,329.1 Q 256.2,309.6 286,292.2 Q 315.8,274.8 349.4,261.8 Q 382.9,248.7 418.7,235.7 Q 454.5,222.7 487.3,211.8 Q 520.1,201 552.2,187.9 Q 584.2,174.9 614,167.3 Q 643.8,159.7 714.6,181.4 Q 785.5,203.1 785.5,300.9 Q 785.5,398.7 670,442.1 Q 554.4,485.6 405.3,480.1 Q 256.2,474.7 226.4,436.7 Q 196.6,398.7 211.5,373.7 Z" fill="rgba(164,146,108,0.095)" />
+                        <path d="M 261.4,435.6 Q 251.7,405.2 278.5,380.2 Q 305.4,355.2 336.7,334.5 Q 368,313.9 409,300.9 Q 450,287.9 494.8,281.4 Q 539.5,274.8 591.6,271.6 Q 643.8,268.3 696,258.5 Q 748.2,248.7 759.4,285.6 Q 770.5,322.6 729.5,349.8 Q 688.5,376.9 628.9,382.4 Q 569.3,387.8 517.1,390 Q 464.9,392.1 416.4,424.7 Q 368,457.3 319.6,461.6 Q 271.1,466 261.4,435.6 Z" fill="rgba(146,127,88,0.095)" />
+
+                        <!-- Whisper-Fine Main River Network (Rhein, Aare, Rhone, Reuss, Limmat) -->
+                        <g fill="none" stroke="rgba(43,111,107,0.20)" stroke-width="0.95" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M 505.2,296.5 Q 573.7,261.8 599.8,254.2 Q 625.9,246.6 626.6,228.1 Q 627.4,209.6 626.6,185.7 Q 625.9,161.8 628.9,135.8 L 631.9,109.7" />
+                          <path d="M 526,70.6 Q 491.8,64.1 468.6,74.9 Q 445.5,85.8 420.1,89 Q 394.8,92.3 372.5,93.4 Q 350.1,94.5 342.6,91.2 L 335.2,88" />
+                          <path d="M 427.6,287.9 Q 399.3,274.8 380,277 Q 360.6,279.2 350.9,272.6 Q 341.2,266.1 328.5,245.5 Q 315.8,224.9 302.4,211.9 Q 289,198.8 288.2,191.2 Q 287.5,183.6 308.4,176 Q 329.2,168.4 356,154.2 Q 382.9,140.1 406,127 Q 429.1,114 430.6,98.8 L 432.1,83.6" />
+                          <path d="M 450,316.1 Q 412.7,348.7 396.3,356.3 Q 379.9,363.9 341.1,372.6 Q 302.4,381.3 280.8,395.4 Q 259.2,409.5 251,392.1 Q 242.8,374.8 236.8,360.6 L 230.8,346.5" />
+                          <path d="M 485.8,294.4 Q 488.8,240.1 467.1,220.6 Q 445.5,201 450,179.2 Q 454.5,157.5 442.6,134.7 L 430.6,111.9" />
+                          <path d="M 478.3,133.6 Q 461.9,124.9 452.9,118.4 Q 444,111.9 438.1,109.7 L 432.1,107.5" />
+                        </g>
+
+                        <!-- Swiss Lakes (Border + Inland) -->
+                        <g fill="rgba(43,111,107,0.18)" stroke="rgba(43,111,107,0.34)" stroke-width="0.75">
+                          <use href="#chLakeLeman" />
+                          <use href="#chLakeBodensee" />
+                          <use href="#chLakeMaggiore" />
+                          <use href="#chLakeLugano" />
+                          <path d="M 201,261.2 Q 195.8,260.7 204.8,249.8 Q 213.7,239 227.8,227.1 Q 242,215.1 248.3,212.3 Q 254.7,209.6 255.8,215.1 Q 256.9,220.5 243.8,230.8 Q 230.8,241.1 218.5,251.4 Q 206.2,261.8 201,261.2 Z" />
+                          <path d="M 263.6,205.3 Q 260.7,204.2 268.9,195.5 Q 277.1,186.8 281.2,185.8 Q 285.3,184.7 283.1,189.6 Q 280.8,194.4 273.7,200.4 Q 266.6,206.4 263.6,205.3 Z" />
+                          <path d="M 261.4,234.1 Q 258.4,232.5 262.5,228.2 Q 266.6,223.8 269.2,225.4 Q 271.8,227 268.1,231.3 Q 264.4,235.7 261.4,234.1 Z" />
+                          <path d="M 346.4,274.9 Q 342.7,269.4 349.4,272.1 Q 356.1,274.8 363.1,279.7 Q 370.2,284.6 368,286.8 Q 365.8,288.9 358,284.6 Q 350.1,280.3 346.4,274.9 Z" />
+                          <path d="M 383.3,281.9 Q 381.4,280.3 389.2,274.9 Q 397.1,269.4 400.1,268.3 Q 403,267.2 401.9,270.4 Q 400.8,273.7 393,278.6 Q 385.2,283.5 383.3,281.9 Z" />
+                          <path d="M 445.9,206.9 Q 444.8,203.1 453.8,199.8 Q 462.7,196.6 461.9,200.9 Q 461.2,205.3 467.9,208.6 Q 474.6,211.8 481.3,213.4 Q 488,215.1 488.8,224.8 Q 489.5,234.6 486.9,235.7 Q 484.3,236.8 483.2,228.7 Q 482.1,220.5 473.1,220.5 Q 464.2,220.5 458.2,218.3 Q 452.2,216.2 446.2,220 Q 440.3,223.8 443.6,217.2 Q 447,210.7 445.9,206.9 Z" />
+                          <path d="M 470.5,186.8 Q 472.4,178.1 474.6,180.3 Q 476.8,182.5 476.5,191.2 Q 476.1,199.9 472.4,197.7 Q 468.6,195.5 470.5,186.8 Z" />
+                          <path d="M 478,137.9 Q 479.1,134.7 482.5,139.6 Q 485.8,144.5 493.6,151.6 Q 501.4,158.6 512.2,162.9 Q 523.1,167.3 529.8,168.4 Q 536.5,169.4 535,171.1 Q 533.5,172.7 522.7,171.1 Q 511.9,169.4 501.4,163.4 Q 491,157.5 483.9,149.3 Q 476.8,141.2 478,137.9 Z" />
+                          <path d="M 564.5,188.4 Q 562.6,185.7 575.2,184.6 Q 587.9,183.6 589.4,186.3 Q 590.9,189 578.6,190.1 Q 566.3,191.2 564.5,188.4 Z" />
+                        </g>
+
+                        <!-- Subtle Inner Highlight Rim -->
+                        <use href="#chOutline" fill="none" stroke="rgba(255,251,238,0.68)" stroke-width="2.4" />
+                      </g>
+
+                      <!-- Crisp National Border Stroke -->
+                      <use href="#chOutline" fill="none" stroke="rgba(89,83,70,0.44)" stroke-width="1.4" stroke-linejoin="round" />
 
                       <!-- 6 KMU & Spezialhersteller Pins (Teal Circles) -->
                       <g class="ch-pin" data-dive="ch-kmu" data-group="kmu" data-company="elite" data-company-name="Elite SA" data-company-loc="Aubonne, VD" data-company-shift="Hotelmatratzen → Smart Lease inkl. Recycling" data-company-enabler="Belegungssensoren + Ecoclean-Kreislauf" tabindex="0" role="button" aria-label="Elite SA (Aubonne, VD): Pay-per-Night, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="156" y1="323" x2="142" y2="314" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="156" cy="323" r="12" fill="rgba(43,111,107,0.2)" />
-                        <circle cx="156" cy="323" r="6" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 156,323 Q 136,326 116,330" />
+                        <circle class="ch-pin-anchor" cx="116" cy="330" r="1.7" />
+                        <circle class="ch-pin-halo" cx="156" cy="323" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="156" cy="323" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="156" cy="323" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/elite-sa.svg" x="64" y="288" width="72" height="34.7" preserveAspectRatio="xMaxYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="136" y="336" text-anchor="end">Pay-per-Night</text>
+                          <rect class="ch-pin-card" x="-24" y="298" width="140" height="76" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/elite-sa.svg" x="-2" y="305" width="96" height="46.3" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--kmu" x="46" y="365.5" text-anchor="middle">Pay-per-Night</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-kmu" data-group="kmu" data-company="schaerer" data-company-name="Schaerer AG" data-company-loc="Zuchwil, SO" data-company-shift="Profi-Kaffeemaschinen → Coffee Link Flottenservice" data-company-enabler="Cloud-Telemetrie + API-Abrechnung" tabindex="0" role="button" aria-label="Schaerer AG (Zuchwil, SO): Pay-per-Cup, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="331" y1="170" x2="268" y2="186" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="331" cy="170" r="12" fill="rgba(43,111,107,0.2)" />
-                        <circle cx="331" cy="170" r="6" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 331,170 Q 256,170 182,169" />
+                        <circle class="ch-pin-anchor" cx="182" cy="169" r="1.7" />
+                        <circle class="ch-pin-halo" cx="331" cy="170" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="331" cy="170" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="331" cy="170" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/schaerer.svg" x="150" y="176" width="112" height="19" preserveAspectRatio="xMaxYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="262" y="207" text-anchor="end">Pay-per-Cup</text>
+                          <rect class="ch-pin-card" x="16" y="140" width="166" height="58" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/schaerer.svg" x="29" y="148" width="140" height="23.7" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--kmu" x="99" y="189" text-anchor="middle">Pay-per-Cup</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-data" data-group="kmu" data-company="pbswiss" data-company-name="PB Swiss Tools" data-company-loc="Wasen i.E., BE" data-company-shift="Präzisionswerkzeuge → Asset- &amp; Kalibriermanagement" data-company-enabler="Integrierter NFC-Chip im DigiTorque" tabindex="0" role="button" aria-label="PB Swiss Tools (Wasen i.E., BE): NFC Lifecycle, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="368" y1="208" x2="368" y2="290" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="368" cy="208" r="12" fill="rgba(43,111,107,0.2)" />
-                        <circle cx="368" cy="208" r="6" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 368,208 L 368,304" />
+                        <circle class="ch-pin-anchor" cx="368" cy="304" r="1.7" />
+                        <circle class="ch-pin-halo" cx="368" cy="208" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="368" cy="208" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="368" cy="208" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/pb-swiss-tools.svg" x="316" y="294" width="104" height="18.4" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="368" y="326" text-anchor="middle">NFC Lifecycle</text>
+                          <rect class="ch-pin-card" x="266" y="304" width="176" height="60" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/pb-swiss-tools.svg" x="280" y="312" width="148" height="26.2" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--kmu" x="354" y="355" text-anchor="middle">NFC Lifecycle</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-kmu" data-group="kmu" data-company="suter" data-company-name="Suter Gruppe" data-company-loc="Lupfig, AG" data-company-shift="Bauheizung &amp; Entfeuchtung → Baustellenklima as a Service" data-company-enabler="IoT-Fernüberwachung + 24h-Pikett" tabindex="0" role="button" aria-label="Suter Gruppe (Lupfig, AG): Bau-Klima EaaS, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="428" y1="116" x2="324" y2="58" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="428" cy="116" r="12" fill="rgba(43,111,107,0.2)" />
-                        <circle cx="428" cy="116" r="6" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 428,116 Q 368,72 302,44" />
+                        <circle class="ch-pin-anchor" cx="302" cy="44" r="1.7" />
+                        <circle class="ch-pin-halo" cx="428" cy="116" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="428" cy="116" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="428" cy="116" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/suter-gruppe.svg" x="294" y="-6" width="23" height="68.1" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="305.5" y="76" text-anchor="middle">Bau-Klima EaaS</text>
+                          <rect class="ch-pin-card" x="198" y="-18" width="174" height="62" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/suter-gruppe.svg" x="210" y="-10.7" width="16" height="47.4" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-brand" x="236" y="10" text-anchor="start">Suter Gruppe</text>
+                          <text class="ch-pin-tag ch-pin-tag--kmu" x="236" y="29" text-anchor="start">Bau-Klima EaaS</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-data" data-group="kmu" data-company="amberg" data-company-name="Amberg Technologies" data-company-loc="Regensdorf, ZH" data-company-shift="Tunnel-Vermessung → Automatisierte KI-Inspektion" data-company-enabler="OIS Vision (120 km/h) + Inspection Cloud" tabindex="0" role="button" aria-label="Amberg Technologies (Regensdorf, ZH): KI-Inspektion, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="470" y1="114" x2="470" y2="26" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="470" cy="114" r="12" fill="rgba(43,111,107,0.2)" />
-                        <circle cx="470" cy="114" r="6" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 470,114 L 470,40" />
+                        <circle class="ch-pin-anchor" cx="470" cy="40" r="1.7" />
+                        <circle class="ch-pin-halo" cx="470" cy="114" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="470" cy="114" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="470" cy="114" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/amberg-technologies.svg" x="382" y="-14" width="101" height="22" preserveAspectRatio="xMaxYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="483" y="21" text-anchor="end">KI-Inspektion</text>
+                          <rect class="ch-pin-card" x="390" y="-24" width="164" height="64" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/amberg-technologies.svg" x="403" y="-16" width="138" height="30" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--kmu" x="472" y="31" text-anchor="middle">KI-Inspektion</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-kmu" data-group="kmu" data-company="swissfeel" data-company-name="Swissfeel" data-company-loc="Schlieren, ZH" data-company-shift="Mineralschaum-Matratzen → Waschbares Mietmodell" data-company-enabler="RFID-Tracking + 2-Cycle-Reinigung" tabindex="0" role="button" aria-label="Swissfeel (Schlieren, ZH): Kreislauf-Miete, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="460" y1="136" x2="502" y2="165" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="460" cy="136" r="12" fill="rgba(43,111,107,0.2)" />
-                        <circle cx="460" cy="136" r="6" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 460,136 Q 472,154 488,168" />
+                        <circle class="ch-pin-anchor" cx="488" cy="168" r="1.7" />
+                        <circle class="ch-pin-halo" cx="460" cy="136" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="460" cy="136" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="460" cy="136" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/swissfeel.svg" x="508" y="158" width="156" height="12.5" preserveAspectRatio="xMinYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="508" y="184" text-anchor="start">Kreislauf-Miete</text>
+                          <rect class="ch-pin-card" x="488" y="144" width="204" height="54" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/swissfeel.svg" x="501" y="155" width="178" height="14.3" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--kmu" x="590" y="188.5" text-anchor="middle">Kreislauf-Miete</text>
                         </g>
                       </g>
 
                       <!-- 6 Industrie & MEM Pins (Bronze Diamonds) -->
                       <g class="ch-pin" data-dive="ch-uptime" data-group="mem" data-company="gilgen" data-company-name="Gilgen Logistics" data-company-loc="Oberwangen, BE" data-company-shift="Intralogistik-Anlagen → 24h-Lifetime-Partnerschaft" data-company-enabler="Remote-Diagnose + On-Site-Instandhaltung" tabindex="0" role="button" aria-label="Gilgen Logistics (Oberwangen, BE): 24h-Lifetime, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="303" y1="230" x2="272" y2="242" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="303" cy="230" r="12" fill="rgba(127,96,0,0.2)" />
-                        <polygon points="303,223 310,230 303,237 296,230" fill="#7f6000" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 303,230 Q 224,240 148,246" />
+                        <circle class="ch-pin-anchor" cx="148" cy="246" r="1.7" />
+                        <circle class="ch-pin-halo" cx="303" cy="230" r="13" fill="rgba(127,96,0,0.18)" />
+                        <polygon class="ch-pin-core" points="303,223.2 309.8,230 303,236.8 296.2,230" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
+                        <circle class="ch-pin-pip" cx="303" cy="230" r="1.5" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/gilgen-logistics.svg" x="176" y="230" width="90" height="25" preserveAspectRatio="xMaxYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="266" y="267" text-anchor="end">24h-Lifetime</text>
+                          <rect class="ch-pin-card" x="-4" y="216" width="152" height="64" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/gilgen-logistics.svg" x="13" y="223" width="118" height="32.9" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--mem" x="72" y="271.5" text-anchor="middle">24h-Lifetime</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-uptime" data-group="mem" data-company="bystronic" data-company-name="Bystronic" data-company-loc="Niederönz, BE" data-company-shift="Laser- &amp; Biegemaschinen → BySoft &amp; ByCare Ökosystem" data-company-enabler="BySoft OEE-Analytik + Service-SLAs" tabindex="0" role="button" aria-label="Bystronic (Niederönz, BE): Smart Factory, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="360" y1="172" x2="290" y2="126" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="360" cy="172" r="12" fill="rgba(127,96,0,0.2)" />
-                        <polygon points="360,165 367,172 360,179 353,172" fill="#7f6000" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 360,172 Q 304,126 246,98" />
+                        <circle class="ch-pin-anchor" cx="246" cy="98" r="1.7" />
+                        <circle class="ch-pin-halo" cx="360" cy="172" r="13" fill="rgba(127,96,0,0.18)" />
+                        <polygon class="ch-pin-core" points="360,165.2 366.8,172 360,178.8 353.2,172" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
+                        <circle class="ch-pin-pip" cx="360" cy="172" r="1.5" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/bystronic.svg" x="242" y="96" width="42" height="50.4" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="263" y="159" text-anchor="middle">Smart Factory</text>
+                          <rect class="ch-pin-card" x="76" y="64" width="170" height="58" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/bystronic.svg" x="88" y="72.6" width="34" height="40.8" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-brand" x="131" y="90" text-anchor="start">Bystronic</text>
+                          <text class="ch-pin-tag ch-pin-tag--mem" x="131" y="109" text-anchor="start">Smart Factory</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-uptime" data-group="mem" data-company="schindler" data-company-name="Schindler" data-company-loc="Ebikon, LU" data-company-shift="Aufzüge &amp; Fahrtreppen → Schindler Ahead Verfügbarkeit" data-company-enabler="Ahead Cube IoT + Cloud-ML" tabindex="0" role="button" aria-label="Schindler (Ebikon, LU): Ahead Uptime, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="448" y1="196" x2="476" y2="250" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="448" cy="196" r="12" fill="rgba(127,96,0,0.2)" />
-                        <polygon points="448,189 455,196 448,203 441,196" fill="#7f6000" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 448,196 Q 478,232 506,268" />
+                        <circle class="ch-pin-anchor" cx="506" cy="268" r="1.7" />
+                        <circle class="ch-pin-halo" cx="448" cy="196" r="13" fill="rgba(127,96,0,0.18)" />
+                        <polygon class="ch-pin-core" points="448,189.2 454.8,196 448,202.8 441.2,196" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
+                        <circle class="ch-pin-pip" cx="448" cy="196" r="1.5" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/schindler.svg" x="468" y="254" width="50" height="43.8" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="493" y="310" text-anchor="middle">Ahead Uptime</text>
+                          <rect class="ch-pin-card" x="466" y="268" width="132" height="92" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/schindler.svg" x="497" y="275" width="70" height="61.3" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--mem" x="532" y="351.5" text-anchor="middle">Ahead Uptime</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-data" data-group="mem" data-company="burckhardt" data-company-name="Burckhardt Compression" data-company-loc="Winterthur, ZH" data-company-shift="Kolbenkompressoren → UP! Solutions &amp; Verträge" data-company-enabler="Hochfreq.-Vibration + neuronale Netze" tabindex="0" role="button" aria-label="Burckhardt Compression (Winterthur, ZH): UP! KI-Diagnostik, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="505" y1="105" x2="532" y2="28" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="505" cy="105" r="12" fill="rgba(127,96,0,0.2)" />
-                        <polygon points="505,98 512,105 505,112 498,105" fill="#7f6000" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 505,105 Q 560,78 616,52" />
+                        <circle class="ch-pin-anchor" cx="616" cy="52" r="1.7" />
+                        <circle class="ch-pin-halo" cx="505" cy="105" r="13" fill="rgba(127,96,0,0.18)" />
+                        <polygon class="ch-pin-core" points="505,98.2 511.8,105 505,111.8 498.2,105" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
+                        <circle class="ch-pin-pip" cx="505" cy="105" r="1.5" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/burckhardt-compression.svg" x="538" y="8" width="96" height="27" preserveAspectRatio="xMinYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="538" y="48" text-anchor="start">UP! KI-Diagnostik</text>
+                          <rect class="ch-pin-card" x="572" y="-18" width="168" height="70" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/burckhardt-compression.svg" x="592" y="-10" width="128" height="36" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--mem" x="656" y="43" text-anchor="middle">UP! KI-Diagnostik</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-uptime" data-group="mem" data-company="buehler" data-company-name="Bühler Group" data-company-loc="Uzwil, SG" data-company-shift="Prozess- &amp; Mühlenanlagen → Bühler Insights Plattform" data-company-enabler="Cloud-IoT + Yield Management (YMS)" tabindex="0" role="button" aria-label="Bühler Group (Uzwil, SG): Yield &amp; IoT, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="566" y1="118" x2="600" y2="99" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="566" cy="118" r="12" fill="rgba(127,96,0,0.2)" />
-                        <polygon points="566,111 573,118 566,125 559,118" fill="#7f6000" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 566,118 Q 632,108 700,100" />
+                        <circle class="ch-pin-anchor" cx="700" cy="100" r="1.7" />
+                        <circle class="ch-pin-halo" cx="566" cy="118" r="13" fill="rgba(127,96,0,0.18)" />
+                        <polygon class="ch-pin-core" points="566,111.2 572.8,118 566,124.8 559.2,118" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
+                        <circle class="ch-pin-pip" cx="566" cy="118" r="1.5" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/buehler-group.svg" x="606" y="84" width="104" height="20" preserveAspectRatio="xMinYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="606" y="117" text-anchor="start">Yield &amp; IoT</text>
+                          <rect class="ch-pin-card" x="700" y="70" width="168" height="60" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/buehler-group.svg" x="713" y="78" width="142" height="27.2" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--mem" x="784" y="121.5" text-anchor="middle">Yield &amp; IoT</text>
                         </g>
                       </g>
 
                       <g class="ch-pin" data-dive="ch-eaas" data-group="mem" data-company="trumpf" data-company-name="TRUMPF Schweiz" data-company-loc="Grüsch, GR" data-company-shift="Laserschneidanlagen → Abrechnung pro Gutteil" data-company-enabler="Remote Control + relayr / Munich Re (SPV)" tabindex="0" role="button" aria-label="TRUMPF Schweiz (Grüsch, GR): Pay-per-Part, Deep Dive öffnen">
-                        <line class="ch-pin-leader" x1="644" y1="217" x2="670" y2="219" stroke="rgba(89,89,89,0.38)" stroke-width="1.1" stroke-dasharray="2.5 2" />
-                        <circle class="ch-pin-halo" cx="644" cy="217" r="12" fill="rgba(127,96,0,0.2)" />
-                        <polygon points="644,210 651,217 644,224 637,217" fill="#7f6000" stroke="#fffbee" stroke-width="1.8" />
+                        <path class="ch-pin-leader" d="M 644,217 Q 688,232 736,248" />
+                        <circle class="ch-pin-anchor" cx="736" cy="248" r="1.7" />
+                        <circle class="ch-pin-halo" cx="644" cy="217" r="13" fill="rgba(127,96,0,0.18)" />
+                        <polygon class="ch-pin-core" points="644,210.2 650.8,217 644,223.8 637.2,217" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
+                        <circle class="ch-pin-pip" cx="644" cy="217" r="1.5" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
-                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/trumpf-schweiz.svg" x="676" y="200" width="42" height="41.9" preserveAspectRatio="xMinYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="676" y="255" text-anchor="start">Pay-per-Part</text>
+                          <rect class="ch-pin-card" x="736" y="214" width="126" height="90" rx="7" />
+                          <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/trumpf-schweiz.svg" x="769" y="221" width="60" height="59.9" preserveAspectRatio="xMidYMid meet" />
+                          <text class="ch-pin-tag ch-pin-tag--mem" x="799" y="295.5" text-anchor="middle">Pay-per-Part</text>
                         </g>
                       </g>
                     </svg>
