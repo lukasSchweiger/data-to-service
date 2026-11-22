@@ -2885,7 +2885,195 @@ def _execute_crisp_cell(code_str, rows_json):
     }
   }, 100);
 
+  // -------------------------------------------------------------------------
+  // Slide 5: Service-Stufen (Seamless Extended Half-Ellipses + Sync Hover)
+  // -------------------------------------------------------------------------
+  function initServiceTiers() {
+    const wrap = document.querySelector('.orig-slide10-wrap');
+    const toggleBtn = document.getElementById('btnTierExamples');
+    const panel = document.getElementById('tierExamplesPanel');
+    const svg = wrap ? wrap.querySelector('.orig-slide10-svg') : null;
+    if (!wrap || !toggleBtn || !panel || !svg) return;
+
+    const axis = svg.querySelector('.tier-axis');
+    const tierTargets = Array.from(wrap.querySelectorAll('[data-tier]'));
+
+    const CX0 = 624;
+    const CX1 = 398;
+    const RIGHT_EXT = 1108;
+    const TIER_SPECS = [
+      { key: 'adv', top: 14, bottom: 434, rx: 266, rTr: 12, rBr: 12 },
+      { key: 'inter', top: 142, bottom: 434, rx: 208, rTr: 0, rBr: 12 },
+      { key: 'base', top: 286, bottom: 434, rx: 140, rTr: 0, rBr: 12 }
+    ];
+
+    const layers = TIER_SPECS.map((spec) => {
+      const ring = svg.querySelector(`.tier-ring--${spec.key}`);
+      return {
+        spec,
+        shape: ring ? ring.querySelector('.tier-shape') : null,
+        text: ring ? ring.querySelector('.tier-text') : null,
+        sep: ring ? ring.querySelector('.tier-sep') : null
+      };
+    });
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const fmt = (v) => v.toFixed(2).replace(/\.?0+$/, '');
+    const isMobileStacked = () => window.matchMedia('(max-width: 900px)').matches;
+    const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function buildTierPath(spec, t) {
+      const { top, bottom, rx, rTr, rBr } = spec;
+      const ry = (bottom - top) / 2;
+      const cx = lerp(CX0, CX1, t);
+      const right = lerp(CX0 + rx, RIGHT_EXT, t);
+      const rxTr = lerp(rx, rTr, t);
+      const ryTr = lerp(ry, rTr, t);
+      const rxBr = lerp(rx, rBr, t);
+      const ryBr = lerp(ry, rBr, t);
+      const xTr = right - rxTr;
+      const xBr = right - rxBr;
+      const yTr = top + ryTr;
+      const yBr = bottom - ryBr;
+
+      const parts = [`M ${fmt(cx)},${fmt(top)}`];
+      if (rxTr > 0.05 && ryTr > 0.05) {
+        parts.push(`L ${fmt(xTr)},${fmt(top)}`);
+        parts.push(`A ${fmt(rxTr)},${fmt(ryTr)} 0 0,1 ${fmt(right)},${fmt(yTr)}`);
+      } else {
+        parts.push(`L ${fmt(right)},${fmt(top)}`);
+      }
+      parts.push(`L ${fmt(right)},${fmt(yBr)}`);
+      if (rxBr > 0.05 && ryBr > 0.05) {
+        parts.push(`A ${fmt(rxBr)},${fmt(ryBr)} 0 0,1 ${fmt(xBr)},${fmt(bottom)}`);
+      } else {
+        parts.push(`L ${fmt(right)},${fmt(bottom)}`);
+      }
+      parts.push(`L ${fmt(cx)},${fmt(bottom)}`);
+      parts.push(`A ${fmt(rx)},${fmt(ry)} 0 0,1 ${fmt(cx)},${fmt(top)}`);
+      parts.push('Z');
+      return parts.join(' ');
+    }
+
+    let progress = 0;
+    let isMapped = false;
+    let morphFrame = null;
+    let hideTimer = null;
+
+    function applyMorph(t) {
+      progress = t;
+      const effective = isMobileStacked() ? 0 : t;
+      if (axis) {
+        axis.setAttribute('transform', effective > 0 ? `translate(${fmt(-220 * effective)}, 0)` : '');
+      }
+      layers.forEach(({ spec, shape, text, sep }) => {
+        if (shape) shape.setAttribute('d', buildTierPath(spec, effective));
+        if (text) {
+          text.setAttribute('transform', effective > 0 ? `translate(${fmt(-254 * effective)}, 0)` : '');
+        }
+        if (sep) {
+          const sepOpacity = Math.max(0, Math.min(1, (effective - 0.35) / 0.55));
+          sep.setAttribute('opacity', fmt(sepOpacity));
+        }
+      });
+    }
+
+    function animateTo(nextTarget) {
+      if (morphFrame) {
+        cancelAnimationFrame(morphFrame);
+        morphFrame = null;
+      }
+      if (isMobileStacked() || prefersReducedMotion()) {
+        applyMorph(nextTarget);
+        return;
+      }
+      const start = progress;
+      if (Math.abs(nextTarget - start) < 0.001) {
+        applyMorph(nextTarget);
+        return;
+      }
+      const duration = 360;
+      const t0 = performance.now();
+      const tick = (now) => {
+        const elapsed = Math.min(1, (now - t0) / duration);
+        const eased = 1 - Math.pow(1 - elapsed, 3);
+        applyMorph(lerp(start, nextTarget, eased));
+        if (elapsed < 1) {
+          morphFrame = requestAnimationFrame(tick);
+        } else {
+          morphFrame = null;
+          applyMorph(nextTarget);
+        }
+      };
+      morphFrame = requestAnimationFrame(tick);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const show = !isMapped;
+      isMapped = show;
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+
+      wrap.classList.toggle('is-mapped', show);
+      toggleBtn.classList.toggle('active', show);
+      toggleBtn.setAttribute('aria-pressed', String(show));
+      toggleBtn.textContent = show ? 'Beispiele ausblenden' : 'Beispiele einblenden';
+      delete wrap.dataset.hoverTier;
+
+      if (show) {
+        panel.hidden = false;
+        panel.classList.remove('is-visible');
+        if (prefersReducedMotion() || isMobileStacked()) {
+          panel.classList.add('is-visible');
+        } else {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              if (isMapped) panel.classList.add('is-visible');
+            });
+          });
+        }
+        animateTo(1);
+      } else {
+        panel.classList.remove('is-visible');
+        const delay = prefersReducedMotion() || isMobileStacked() ? 0 : 240;
+        hideTimer = setTimeout(() => {
+          hideTimer = null;
+          if (!isMapped) panel.hidden = true;
+        }, delay);
+        animateTo(0);
+      }
+    });
+
+    scheduleResizeCallback(() => {
+      if (!morphFrame) applyMorph(isMapped ? 1 : 0);
+    });
+
+    tierTargets.forEach((el) => {
+      const tier = el.dataset.tier;
+      if (!tier) return;
+      el.addEventListener('mouseenter', () => {
+        wrap.dataset.hoverTier = tier;
+      });
+      el.addEventListener('mouseleave', (e) => {
+        const nextEl = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('[data-tier]') : null;
+        if (nextEl && nextEl.dataset.tier === tier) return;
+        if (wrap.dataset.hoverTier === tier) delete wrap.dataset.hoverTier;
+      });
+      el.addEventListener('focusin', () => {
+        wrap.dataset.hoverTier = tier;
+      });
+      el.addEventListener('focusout', (e) => {
+        const nextEl = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('[data-tier]') : null;
+        if (el.contains(e.relatedTarget) || (nextEl && nextEl.dataset.tier === tier)) return;
+        if (wrap.dataset.hoverTier === tier) delete wrap.dataset.hoverTier;
+      });
+    });
+  }
+
   // Initial modular section setup, layout & render
+  initServiceTiers();
   initModularSections();
   loadBibTeX();
   updateStickyHeaderOffset();

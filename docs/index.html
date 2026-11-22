@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=46" />
+  <link rel="stylesheet" href="styles.css?v=48" />
 </head>
 <body>
   <div class="page-container">
@@ -1147,44 +1147,141 @@
 
               <!-- Slide 5: Servitization der Industrie (Original Slide 10) -->
               <div class="stage-step-panel orig-slide-panel" data-step="4" data-slide-tab="Service-Stufen">
-                <h2 class="orig-slide-title">Servitization der Industrie</h2>
+                <div class="orig-slide-header-row">
+                  <h2 class="orig-slide-title">Servitization der Industrie</h2>
+                  <button type="button" id="btnTierExamples" class="btn btn-beamer" aria-pressed="false" aria-controls="tierExamplesPanel">Beispiele einblenden</button>
+                </div>
 
                 <div class="ex-dive-overview orig-slide10-wrap">
-                  <svg class="orig-slide10-svg" viewBox="0 0 960 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Servitization der Industrie nach Baines und Lightfoot: Base Services, Intermediate Services und Advanced Services entlang der Achse Services für das Produkt bis Services für den Kunden">
-                    <!-- Left Axis: Services für den Kunden <-> Services für das Produkt -->
-                    <text x="132" y="64" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="500" fill="#595959">Services für</text>
-                    <text x="132" y="88" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="500" fill="#595959">den Kunden</text>
+                  <div class="tier-stage">
+                    <svg class="orig-slide10-svg" viewBox="0 0 1120 446" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Servitization der Industrie nach Baines und Lightfoot: Base Services, Intermediate Services und Advanced Services entlang der Achse Services für das Produkt bis Services für den Kunden">
+                      <defs>
+                        <filter id="tierSoftShadow" x="-8%" y="-8%" width="118%" height="122%">
+                          <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#5c523b" flood-opacity="0.12" />
+                        </filter>
+                        <linearGradient id="tierAdvGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#2f7873" />
+                          <stop offset="100%" stop-color="#245f5b" />
+                        </linearGradient>
+                        <linearGradient id="tierInterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#a3843e" />
+                          <stop offset="100%" stop-color="#876b2c" />
+                        </linearGradient>
+                        <linearGradient id="tierBaseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#f5eed8" />
+                          <stop offset="100%" stop-color="#eae0c2" />
+                        </linearGradient>
+                      </defs>
 
-                    <line x1="132" y1="114" x2="132" y2="326" stroke="#595959" stroke-width="3" />
-                    <polygon points="132,102 124,118 140,118" fill="#595959" />
-                    <polygon points="132,338 124,322 140,322" fill="#595959" />
+                      <!-- Left Axis: Services für den Kunden <-> Services für das Produkt -->
+                      <g class="tier-axis">
+                        <text x="276" y="52" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="16.5" font-weight="600" fill="#595959">Services für</text>
+                        <text x="276" y="73" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="16.5" font-weight="600" fill="#595959">den Kunden</text>
 
-                    <text x="132" y="366" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="500" fill="#595959">Services für</text>
-                    <text x="132" y="390" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="500" fill="#595959">das Produkt</text>
+                        <line x1="276" y1="94" x2="276" y2="358" stroke="#595959" stroke-width="2.6" />
+                        <polygon points="276,83 269,97 283,97" fill="#595959" />
+                        <polygon points="276,369 269,355 283,355" fill="#595959" />
 
-                    <!-- Outer Ellipse: Advanced Services -->
-                    <g class="tier-ring tier-ring--adv" data-dive="tier-adv" tabindex="0" role="button" aria-label="Advanced Services: Deep Dive öffnen">
-                      <ellipse cx="595" cy="212" rx="320" ry="190" fill="#7f6000" stroke="#fffbee" stroke-width="2.5" />
-                      <text x="595" y="72" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="21" font-weight="700" fill="#fffbee">Advanced Services</text>
-                      <text x="595" y="97" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="13.5" font-weight="500" fill="#fffbee">Customer support agreement · Risk and revenue sharing</text>
-                      <text x="595" y="117" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="13.5" font-weight="500" fill="#fffbee">Revenue-through-use contract · Rental agreement</text>
-                    </g>
+                        <text x="276" y="386" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="16.5" font-weight="600" fill="#595959">Services für</text>
+                        <text x="276" y="407" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="16.5" font-weight="600" fill="#595959">das Produkt</text>
+                      </g>
 
-                    <!-- Middle Ellipse: Intermediate Services -->
-                    <g class="tier-ring tier-ring--inter" data-dive="tier-inter" tabindex="0" role="button" aria-label="Intermediate Services: Deep Dive öffnen">
-                      <ellipse cx="595" cy="272" rx="242" ry="130" fill="#a87d08" stroke="#fffbee" stroke-width="2.5" />
-                      <text x="595" y="190" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="21" font-weight="700" fill="#fffbee">Intermediate Services</text>
-                      <text x="595" y="215" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="13.5" font-weight="500" fill="#fffbee">Scheduled maintenance · Helpdesk · Repair · Overhaul</text>
-                      <text x="595" y="235" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="13.5" font-weight="500" fill="#fffbee">Operator training · Condition monitoring · In-field service</text>
-                    </g>
+                      <!-- Outer Layer: Advanced Services -->
+                      <g class="tier-ring tier-ring--adv" data-dive="tier-adv" data-tier="adv" tabindex="0" role="button" aria-label="Advanced Services: Deep Dive öffnen">
+                        <path class="tier-shape" d="M 624,14 L 624,14 A 266,210 0 0,1 890,224 L 890,224 A 266,210 0 0,1 624,434 L 624,434 A 266,210 0 0,1 624,14 Z" fill="url(#tierAdvGrad)" stroke="#fffbee" stroke-width="2.5" filter="url(#tierSoftShadow)" />
+                        <line class="tier-sep" x1="538" y1="26" x2="538" y2="130" stroke="rgba(255,251,238,0.26)" stroke-width="1.25" opacity="0" />
+                        <g class="tier-text">
+                          <text x="624" y="64" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="700" fill="#fffbee">Advanced Services</text>
+                          <text x="624" y="92" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="12.4" font-weight="500" fill="#fffbee">Customer support · Risk &amp; revenue sharing</text>
+                          <text x="624" y="113" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="12.4" font-weight="500" fill="#fffbee">Pay-per-Use · Outcome &amp; rental contracts</text>
+                        </g>
+                      </g>
 
-                    <!-- Inner Ellipse: Base Services -->
-                    <g class="tier-ring tier-ring--base" data-dive="tier-base" tabindex="0" role="button" aria-label="Base Services: Deep Dive öffnen">
-                      <ellipse cx="595" cy="339" rx="152" ry="63" fill="#efd06b" stroke="#fffbee" stroke-width="2.5" />
-                      <text x="595" y="334" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="700" fill="#3d3d3d">Base Services</text>
-                      <text x="595" y="359" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="14" font-weight="600" fill="#3d3d3d">Product and spare parts</text>
-                    </g>
-                  </svg>
+                      <!-- Middle Layer: Intermediate Services -->
+                      <g class="tier-ring tier-ring--inter" data-dive="tier-inter" data-tier="inter" tabindex="0" role="button" aria-label="Intermediate Services: Deep Dive öffnen">
+                        <path class="tier-shape" d="M 624,142 L 624,142 A 208,146 0 0,1 832,288 L 832,288 A 208,146 0 0,1 624,434 L 624,434 A 208,146 0 0,1 624,142 Z" fill="url(#tierInterGrad)" stroke="#fffbee" stroke-width="2.5" />
+                        <line class="tier-sep" x1="538" y1="154" x2="538" y2="274" stroke="rgba(255,251,238,0.26)" stroke-width="1.25" opacity="0" />
+                        <g class="tier-text">
+                          <text x="624" y="196" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19.5" font-weight="700" fill="#fffbee">Intermediate Services</text>
+                          <text x="624" y="222" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11.8" font-weight="500" fill="#fffbee">Maintenance · Helpdesk · Repair · Overhaul</text>
+                          <text x="624" y="242" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="11.8" font-weight="500" fill="#fffbee">Training · Condition monitoring · Field service</text>
+                        </g>
+                      </g>
+
+                      <!-- Inner Layer: Base Services -->
+                      <g class="tier-ring tier-ring--base" data-dive="tier-base" data-tier="base" tabindex="0" role="button" aria-label="Base Services: Deep Dive öffnen">
+                        <path class="tier-shape" d="M 624,286 L 624,286 A 140,74 0 0,1 764,360 L 764,360 A 140,74 0 0,1 624,434 L 624,434 A 140,74 0 0,1 624,286 Z" fill="url(#tierBaseGrad)" stroke="#fffbee" stroke-width="2.5" />
+                        <line class="tier-sep" x1="538" y1="298" x2="538" y2="422" stroke="rgba(89,83,70,0.22)" stroke-width="1.25" opacity="0" />
+                        <g class="tier-text">
+                          <text x="624" y="349" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#3d3d3d">Base Services</text>
+                          <text x="624" y="376" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="13.4" font-weight="600" fill="#3d3d3d">Product &amp; spare parts</text>
+                        </g>
+                      </g>
+                    </svg>
+
+                    <div id="tierExamplesPanel" class="tier-examples-overlay" aria-label="Eingeordnete Praxisbeispiele" hidden>
+                      <section class="tier-band" data-tier="adv" data-dive="tier-adv">
+                        <span class="tier-band-eyebrow">Advanced · Ergebnis &amp; Pay-per-Use</span>
+                        <div class="tier-chip-grid tier-chip-grid--3">
+                          <button type="button" class="tier-ex-chip tier-ex-chip--horiz" data-dive="tier-adv">
+                            <img class="tier-chip-emblem" src="assets/slides/praxisbeispiele/rolls-royce-total-care.svg" alt="Rolls-Royce" />
+                            <span class="tier-chip-stack"><strong>Rolls-Royce</strong><span class="tier-chip-sub">TotalCare</span></span>
+                          </button>
+                          <button type="button" class="tier-ex-chip" data-dive="tier-adv">
+                            <img class="tier-chip-logo" src="assets/slides/praxisbeispiele/hilti-fleet-management.svg" alt="Hilti" />
+                            <span class="tier-chip-sub">Fleet Mgmt</span>
+                          </button>
+                          <button type="button" class="tier-ex-chip" data-dive="tier-adv">
+                            <img class="tier-chip-logo" src="assets/slides/praxisbeispiele/philips-pay-per-lux.svg" alt="Philips" />
+                            <span class="tier-chip-sub">Pay-per-Lux</span>
+                          </button>
+                          <button type="button" class="tier-ex-chip tier-ex-chip--horiz" data-dive="tier-adv">
+                            <img class="tier-chip-emblem tier-chip-emblem--sq" src="assets/slides/fokus-schweiz/trumpf-schweiz.svg" alt="TRUMPF" />
+                            <span class="tier-chip-stack"><strong>TRUMPF</strong><span class="tier-chip-sub">Pay-per-Part</span></span>
+                          </button>
+                          <button type="button" class="tier-ex-chip" data-dive="tier-adv">
+                            <img class="tier-chip-logo tier-chip-logo--tall" src="assets/slides/fokus-schweiz/elite-sa.svg" alt="Elite SA" />
+                            <span class="tier-chip-sub">Pay-per-Night</span>
+                          </button>
+                          <button type="button" class="tier-ex-chip tier-ex-chip--horiz" data-dive="tier-adv">
+                            <img class="tier-chip-emblem tier-chip-emblem--sq" src="assets/slides/fokus-schweiz/schindler.svg" alt="Schindler" />
+                            <span class="tier-chip-stack"><strong>Schindler</strong><span class="tier-chip-sub">Ahead Uptime</span></span>
+                          </button>
+                        </div>
+                      </section>
+
+                      <section class="tier-band" data-tier="inter" data-dive="tier-inter">
+                        <span class="tier-band-eyebrow">Intermediate · Zustand &amp; Wartung</span>
+                        <div class="tier-chip-grid tier-chip-grid--2">
+                          <button type="button" class="tier-ex-chip" data-dive="tier-inter">
+                            <img class="tier-chip-logo tier-chip-logo--tall" src="assets/slides/fokus-schweiz/burckhardt-compression.svg" alt="Burckhardt Compression" />
+                            <span class="tier-chip-sub">UP! Diagnostik</span>
+                          </button>
+                          <button type="button" class="tier-ex-chip" data-dive="tier-inter">
+                            <img class="tier-chip-logo" src="assets/slides/fokus-schweiz/buehler-group.svg" alt="Bühler Group" />
+                            <span class="tier-chip-sub">Insights &amp; Yield</span>
+                          </button>
+                          <button type="button" class="tier-ex-chip tier-ex-chip--horiz" data-dive="tier-inter">
+                            <img class="tier-chip-emblem" src="assets/slides/fokus-schweiz/bystronic.svg" alt="Bystronic" />
+                            <span class="tier-chip-stack"><strong>Bystronic</strong><span class="tier-chip-sub">ByCare &amp; OEE</span></span>
+                          </button>
+                          <button type="button" class="tier-ex-chip" data-dive="tier-inter">
+                            <img class="tier-chip-logo" src="assets/slides/fokus-schweiz/pb-swiss-tools.svg" alt="PB Swiss Tools" />
+                            <span class="tier-chip-sub">NFC Lifecycle</span>
+                          </button>
+                        </div>
+                      </section>
+
+                      <section class="tier-band" data-tier="base" data-dive="tier-base">
+                        <span class="tier-band-eyebrow">Base · Ausgangslage (CAPEX)</span>
+                        <button type="button" class="tier-base-note" data-dive="tier-base">
+                          <span class="tier-base-eyebrow">Ausgangslage · CAPEX</span>
+                          <strong>Klassischer Produkt- &amp; Ersatzteilverkauf</strong>
+                          <span class="tier-base-sub">Startpunkt aller 16 Beispiele vor der Servitization – ohne laufende Zustandsdaten.</span>
+                        </button>
+                      </section>
+                    </div>
+                  </div>
                 </div>
                 <p class="ex-dive-hint">Stufe anklicken für Merkmale, Datenbedarf &amp; Praxisbezug</p>
 
@@ -2627,7 +2724,7 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
   <!-- Floating Citation Popover -->
   <div id="citePopover" class="cite-popover" role="dialog" aria-label="Citation details" hidden></div>
 
-  <script src="app.js?v=20"></script>
+  <script src="app.js?v=23"></script>
   <script src="case-deep-dive.js?v=5"></script>
 </body>
 </html>
