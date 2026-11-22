@@ -5,7 +5,7 @@ All replaceable slide graphics live here in **one folder per slide** so you can 
 ## Conventions
 
 1. **Number-free Semantic Folder Names (`<slide-slug>/`):**
-   - Folders are named after the slide topic (e.g., `servitization-shift/`, `beispiele-servitization/`, `wieso-servitization/`), never slide numbers (`slide-07`).
+   - Folders are named after the slide topic (e.g., `was-ist-servitization/`, `warum-servitization/`, `praxisbeispiele/`, `fokus-schweiz/`), never slide numbers (`slide-07`).
    - That means inserting, deleting, or reordering slides never breaks folder names or image paths.
 2. **Standardized on `.svg` (`<item-slug>.svg`):**
    - Every graphic uses `.svg` so icons and logos scale razor-sharp on 4K classroom projectors and large screens.
@@ -19,9 +19,10 @@ All replaceable slide graphics live here in **one folder per slide** so you can 
 
 | Slide Folder | Slide Title | Graphics |
 | :--- | :--- | :--- |
-| [`servitization-shift/`](./servitization-shift/README.md) | Servitization of Manufacturers | `wir-verkaufen-produkte.svg`, `wir-verkaufen-leistung.svg` |
-| [`beispiele-servitization/`](./beispiele-servitization/README.md) | Beispiele Servitization | `rolls-royce-total-care.svg`, `xerox-pay-per-copy.svg`, `hilti-fleet-management.svg`, `philips-pay-per-lux.svg` |
-| [`wieso-servitization/`](./wieso-servitization/README.md) | Wieso Servitization? | `wirtschaftliche-perspektive.svg`, `oekologische-perspektive.svg`, `markt-und-soziale-perspektive.svg`, `technologische-perspektive.svg`, `wissens-perspektive.svg` |
+| [`was-ist-servitization/`](./was-ist-servitization/README.md) | Was ist Servitization? | `wir-verkaufen-produkte.svg`, `wir-verkaufen-leistung.svg` |
+| [`warum-servitization/`](./warum-servitization/README.md) | Warum setzen Hersteller auf Servitization? | `wirtschaftliche-perspektive.svg`, `oekologische-perspektive.svg`, `markt-und-soziale-perspektive.svg`, `technologische-perspektive.svg`, `wissens-perspektive.svg` |
+| [`praxisbeispiele/`](./praxisbeispiele/README.md) | Wie sieht Servitization in der Praxis aus? | `rolls-royce-total-care.svg`, `xerox-pay-per-copy.svg`, `hilti-fleet-management.svg`, `philips-pay-per-lux.svg` |
+| [`fokus-schweiz/`](./fokus-schweiz/README.md) | Servitization in der Schweiz: KMU & Industrie | 12 Swiss company `.svg` logos (`elite-sa.svg` … `schindler.svg`) |
 
 ## Adding, Reordering, or Editing Slides
 

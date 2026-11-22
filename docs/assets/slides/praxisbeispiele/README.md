@@ -1,7 +1,8 @@
-# Slide Assets: Beispiele Servitization (`beispiele-servitization`)
+# Slide Assets: Praxisbeispiele (`praxisbeispiele`)
 
-**Slide Title:** Beispiele Servitization  
-**HTML Panel Selector:** `data-slide-folder="assets/slides/beispiele-servitization"`
+**Slide Title:** Wie sieht Servitization in der Praxis aus?  
+**Slide Tab:** `Praxisbeispiele`  
+**HTML Panel Selector:** `data-slide-folder="assets/slides/praxisbeispiele"`
 
 ## Graphic-to-Text Mapping
 

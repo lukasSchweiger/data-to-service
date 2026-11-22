@@ -98,7 +98,7 @@ Drop this structure directly inside any `<div class="stage-step-panel ...">`:
 </div>
 ```
 
-*(Note: Slide 2 (`beispiele-servitization`) uses the legacy attributes `data-case` and `data-case-sources`, which `docs/case-deep-dive.js` continues to support alongside `data-dive` and `data-dive-sources`.)*
+*(Note: Slide 3 (`praxisbeispiele`) uses the legacy attributes `data-case` and `data-case-sources`, which `docs/case-deep-dive.js` continues to support alongside `data-dive` and `data-dive-sources`.)*
 
 ## Verification Checklist
 

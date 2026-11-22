@@ -39,7 +39,7 @@
   // -------------------------------------------------------------------------
   const DEFAULT_HTML_ORDER = ['servitization', 'explanation', 'dataviz', 'crispdm'];
   const SECTION_ORDER = [
-    'servitization', // Servitization · Original Slides 6–8
+    'servitization', // Servitization · Einführung, Praxisbeispiele & Service-Stufen
     'explanation',   // Explanation · Current Setup
     'dataviz',       // Data Visualization · Live Hardware & Emulator
     'crispdm',       // CRISP-DM Phase 2 · Data Understanding
@@ -1525,6 +1525,47 @@ def _execute_crisp_cell(code_str, rows_json):
   year           = {2016},
   publisher      = {Econ},
   address        = {Berlin}
+}
+
+@misc{elite2023smartlease,
+  author         = {Elite SA},
+  title          = {Smart Lease: Circular Hospitality Bedding as a Service},
+  publisher      = {Elite SA, Aubonne},
+  year           = {2023},
+  url            = {https://www.elitebeds.ch}
+}
+
+@misc{trumpf2021payperpart,
+  author         = {TRUMPF and Munich Re and relayr},
+  author_display = {TRUMPF, Munich Re, and relayr},
+  title          = {Pay-per-Part: Equipment-as-a-Service for Automated Sheet Metal Production},
+  publisher      = {TRUMPF, Ditzingen / Grüsch},
+  year           = {2021},
+  url            = {https://www.trumpf.com}
+}
+
+@misc{burckhardt2024up,
+  author         = {Burckhardt Compression AG},
+  title          = {UP! Solutions: Digital Diagnostics and Predictive Maintenance for Reciprocating Compressors},
+  publisher      = {Burckhardt Compression, Winterthur},
+  year           = {2024},
+  url            = {https://www.burckhardtcompression.com}
+}
+
+@misc{buehler2024insights,
+  author         = {Bühler Group},
+  title          = {Bühler Insights: IoT Platform for Yield Management and Predictive Maintenance},
+  publisher      = {Bühler Group, Uzwil},
+  year           = {2024},
+  url            = {https://www.buhlergroup.com}
+}
+
+@misc{schindler2024ahead,
+  author         = {Schindler Group},
+  title          = {Schindler Ahead: Closed-Loop Digital Maintenance and IoT Platform},
+  publisher      = {Schindler Group, Ebikon},
+  year           = {2024},
+  url            = {https://www.schindler.com}
 }`;
 
   function cleanBibValue(val) {

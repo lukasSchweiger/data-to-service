@@ -1,7 +1,8 @@
-# Slide Assets: Wieso Servitization? (`wieso-servitization`)
+# Slide Assets: Warum setzen Hersteller auf Servitization? (`warum-servitization`)
 
-**Slide Title:** Wieso Servitization?  
-**HTML Panel Selector:** `data-slide-folder="assets/slides/wieso-servitization"`  
+**Slide Title:** Warum setzen Hersteller auf Servitization?  
+**Slide Tab:** `Wieso?`  
+**HTML Panel Selector:** `data-slide-folder="assets/slides/warum-servitization"`  
 **Citation:** Baines, Tim, and Howard Lightfoot. *Made to Serve: How Manufacturers Can Compete through Servitization and Product-Service Systems*. Chichester, UK: Wiley, 2013. Print.
 
 ## Graphic-to-Text Mapping

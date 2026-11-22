@@ -1,7 +1,8 @@
-# Slide Assets: Servitization Shift (`servitization-shift`)
+# Slide Assets: Was ist Servitization? (`was-ist-servitization`)
 
-**Slide Title:** Servitization of Manufacturers  
-**HTML Panel Selector:** `data-slide-folder="assets/slides/servitization-shift"`
+**Slide Title:** Was ist Servitization?  
+**Slide Tab:** `Was?`  
+**HTML Panel Selector:** `data-slide-folder="assets/slides/was-ist-servitization"`
 
 ## Graphic-to-Text Mapping
 
