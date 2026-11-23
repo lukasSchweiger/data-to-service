@@ -39,7 +39,7 @@
   // -------------------------------------------------------------------------
   const DEFAULT_HTML_ORDER = ['servitization', 'explanation', 'dataviz', 'crispdm'];
   const SECTION_ORDER = [
-    'servitization', // Servitization · Original Slides 6–8
+    'servitization', // Servitization · Einführung, Praxisbeispiele & Service-Stufen
     'explanation',   // Explanation · Current Setup
     'dataviz',       // Data Visualization · Live Hardware & Emulator
     'crispdm',       // CRISP-DM Phase 2 · Data Understanding
@@ -1525,6 +1525,47 @@ def _execute_crisp_cell(code_str, rows_json):
   year           = {2016},
   publisher      = {Econ},
   address        = {Berlin}
+}
+
+@misc{elite2023smartlease,
+  author         = {Elite SA},
+  title          = {Smart Lease: Circular Hospitality Bedding as a Service},
+  publisher      = {Elite SA, Aubonne},
+  year           = {2023},
+  url            = {https://www.elitebeds.ch}
+}
+
+@misc{trumpf2021payperpart,
+  author         = {TRUMPF and Munich Re and relayr},
+  author_display = {TRUMPF, Munich Re, and relayr},
+  title          = {Pay-per-Part: Equipment-as-a-Service for Automated Sheet Metal Production},
+  publisher      = {TRUMPF, Ditzingen / Grüsch},
+  year           = {2021},
+  url            = {https://www.trumpf.com}
+}
+
+@misc{burckhardt2024up,
+  author         = {Burckhardt Compression AG},
+  title          = {UP! Solutions: Digital Diagnostics and Predictive Maintenance for Reciprocating Compressors},
+  publisher      = {Burckhardt Compression, Winterthur},
+  year           = {2024},
+  url            = {https://www.burckhardtcompression.com}
+}
+
+@misc{buehler2024insights,
+  author         = {Bühler Group},
+  title          = {Bühler Insights: IoT Platform for Yield Management and Predictive Maintenance},
+  publisher      = {Bühler Group, Uzwil},
+  year           = {2024},
+  url            = {https://www.buhlergroup.com}
+}
+
+@misc{schindler2024ahead,
+  author         = {Schindler Group},
+  title          = {Schindler Ahead: Closed-Loop Digital Maintenance and IoT Platform},
+  publisher      = {Schindler Group, Ebikon},
+  year           = {2024},
+  url            = {https://www.schindler.com}
 }`;
 
   function cleanBibValue(val) {
@@ -2844,7 +2885,416 @@ def _execute_crisp_cell(code_str, rows_json):
     }
   }, 100);
 
+  // -------------------------------------------------------------------------
+  // Slide 4: Fokus Schweiz (Interactive Swiss Map + Single-Company Spotlight)
+  // -------------------------------------------------------------------------
+  function initSwissMapSpotlight() {
+    const panel = document.querySelector('.stage-step-panel[data-slide-folder="assets/slides/fokus-schweiz"]');
+    if (!panel) return;
+    const overview = panel.querySelector('.ch-map-overview');
+    const spotlight = document.getElementById('chSpotlight');
+    if (!overview || !spotlight) return;
+
+    const mapStage = overview.querySelector('.ch-map-stage');
+    const pins = Array.from(overview.querySelectorAll('.ch-pin[data-company]'));
+    const mobileItems = Array.from(overview.querySelectorAll('.ch-mobile-item[data-company]'));
+    const sourceGroups = Array.from(panel.querySelectorAll('.ex-footer-group[data-company-sources]'));
+
+    const spotLogo = document.getElementById('chSpotLogo');
+    const spotName = document.getElementById('chSpotName');
+    const spotLoc = document.getElementById('chSpotLoc');
+    const spotBadge = document.getElementById('chSpotBadge');
+    const spotCount = document.getElementById('chSpotCount');
+    const spotShift = document.getElementById('chSpotShift');
+    const spotEnabler = document.getElementById('chSpotEnabler');
+    const spotInsight = document.getElementById('chSpotInsight');
+    const prevBtn = document.getElementById('chSpotPrev');
+    const nextBtn = document.getElementById('chSpotNext');
+    const closeBtn = document.getElementById('chSpotClose');
+
+    const companies = pins.map((pin) => {
+      const d = pin.dataset;
+      const logoEl = pin.querySelector('.ch-pin-logo');
+      const logoHref = logoEl ? (logoEl.getAttribute('href') || logoEl.getAttribute('xlink:href') || '') : '';
+      return {
+        id: d.company || '',
+        name: d.companyName || '',
+        loc: d.companyLoc || '',
+        tag: d.companyTag || '',
+        shift: d.companyShift || '',
+        enabler: d.companyEnabler || '',
+        insight: d.companyInsight || '',
+        logo: logoHref,
+        pin,
+      };
+    }).filter((c) => c.id);
+
+    const byId = new Map(companies.map((c, idx) => [c.id, { ...c, idx }]));
+    let selectedId = null;
+    let lastTrigger = null;
+
+    function isPanelVisible() {
+      if (!panel.classList.contains('is-active')) return false;
+      if (document.body.classList.contains('is-beamer-mode')) {
+        const sec = panel.closest('.section-block');
+        const stage = panel.closest('.section-stage');
+        if (sec && !sec.classList.contains('is-beamer-section')) return false;
+        if (stage && !stage.classList.contains('is-beamer-waypoint')) return false;
+      }
+      return true;
+    }
+
+    function isOverviewOnScreen() {
+      if (!isPanelVisible()) return false;
+      if (document.body.classList.contains('is-beamer-mode')) return true;
+      const r = overview.getBoundingClientRect();
+      return r.bottom > 0 && r.top < window.innerHeight && r.width > 0;
+    }
+
+    function syncTriggerState(id) {
+      pins.forEach((p) => {
+        const active = p.dataset.company === id;
+        p.classList.toggle('is-selected', active);
+        p.setAttribute('aria-pressed', String(active));
+      });
+      mobileItems.forEach((m) => {
+        const active = m.dataset.company === id;
+        m.classList.toggle('is-selected', active);
+        m.setAttribute('aria-pressed', String(active));
+      });
+      sourceGroups.forEach((g) => {
+        g.hidden = g.dataset.companySources !== id;
+      });
+    }
+
+    function selectCompany(id, triggerEl) {
+      const item = byId.get(id);
+      if (!item) return;
+      selectedId = id;
+      if (triggerEl) lastTrigger = triggerEl;
+
+      spotlight.hidden = false;
+
+      if (spotLogo) {
+        if (item.logo) {
+          spotLogo.src = item.logo;
+          spotLogo.alt = item.name;
+          spotLogo.hidden = false;
+        } else {
+          spotLogo.removeAttribute('src');
+          spotLogo.alt = '';
+          spotLogo.hidden = true;
+        }
+      }
+      if (spotName) spotName.textContent = item.name;
+      if (spotLoc) spotLoc.textContent = item.loc;
+      if (spotBadge) spotBadge.textContent = item.tag;
+      if (spotCount) spotCount.textContent = `${item.idx + 1} / ${companies.length}`;
+      if (spotShift) spotShift.textContent = item.shift;
+      if (spotEnabler) spotEnabler.textContent = item.enabler;
+      if (spotInsight) spotInsight.textContent = item.insight;
+
+      panel.classList.add('has-selection');
+      overview.classList.add('has-selection');
+      syncTriggerState(id);
+    }
+
+    function clearSelection({ restoreFocus = false } = {}) {
+      if (!selectedId) return;
+      const last = selectedId;
+      selectedId = null;
+      panel.classList.remove('has-selection');
+      overview.classList.remove('has-selection');
+      spotlight.hidden = true;
+      syncTriggerState(null);
+
+      if (!restoreFocus) return;
+      const target =
+        (lastTrigger && document.contains(lastTrigger) && lastTrigger) ||
+        panel.querySelector(`.ch-pin[data-company="${last}"]`);
+      if (target) target.focus({ preventScroll: true });
+    }
+
+    function toggleCompany(id, triggerEl) {
+      if (selectedId === id) {
+        clearSelection({ restoreFocus: false });
+      } else {
+        selectCompany(id, triggerEl);
+      }
+    }
+
+    function stepCompany(delta, { wrap = true } = {}) {
+      if (!selectedId || companies.length === 0) return;
+      const item = byId.get(selectedId);
+      const idx = item ? item.idx : 0;
+      const next = idx + delta;
+      if (!wrap && (next < 0 || next >= companies.length)) {
+        clearSelection({ restoreFocus: true });
+        return;
+      }
+      const wrapped = (next + companies.length) % companies.length;
+      selectCompany(companies[wrapped].id);
+    }
+
+    overview.addEventListener('click', (e) => {
+      const trigger = e.target.closest('.ch-pin[data-company], .ch-mobile-item[data-company]');
+      if (trigger && overview.contains(trigger)) {
+        toggleCompany(trigger.dataset.company, trigger);
+        return;
+      }
+      if (mapStage && mapStage.contains(e.target) && !e.target.closest('.ch-pin')) {
+        clearSelection({ restoreFocus: false });
+      }
+    });
+
+    overview.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const pin = e.target.closest('.ch-pin[data-company]');
+      if (!pin || !overview.contains(pin)) return;
+      e.preventDefault();
+      toggleCompany(pin.dataset.company, pin);
+    });
+
+    if (prevBtn) prevBtn.addEventListener('click', () => stepCompany(-1, { wrap: true }));
+    if (nextBtn) nextBtn.addEventListener('click', () => stepCompany(1, { wrap: true }));
+    if (closeBtn) closeBtn.addEventListener('click', () => clearSelection({ restoreFocus: true }));
+
+    // Capture phase so spotlight steps/closes cleanly before presenter nav (app.js)
+    window.addEventListener(
+      'keydown',
+      (e) => {
+        if (!selectedId) return;
+        if (!isPanelVisible()) {
+          clearSelection({ restoreFocus: false });
+          return;
+        }
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        const t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+        if (!isOverviewOnScreen()) return;
+
+        if (e.key === 'Escape') {
+          const popover = document.getElementById('citePopover');
+          if (popover && !popover.hidden) return;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          clearSelection({ restoreFocus: true });
+          return;
+        }
+
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          stepCompany(1, { wrap: false });
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          stepCompany(-1, { wrap: false });
+        }
+      },
+      true
+    );
+
+    const autoCloseObserver = new MutationObserver(() => {
+      if (selectedId && !isPanelVisible()) clearSelection({ restoreFocus: false });
+    });
+    autoCloseObserver.observe(panel, { attributes: true, attributeFilter: ['class'] });
+    const sec = panel.closest('.section-block');
+    const stage = panel.closest('.section-stage');
+    if (sec) autoCloseObserver.observe(sec, { attributes: true, attributeFilter: ['class'] });
+    if (stage) autoCloseObserver.observe(stage, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // -------------------------------------------------------------------------
+  // Slide 5: Service-Stufen (Seamless Extended Half-Ellipses + Sync Hover)
+  // -------------------------------------------------------------------------
+  function initServiceTiers() {
+    const wrap = document.querySelector('.orig-slide10-wrap');
+    const toggleBtn = document.getElementById('btnTierExamples');
+    const panel = document.getElementById('tierExamplesPanel');
+    const svg = wrap ? wrap.querySelector('.orig-slide10-svg') : null;
+    if (!wrap || !toggleBtn || !panel || !svg) return;
+
+    const axis = svg.querySelector('.tier-axis');
+    const tierTargets = Array.from(wrap.querySelectorAll('[data-tier]'));
+
+    const CX0 = 624;
+    const CX1 = 398;
+    const RIGHT_EXT = 1108;
+    const TIER_SPECS = [
+      { key: 'adv', top: 14, bottom: 434, rx: 266, rTr: 12, rBr: 12 },
+      { key: 'inter', top: 142, bottom: 434, rx: 208, rTr: 0, rBr: 12 },
+      { key: 'base', top: 286, bottom: 434, rx: 140, rTr: 0, rBr: 12 }
+    ];
+
+    const layers = TIER_SPECS.map((spec) => {
+      const ring = svg.querySelector(`.tier-ring--${spec.key}`);
+      return {
+        spec,
+        shape: ring ? ring.querySelector('.tier-shape') : null,
+        text: ring ? ring.querySelector('.tier-text') : null,
+        sep: ring ? ring.querySelector('.tier-sep') : null
+      };
+    });
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const fmt = (v) => v.toFixed(2).replace(/\.?0+$/, '');
+    const isMobileStacked = () => window.matchMedia('(max-width: 900px)').matches;
+    const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function buildTierPath(spec, t) {
+      const { top, bottom, rx, rTr, rBr } = spec;
+      const ry = (bottom - top) / 2;
+      const cx = lerp(CX0, CX1, t);
+      const right = lerp(CX0 + rx, RIGHT_EXT, t);
+      const rxTr = lerp(rx, rTr, t);
+      const ryTr = lerp(ry, rTr, t);
+      const rxBr = lerp(rx, rBr, t);
+      const ryBr = lerp(ry, rBr, t);
+      const xTr = right - rxTr;
+      const xBr = right - rxBr;
+      const yTr = top + ryTr;
+      const yBr = bottom - ryBr;
+
+      const parts = [`M ${fmt(cx)},${fmt(top)}`];
+      if (rxTr > 0.05 && ryTr > 0.05) {
+        parts.push(`L ${fmt(xTr)},${fmt(top)}`);
+        parts.push(`A ${fmt(rxTr)},${fmt(ryTr)} 0 0,1 ${fmt(right)},${fmt(yTr)}`);
+      } else {
+        parts.push(`L ${fmt(right)},${fmt(top)}`);
+      }
+      parts.push(`L ${fmt(right)},${fmt(yBr)}`);
+      if (rxBr > 0.05 && ryBr > 0.05) {
+        parts.push(`A ${fmt(rxBr)},${fmt(ryBr)} 0 0,1 ${fmt(xBr)},${fmt(bottom)}`);
+      } else {
+        parts.push(`L ${fmt(right)},${fmt(bottom)}`);
+      }
+      parts.push(`L ${fmt(cx)},${fmt(bottom)}`);
+      parts.push(`A ${fmt(rx)},${fmt(ry)} 0 0,1 ${fmt(cx)},${fmt(top)}`);
+      parts.push('Z');
+      return parts.join(' ');
+    }
+
+    let progress = 0;
+    let isMapped = false;
+    let morphFrame = null;
+    let hideTimer = null;
+
+    function applyMorph(t) {
+      progress = t;
+      const effective = isMobileStacked() ? 0 : t;
+      if (axis) {
+        axis.setAttribute('transform', effective > 0 ? `translate(${fmt(-220 * effective)}, 0)` : '');
+      }
+      layers.forEach(({ spec, shape, text, sep }) => {
+        if (shape) shape.setAttribute('d', buildTierPath(spec, effective));
+        if (text) {
+          text.setAttribute('transform', effective > 0 ? `translate(${fmt(-254 * effective)}, 0)` : '');
+        }
+        if (sep) {
+          const sepOpacity = Math.max(0, Math.min(1, (effective - 0.35) / 0.55));
+          sep.setAttribute('opacity', fmt(sepOpacity));
+        }
+      });
+    }
+
+    function animateTo(nextTarget) {
+      if (morphFrame) {
+        cancelAnimationFrame(morphFrame);
+        morphFrame = null;
+      }
+      if (isMobileStacked() || prefersReducedMotion()) {
+        applyMorph(nextTarget);
+        return;
+      }
+      const start = progress;
+      if (Math.abs(nextTarget - start) < 0.001) {
+        applyMorph(nextTarget);
+        return;
+      }
+      const duration = 360;
+      const t0 = performance.now();
+      const tick = (now) => {
+        const elapsed = Math.min(1, (now - t0) / duration);
+        const eased = 1 - Math.pow(1 - elapsed, 3);
+        applyMorph(lerp(start, nextTarget, eased));
+        if (elapsed < 1) {
+          morphFrame = requestAnimationFrame(tick);
+        } else {
+          morphFrame = null;
+          applyMorph(nextTarget);
+        }
+      };
+      morphFrame = requestAnimationFrame(tick);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const show = !isMapped;
+      isMapped = show;
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+
+      wrap.classList.toggle('is-mapped', show);
+      toggleBtn.classList.toggle('active', show);
+      toggleBtn.setAttribute('aria-pressed', String(show));
+      toggleBtn.textContent = show ? 'Beispiele ausblenden' : 'Beispiele einblenden';
+      delete wrap.dataset.hoverTier;
+
+      if (show) {
+        panel.hidden = false;
+        panel.classList.remove('is-visible');
+        if (prefersReducedMotion() || isMobileStacked()) {
+          panel.classList.add('is-visible');
+        } else {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              if (isMapped) panel.classList.add('is-visible');
+            });
+          });
+        }
+        animateTo(1);
+      } else {
+        panel.classList.remove('is-visible');
+        const delay = prefersReducedMotion() || isMobileStacked() ? 0 : 240;
+        hideTimer = setTimeout(() => {
+          hideTimer = null;
+          if (!isMapped) panel.hidden = true;
+        }, delay);
+        animateTo(0);
+      }
+    });
+
+    scheduleResizeCallback(() => {
+      if (!morphFrame) applyMorph(isMapped ? 1 : 0);
+    });
+
+    tierTargets.forEach((el) => {
+      const tier = el.dataset.tier;
+      if (!tier) return;
+      el.addEventListener('mouseenter', () => {
+        wrap.dataset.hoverTier = tier;
+      });
+      el.addEventListener('mouseleave', (e) => {
+        const nextEl = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('[data-tier]') : null;
+        if (nextEl && nextEl.dataset.tier === tier) return;
+        if (wrap.dataset.hoverTier === tier) delete wrap.dataset.hoverTier;
+      });
+      el.addEventListener('focusin', () => {
+        wrap.dataset.hoverTier = tier;
+      });
+      el.addEventListener('focusout', (e) => {
+        const nextEl = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('[data-tier]') : null;
+        if (el.contains(e.relatedTarget) || (nextEl && nextEl.dataset.tier === tier)) return;
+        if (wrap.dataset.hoverTier === tier) delete wrap.dataset.hoverTier;
+      });
+    });
+  }
+
   // Initial modular section setup, layout & render
+  initSwissMapSpotlight();
+  initServiceTiers();
   initModularSections();
   loadBibTeX();
   updateStickyHeaderOffset();
