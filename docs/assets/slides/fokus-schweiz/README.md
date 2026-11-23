@@ -1,6 +1,6 @@
 # Slide Assets: Fokus Schweiz (`fokus-schweiz`)
 
-**Slide Title:** Servitization in der Schweiz: KMU & Industrie  
+**Slide Title:** Servitization in der Schweiz  
 **Slide Tab:** `Fokus Schweiz`  
 **HTML Panel Selector:** `data-slide-folder="assets/slides/fokus-schweiz"`
 

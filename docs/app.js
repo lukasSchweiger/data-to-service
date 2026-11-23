@@ -2886,6 +2886,226 @@ def _execute_crisp_cell(code_str, rows_json):
   }, 100);
 
   // -------------------------------------------------------------------------
+  // Slide 4: Fokus Schweiz (Interactive Swiss Map + Single-Company Spotlight)
+  // -------------------------------------------------------------------------
+  function initSwissMapSpotlight() {
+    const panel = document.querySelector('.stage-step-panel[data-slide-folder="assets/slides/fokus-schweiz"]');
+    if (!panel) return;
+    const overview = panel.querySelector('.ch-map-overview');
+    const spotlight = document.getElementById('chSpotlight');
+    if (!overview || !spotlight) return;
+
+    const mapStage = overview.querySelector('.ch-map-stage');
+    const pins = Array.from(overview.querySelectorAll('.ch-pin[data-company]'));
+    const mobileItems = Array.from(overview.querySelectorAll('.ch-mobile-item[data-company]'));
+    const sourceGroups = Array.from(panel.querySelectorAll('.ex-footer-group[data-company-sources]'));
+
+    const spotLogo = document.getElementById('chSpotLogo');
+    const spotName = document.getElementById('chSpotName');
+    const spotLoc = document.getElementById('chSpotLoc');
+    const spotBadge = document.getElementById('chSpotBadge');
+    const spotCount = document.getElementById('chSpotCount');
+    const spotShift = document.getElementById('chSpotShift');
+    const spotEnabler = document.getElementById('chSpotEnabler');
+    const spotInsight = document.getElementById('chSpotInsight');
+    const prevBtn = document.getElementById('chSpotPrev');
+    const nextBtn = document.getElementById('chSpotNext');
+    const closeBtn = document.getElementById('chSpotClose');
+
+    const companies = pins.map((pin) => {
+      const d = pin.dataset;
+      const logoEl = pin.querySelector('.ch-pin-logo');
+      const logoHref = logoEl ? (logoEl.getAttribute('href') || logoEl.getAttribute('xlink:href') || '') : '';
+      return {
+        id: d.company || '',
+        name: d.companyName || '',
+        loc: d.companyLoc || '',
+        tag: d.companyTag || '',
+        shift: d.companyShift || '',
+        enabler: d.companyEnabler || '',
+        insight: d.companyInsight || '',
+        logo: logoHref,
+        pin,
+      };
+    }).filter((c) => c.id);
+
+    const byId = new Map(companies.map((c, idx) => [c.id, { ...c, idx }]));
+    let selectedId = null;
+    let lastTrigger = null;
+
+    function isPanelVisible() {
+      if (!panel.classList.contains('is-active')) return false;
+      if (document.body.classList.contains('is-beamer-mode')) {
+        const sec = panel.closest('.section-block');
+        const stage = panel.closest('.section-stage');
+        if (sec && !sec.classList.contains('is-beamer-section')) return false;
+        if (stage && !stage.classList.contains('is-beamer-waypoint')) return false;
+      }
+      return true;
+    }
+
+    function isOverviewOnScreen() {
+      if (!isPanelVisible()) return false;
+      if (document.body.classList.contains('is-beamer-mode')) return true;
+      const r = overview.getBoundingClientRect();
+      return r.bottom > 0 && r.top < window.innerHeight && r.width > 0;
+    }
+
+    function syncTriggerState(id) {
+      pins.forEach((p) => {
+        const active = p.dataset.company === id;
+        p.classList.toggle('is-selected', active);
+        p.setAttribute('aria-pressed', String(active));
+      });
+      mobileItems.forEach((m) => {
+        const active = m.dataset.company === id;
+        m.classList.toggle('is-selected', active);
+        m.setAttribute('aria-pressed', String(active));
+      });
+      sourceGroups.forEach((g) => {
+        g.hidden = g.dataset.companySources !== id;
+      });
+    }
+
+    function selectCompany(id, triggerEl) {
+      const item = byId.get(id);
+      if (!item) return;
+      selectedId = id;
+      if (triggerEl) lastTrigger = triggerEl;
+
+      spotlight.hidden = false;
+
+      if (spotLogo) {
+        if (item.logo) {
+          spotLogo.src = item.logo;
+          spotLogo.alt = item.name;
+          spotLogo.hidden = false;
+        } else {
+          spotLogo.removeAttribute('src');
+          spotLogo.alt = '';
+          spotLogo.hidden = true;
+        }
+      }
+      if (spotName) spotName.textContent = item.name;
+      if (spotLoc) spotLoc.textContent = item.loc;
+      if (spotBadge) spotBadge.textContent = item.tag;
+      if (spotCount) spotCount.textContent = `${item.idx + 1} / ${companies.length}`;
+      if (spotShift) spotShift.textContent = item.shift;
+      if (spotEnabler) spotEnabler.textContent = item.enabler;
+      if (spotInsight) spotInsight.textContent = item.insight;
+
+      panel.classList.add('has-selection');
+      overview.classList.add('has-selection');
+      syncTriggerState(id);
+    }
+
+    function clearSelection({ restoreFocus = false } = {}) {
+      if (!selectedId) return;
+      const last = selectedId;
+      selectedId = null;
+      panel.classList.remove('has-selection');
+      overview.classList.remove('has-selection');
+      spotlight.hidden = true;
+      syncTriggerState(null);
+
+      if (!restoreFocus) return;
+      const target =
+        (lastTrigger && document.contains(lastTrigger) && lastTrigger) ||
+        panel.querySelector(`.ch-pin[data-company="${last}"]`);
+      if (target) target.focus({ preventScroll: true });
+    }
+
+    function toggleCompany(id, triggerEl) {
+      if (selectedId === id) {
+        clearSelection({ restoreFocus: false });
+      } else {
+        selectCompany(id, triggerEl);
+      }
+    }
+
+    function stepCompany(delta, { wrap = true } = {}) {
+      if (!selectedId || companies.length === 0) return;
+      const item = byId.get(selectedId);
+      const idx = item ? item.idx : 0;
+      const next = idx + delta;
+      if (!wrap && (next < 0 || next >= companies.length)) {
+        clearSelection({ restoreFocus: true });
+        return;
+      }
+      const wrapped = (next + companies.length) % companies.length;
+      selectCompany(companies[wrapped].id);
+    }
+
+    overview.addEventListener('click', (e) => {
+      const trigger = e.target.closest('.ch-pin[data-company], .ch-mobile-item[data-company]');
+      if (trigger && overview.contains(trigger)) {
+        toggleCompany(trigger.dataset.company, trigger);
+        return;
+      }
+      if (mapStage && mapStage.contains(e.target) && !e.target.closest('.ch-pin')) {
+        clearSelection({ restoreFocus: false });
+      }
+    });
+
+    overview.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const pin = e.target.closest('.ch-pin[data-company]');
+      if (!pin || !overview.contains(pin)) return;
+      e.preventDefault();
+      toggleCompany(pin.dataset.company, pin);
+    });
+
+    if (prevBtn) prevBtn.addEventListener('click', () => stepCompany(-1, { wrap: true }));
+    if (nextBtn) nextBtn.addEventListener('click', () => stepCompany(1, { wrap: true }));
+    if (closeBtn) closeBtn.addEventListener('click', () => clearSelection({ restoreFocus: true }));
+
+    // Capture phase so spotlight steps/closes cleanly before presenter nav (app.js)
+    window.addEventListener(
+      'keydown',
+      (e) => {
+        if (!selectedId) return;
+        if (!isPanelVisible()) {
+          clearSelection({ restoreFocus: false });
+          return;
+        }
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        const t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+        if (!isOverviewOnScreen()) return;
+
+        if (e.key === 'Escape') {
+          const popover = document.getElementById('citePopover');
+          if (popover && !popover.hidden) return;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          clearSelection({ restoreFocus: true });
+          return;
+        }
+
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          stepCompany(1, { wrap: false });
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          stepCompany(-1, { wrap: false });
+        }
+      },
+      true
+    );
+
+    const autoCloseObserver = new MutationObserver(() => {
+      if (selectedId && !isPanelVisible()) clearSelection({ restoreFocus: false });
+    });
+    autoCloseObserver.observe(panel, { attributes: true, attributeFilter: ['class'] });
+    const sec = panel.closest('.section-block');
+    const stage = panel.closest('.section-stage');
+    if (sec) autoCloseObserver.observe(sec, { attributes: true, attributeFilter: ['class'] });
+    if (stage) autoCloseObserver.observe(stage, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // -------------------------------------------------------------------------
   // Slide 5: Service-Stufen (Seamless Extended Half-Ellipses + Sync Hover)
   // -------------------------------------------------------------------------
   function initServiceTiers() {
@@ -3073,6 +3293,7 @@ def _execute_crisp_cell(code_str, rows_json):
   }
 
   // Initial modular section setup, layout & render
+  initSwissMapSpotlight();
   initServiceTiers();
   initModularSections();
   loadBibTeX();

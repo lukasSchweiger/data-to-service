@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=48" />
+  <link rel="stylesheet" href="styles.css?v=52" />
 </head>
 <body>
   <div class="page-container">
@@ -542,11 +542,12 @@
 
               <!-- Slide 4: Servitization in der Schweiz: KMU & Industrie -->
               <div class="stage-step-panel orig-slide-panel" data-step="3" data-slide-tab="Fokus Schweiz" data-slide-folder="assets/slides/fokus-schweiz">
-                <h2 class="orig-slide-title">Servitization in der Schweiz: KMU &amp; Industrie</h2>
+                <h2 class="orig-slide-title">Servitization in der Schweiz</h2>
 
                 <div class="ex-dive-overview ch-map-overview" aria-label="Interaktive Schweizer Servitization-Karte mit zwölf Unternehmen">
-                  <div class="ch-map-stage">
-                    <svg class="ch-map-svg" viewBox="-36 -28 912 508" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schweizer Karte mit zwölf Servitization-Beispielen aus KMU und MEM-Industrie">
+                  <div class="ch-map-workspace">
+                    <div class="ch-map-stage">
+                    <svg class="ch-map-svg" viewBox="-36 -28 912 508" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schweizer Karte mit zwölf Servitization-Beispielen">
                       <defs>
                         <linearGradient id="chPaperGrad" x1="0%" y1="0%" x2="22%" y2="100%">
                           <stop offset="0%" stop-color="#faf6e8" />
@@ -622,8 +623,8 @@
                       <!-- Crisp National Border Stroke -->
                       <use href="#chOutline" fill="none" stroke="rgba(89,83,70,0.44)" stroke-width="1.4" stroke-linejoin="round" />
 
-                      <!-- 6 KMU & Spezialhersteller Pins (Teal Circles) -->
-                      <g class="ch-pin" data-dive="ch-kmu" data-group="kmu" data-company="elite" data-company-name="Elite SA" data-company-loc="Aubonne, VD" data-company-shift="Hotelmatratzen → Smart Lease inkl. Recycling" data-company-enabler="Belegungssensoren + Ecoclean-Kreislauf" tabindex="0" role="button" aria-label="Elite SA (Aubonne, VD): Pay-per-Night, Deep Dive öffnen">
+                      <!-- 12 Schweizer Praxisbeispiele Pins -->
+                      <g class="ch-pin" data-company="elite" data-company-name="Elite SA" data-company-loc="Aubonne, VD" data-company-tag="Pay-per-Night" data-company-shift="Hotelmatratzen → Smart Lease (ab ~CHF 0.50/Nacht)" data-company-enabler="Belegungssensoren + Ecoclean-Kreislauf" data-company-insight="Eigentum und Auslastungsrisiko wandern zum Hersteller – Langlebigkeit und Recycling werden direkt zum Gewinnhebel (Fish-Modell)." tabindex="0" role="button" aria-pressed="false" aria-label="Elite SA (Aubonne, VD): Pay-per-Night, Details anzeigen">
                         <path class="ch-pin-leader" d="M 156,323 Q 136,326 116,330" />
                         <circle class="ch-pin-anchor" cx="116" cy="330" r="1.7" />
                         <circle class="ch-pin-halo" cx="156" cy="323" r="13" fill="rgba(43,111,107,0.18)" />
@@ -632,11 +633,11 @@
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="-24" y="298" width="140" height="76" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/elite-sa.svg" x="-2" y="305" width="96" height="46.3" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="46" y="365.5" text-anchor="middle">Pay-per-Night</text>
+                          <text class="ch-pin-tag" x="46" y="365.5" text-anchor="middle">Pay-per-Night</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-kmu" data-group="kmu" data-company="schaerer" data-company-name="Schaerer AG" data-company-loc="Zuchwil, SO" data-company-shift="Profi-Kaffeemaschinen → Coffee Link Flottenservice" data-company-enabler="Cloud-Telemetrie + API-Abrechnung" tabindex="0" role="button" aria-label="Schaerer AG (Zuchwil, SO): Pay-per-Cup, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="schaerer" data-company-name="Schaerer AG" data-company-loc="Zuchwil, SO" data-company-tag="Pay-per-Cup" data-company-shift="Profi-Kaffeemaschinen → Coffee Link Flottenservice" data-company-enabler="Cloud-Telemetrie + API-Abrechnung" data-company-insight="Vernetzte Maschinen melden Bezugsmengen und Wartungsbedarf in Echtzeit – Grundlage für exakte Pay-per-Cup-Abrechnung." tabindex="0" role="button" aria-pressed="false" aria-label="Schaerer AG (Zuchwil, SO): Pay-per-Cup, Details anzeigen">
                         <path class="ch-pin-leader" d="M 331,170 Q 256,170 182,169" />
                         <circle class="ch-pin-anchor" cx="182" cy="169" r="1.7" />
                         <circle class="ch-pin-halo" cx="331" cy="170" r="13" fill="rgba(43,111,107,0.18)" />
@@ -645,11 +646,11 @@
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="16" y="140" width="166" height="58" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/schaerer.svg" x="29" y="148" width="140" height="23.7" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="99" y="189" text-anchor="middle">Pay-per-Cup</text>
+                          <text class="ch-pin-tag" x="99" y="189" text-anchor="middle">Pay-per-Cup</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-data" data-group="kmu" data-company="pbswiss" data-company-name="PB Swiss Tools" data-company-loc="Wasen i.E., BE" data-company-shift="Präzisionswerkzeuge → Asset- &amp; Kalibriermanagement" data-company-enabler="Integrierter NFC-Chip im DigiTorque" tabindex="0" role="button" aria-label="PB Swiss Tools (Wasen i.E., BE): NFC Lifecycle, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="pbswiss" data-company-name="PB Swiss Tools" data-company-loc="Wasen i.E., BE" data-company-tag="NFC Lifecycle" data-company-shift="Präzisionswerkzeuge → Asset- &amp; Kalibriermanagement" data-company-enabler="Integrierter NFC-Chip im DigiTorque" data-company-insight="Auch kleine Werkzeuge lassen sich servitizen: NFC-Logging dokumentiert Kalibrierzyklen revisionssicher ohne Besitzwechsel." tabindex="0" role="button" aria-pressed="false" aria-label="PB Swiss Tools (Wasen i.E., BE): NFC Lifecycle, Details anzeigen">
                         <path class="ch-pin-leader" d="M 368,208 L 368,304" />
                         <circle class="ch-pin-anchor" cx="368" cy="304" r="1.7" />
                         <circle class="ch-pin-halo" cx="368" cy="208" r="13" fill="rgba(43,111,107,0.18)" />
@@ -658,11 +659,11 @@
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="266" y="304" width="176" height="60" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/pb-swiss-tools.svg" x="280" y="312" width="148" height="26.2" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="354" y="355" text-anchor="middle">NFC Lifecycle</text>
+                          <text class="ch-pin-tag" x="354" y="355" text-anchor="middle">NFC Lifecycle</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-kmu" data-group="kmu" data-company="suter" data-company-name="Suter Gruppe" data-company-loc="Lupfig, AG" data-company-shift="Bauheizung &amp; Entfeuchtung → Baustellenklima as a Service" data-company-enabler="IoT-Fernüberwachung + 24h-Pikett" tabindex="0" role="button" aria-label="Suter Gruppe (Lupfig, AG): Bau-Klima EaaS, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="suter" data-company-name="Suter Gruppe" data-company-loc="Lupfig, AG" data-company-tag="Bau-Klima EaaS" data-company-shift="Bauheizung &amp; Entfeuchtung → Baustellenklima as a Service" data-company-enabler="IoT-Fernüberwachung + 24h-Pikett" data-company-insight="Bauunternehmen mieten garantiertes Raumklima pro Projekt statt Geräte zu kaufen – inklusive Fernsteuerung und Einsatzbereitschaft." tabindex="0" role="button" aria-pressed="false" aria-label="Suter Gruppe (Lupfig, AG): Bau-Klima EaaS, Details anzeigen">
                         <path class="ch-pin-leader" d="M 428,116 Q 368,72 302,44" />
                         <circle class="ch-pin-anchor" cx="302" cy="44" r="1.7" />
                         <circle class="ch-pin-halo" cx="428" cy="116" r="13" fill="rgba(43,111,107,0.18)" />
@@ -672,11 +673,11 @@
                           <rect class="ch-pin-card" x="198" y="-18" width="174" height="62" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/suter-gruppe.svg" x="210" y="-10.7" width="16" height="47.4" preserveAspectRatio="xMidYMid meet" />
                           <text class="ch-pin-brand" x="236" y="10" text-anchor="start">Suter Gruppe</text>
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="236" y="29" text-anchor="start">Bau-Klima EaaS</text>
+                          <text class="ch-pin-tag" x="236" y="29" text-anchor="start">Bau-Klima EaaS</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-data" data-group="kmu" data-company="amberg" data-company-name="Amberg Technologies" data-company-loc="Regensdorf, ZH" data-company-shift="Tunnel-Vermessung → Automatisierte KI-Inspektion" data-company-enabler="OIS Vision (120 km/h) + Inspection Cloud" tabindex="0" role="button" aria-label="Amberg Technologies (Regensdorf, ZH): KI-Inspektion, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="amberg" data-company-name="Amberg Technologies" data-company-loc="Regensdorf, ZH" data-company-tag="KI-Inspektion" data-company-shift="Tunnel-Vermessung → Automatisierte KI-Inspektion" data-company-enabler="OIS Vision (120 km/h) + Inspection Cloud" data-company-insight="Hochgeschwindigkeits-Sensorik und KI ersetzen manuelle Begehungen durch wiederkehrende Digital-Twin-Inspektionsservices." tabindex="0" role="button" aria-pressed="false" aria-label="Amberg Technologies (Regensdorf, ZH): KI-Inspektion, Details anzeigen">
                         <path class="ch-pin-leader" d="M 470,114 L 470,40" />
                         <circle class="ch-pin-anchor" cx="470" cy="40" r="1.7" />
                         <circle class="ch-pin-halo" cx="470" cy="114" r="13" fill="rgba(43,111,107,0.18)" />
@@ -685,11 +686,11 @@
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="390" y="-24" width="164" height="64" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/amberg-technologies.svg" x="403" y="-16" width="138" height="30" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="472" y="31" text-anchor="middle">KI-Inspektion</text>
+                          <text class="ch-pin-tag" x="472" y="31" text-anchor="middle">KI-Inspektion</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-kmu" data-group="kmu" data-company="swissfeel" data-company-name="Swissfeel" data-company-loc="Schlieren, ZH" data-company-shift="Mineralschaum-Matratzen → Waschbares Mietmodell" data-company-enabler="RFID-Tracking + 2-Cycle-Reinigung" tabindex="0" role="button" aria-label="Swissfeel (Schlieren, ZH): Kreislauf-Miete, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="swissfeel" data-company-name="Swissfeel" data-company-loc="Schlieren, ZH" data-company-tag="Kreislauf-Miete" data-company-shift="Mineralschaum-Matratzen → Waschbares 2-Cycle-Mietmodell" data-company-enabler="RFID-Tracking + industrielle Waschanlage" data-company-insight="Statt Wegwerf-Matratzen trackt RFID jeden Wasch- und Rücknahmezyklus über die gesamte Lebensdauer im Hotel." tabindex="0" role="button" aria-pressed="false" aria-label="Swissfeel (Schlieren, ZH): Kreislauf-Miete, Details anzeigen">
                         <path class="ch-pin-leader" d="M 460,136 Q 472,154 488,168" />
                         <circle class="ch-pin-anchor" cx="488" cy="168" r="1.7" />
                         <circle class="ch-pin-halo" cx="460" cy="136" r="13" fill="rgba(43,111,107,0.18)" />
@@ -698,447 +699,160 @@
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="488" y="144" width="204" height="54" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/swissfeel.svg" x="501" y="155" width="178" height="14.3" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--kmu" x="590" y="188.5" text-anchor="middle">Kreislauf-Miete</text>
+                          <text class="ch-pin-tag" x="590" y="188.5" text-anchor="middle">Kreislauf-Miete</text>
                         </g>
                       </g>
 
-                      <!-- 6 Industrie & MEM Pins (Bronze Diamonds) -->
-                      <g class="ch-pin" data-dive="ch-uptime" data-group="mem" data-company="gilgen" data-company-name="Gilgen Logistics" data-company-loc="Oberwangen, BE" data-company-shift="Intralogistik-Anlagen → 24h-Lifetime-Partnerschaft" data-company-enabler="Remote-Diagnose + On-Site-Instandhaltung" tabindex="0" role="button" aria-label="Gilgen Logistics (Oberwangen, BE): 24h-Lifetime, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="gilgen" data-company-name="Gilgen Logistics" data-company-loc="Oberwangen, BE" data-company-tag="24h-Lifetime" data-company-shift="Intralogistik-Anlagen → 24h-Lifetime-Partnerschaft" data-company-enabler="Remote-Diagnose + On-Site-Instandhaltung" data-company-insight="Mehrstufige Verfügbarkeits-SLAs, Ersatzteil-Management und Retrofits sichern 24/7-Betrieb über Jahrzehnte." tabindex="0" role="button" aria-pressed="false" aria-label="Gilgen Logistics (Oberwangen, BE): 24h-Lifetime, Details anzeigen">
                         <path class="ch-pin-leader" d="M 303,230 Q 224,240 148,246" />
                         <circle class="ch-pin-anchor" cx="148" cy="246" r="1.7" />
-                        <circle class="ch-pin-halo" cx="303" cy="230" r="13" fill="rgba(127,96,0,0.18)" />
-                        <polygon class="ch-pin-core" points="303,223.2 309.8,230 303,236.8 296.2,230" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
-                        <circle class="ch-pin-pip" cx="303" cy="230" r="1.5" fill="#fffbee" opacity="0.88" />
+                        <circle class="ch-pin-halo" cx="303" cy="230" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="303" cy="230" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="303" cy="230" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="-4" y="216" width="152" height="64" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/gilgen-logistics.svg" x="13" y="223" width="118" height="32.9" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="72" y="271.5" text-anchor="middle">24h-Lifetime</text>
+                          <text class="ch-pin-tag" x="72" y="271.5" text-anchor="middle">24h-Lifetime</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-uptime" data-group="mem" data-company="bystronic" data-company-name="Bystronic" data-company-loc="Niederönz, BE" data-company-shift="Laser- &amp; Biegemaschinen → BySoft &amp; ByCare Ökosystem" data-company-enabler="BySoft OEE-Analytik + Service-SLAs" tabindex="0" role="button" aria-label="Bystronic (Niederönz, BE): Smart Factory, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="bystronic" data-company-name="Bystronic" data-company-loc="Niederönz, BE" data-company-tag="Smart Factory" data-company-shift="Laser- &amp; Biegemaschinen → BySoft &amp; ByCare Ökosystem" data-company-enabler="BySoft OEE-Analytik + gestufte Service-SLAs" data-company-insight="Verknüpft CAD/CAM-Software, OEE-Kennzahlen und Serviceverträge zu stabilen, wiederkehrenden Erlösen auf der installierten Basis." tabindex="0" role="button" aria-pressed="false" aria-label="Bystronic (Niederönz, BE): Smart Factory, Details anzeigen">
                         <path class="ch-pin-leader" d="M 360,172 Q 304,126 246,98" />
                         <circle class="ch-pin-anchor" cx="246" cy="98" r="1.7" />
-                        <circle class="ch-pin-halo" cx="360" cy="172" r="13" fill="rgba(127,96,0,0.18)" />
-                        <polygon class="ch-pin-core" points="360,165.2 366.8,172 360,178.8 353.2,172" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
-                        <circle class="ch-pin-pip" cx="360" cy="172" r="1.5" fill="#fffbee" opacity="0.88" />
+                        <circle class="ch-pin-halo" cx="360" cy="172" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="360" cy="172" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="360" cy="172" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="76" y="64" width="170" height="58" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/bystronic.svg" x="88" y="72.6" width="34" height="40.8" preserveAspectRatio="xMidYMid meet" />
                           <text class="ch-pin-brand" x="131" y="90" text-anchor="start">Bystronic</text>
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="131" y="109" text-anchor="start">Smart Factory</text>
+                          <text class="ch-pin-tag" x="131" y="109" text-anchor="start">Smart Factory</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-uptime" data-group="mem" data-company="schindler" data-company-name="Schindler" data-company-loc="Ebikon, LU" data-company-shift="Aufzüge &amp; Fahrtreppen → Schindler Ahead Verfügbarkeit" data-company-enabler="Ahead Cube IoT + Cloud-ML" tabindex="0" role="button" aria-label="Schindler (Ebikon, LU): Ahead Uptime, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="schindler" data-company-name="Schindler" data-company-loc="Ebikon, LU" data-company-tag="Ahead Uptime" data-company-shift="Aufzüge &amp; Fahrtreppen → Schindler Ahead Verfügbarkeit" data-company-enabler="Ahead Cube IoT-Gateway + Cloud-ML" data-company-insight="Closed-Loop-Telemetrie löst Wartung vor dem Ausfall aus – die installierte Basis wird zur hochmargigen Service-Plattform." tabindex="0" role="button" aria-pressed="false" aria-label="Schindler (Ebikon, LU): Ahead Uptime, Details anzeigen">
                         <path class="ch-pin-leader" d="M 448,196 Q 478,232 506,268" />
                         <circle class="ch-pin-anchor" cx="506" cy="268" r="1.7" />
-                        <circle class="ch-pin-halo" cx="448" cy="196" r="13" fill="rgba(127,96,0,0.18)" />
-                        <polygon class="ch-pin-core" points="448,189.2 454.8,196 448,202.8 441.2,196" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
-                        <circle class="ch-pin-pip" cx="448" cy="196" r="1.5" fill="#fffbee" opacity="0.88" />
+                        <circle class="ch-pin-halo" cx="448" cy="196" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="448" cy="196" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="448" cy="196" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="466" y="268" width="132" height="92" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/schindler.svg" x="497" y="275" width="70" height="61.3" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="532" y="351.5" text-anchor="middle">Ahead Uptime</text>
+                          <text class="ch-pin-tag" x="532" y="351.5" text-anchor="middle">Ahead Uptime</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-data" data-group="mem" data-company="burckhardt" data-company-name="Burckhardt Compression" data-company-loc="Winterthur, ZH" data-company-shift="Kolbenkompressoren → UP! Solutions &amp; Verträge" data-company-enabler="Hochfreq.-Vibration + neuronale Netze" tabindex="0" role="button" aria-label="Burckhardt Compression (Winterthur, ZH): UP! KI-Diagnostik, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="burckhardt" data-company-name="Burckhardt Compression" data-company-loc="Winterthur, ZH" data-company-tag="UP! KI-Diagnostik" data-company-shift="Kolbenkompressoren → UP! Solutions &amp; Diagnoseverträge" data-company-enabler="SPS-Daten + Hochfrequenz-Vibration &amp; neuronale Netze" data-company-insight="Erkennt ~90 % kritischer Anomalien frühzeitig wie in unserem Edge-AI-Lab – gemittelte Stundenwerte würden Lagerschäden übersehen." tabindex="0" role="button" aria-pressed="false" aria-label="Burckhardt Compression (Winterthur, ZH): UP! KI-Diagnostik, Details anzeigen">
                         <path class="ch-pin-leader" d="M 505,105 Q 560,78 616,52" />
                         <circle class="ch-pin-anchor" cx="616" cy="52" r="1.7" />
-                        <circle class="ch-pin-halo" cx="505" cy="105" r="13" fill="rgba(127,96,0,0.18)" />
-                        <polygon class="ch-pin-core" points="505,98.2 511.8,105 505,111.8 498.2,105" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
-                        <circle class="ch-pin-pip" cx="505" cy="105" r="1.5" fill="#fffbee" opacity="0.88" />
+                        <circle class="ch-pin-halo" cx="505" cy="105" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="505" cy="105" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="505" cy="105" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="572" y="-18" width="168" height="70" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/burckhardt-compression.svg" x="592" y="-10" width="128" height="36" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="656" y="43" text-anchor="middle">UP! KI-Diagnostik</text>
+                          <text class="ch-pin-tag" x="656" y="43" text-anchor="middle">UP! KI-Diagnostik</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-uptime" data-group="mem" data-company="buehler" data-company-name="Bühler Group" data-company-loc="Uzwil, SG" data-company-shift="Prozess- &amp; Mühlenanlagen → Bühler Insights Plattform" data-company-enabler="Cloud-IoT + Yield Management (YMS)" tabindex="0" role="button" aria-label="Bühler Group (Uzwil, SG): Yield &amp; IoT, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="buehler" data-company-name="Bühler Group" data-company-loc="Uzwil, SG" data-company-tag="Yield &amp; IoT" data-company-shift="Prozess- &amp; Mühlenanlagen → Bühler Insights Plattform" data-company-enabler="Cloud-IoT + Yield Management (YMS)" data-company-insight="Echtzeit-Temperatur- und Vibrationsdaten senken Ausschuss und Energieverbrauch über den gesamten Anlagen-Lebenszyklus." tabindex="0" role="button" aria-pressed="false" aria-label="Bühler Group (Uzwil, SG): Yield &amp; IoT, Details anzeigen">
                         <path class="ch-pin-leader" d="M 566,118 Q 632,108 700,100" />
                         <circle class="ch-pin-anchor" cx="700" cy="100" r="1.7" />
-                        <circle class="ch-pin-halo" cx="566" cy="118" r="13" fill="rgba(127,96,0,0.18)" />
-                        <polygon class="ch-pin-core" points="566,111.2 572.8,118 566,124.8 559.2,118" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
-                        <circle class="ch-pin-pip" cx="566" cy="118" r="1.5" fill="#fffbee" opacity="0.88" />
+                        <circle class="ch-pin-halo" cx="566" cy="118" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="566" cy="118" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="566" cy="118" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="700" y="70" width="168" height="60" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/buehler-group.svg" x="713" y="78" width="142" height="27.2" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="784" y="121.5" text-anchor="middle">Yield &amp; IoT</text>
+                          <text class="ch-pin-tag" x="784" y="121.5" text-anchor="middle">Yield &amp; IoT</text>
                         </g>
                       </g>
 
-                      <g class="ch-pin" data-dive="ch-eaas" data-group="mem" data-company="trumpf" data-company-name="TRUMPF Schweiz" data-company-loc="Grüsch, GR" data-company-shift="Laserschneidanlagen → Abrechnung pro Gutteil" data-company-enabler="Remote Control + relayr / Munich Re (SPV)" tabindex="0" role="button" aria-label="TRUMPF Schweiz (Grüsch, GR): Pay-per-Part, Deep Dive öffnen">
+                      <g class="ch-pin" data-company="trumpf" data-company-name="TRUMPF Schweiz" data-company-loc="Grüsch, GR" data-company-tag="Pay-per-Part" data-company-shift="Laserschneidanlagen → Fixpreis pro gut geschnittenem Teil" data-company-enabler="Remote Control Center (Grüsch) + relayr IoT" data-company-insight="Munich Re finanziert die Anlage Off-Balance-Sheet; KMU-Fertiger gewinnen Kapazität ohne Millionen-CAPEX trotz Fachkräftemangel." tabindex="0" role="button" aria-pressed="false" aria-label="TRUMPF Schweiz (Grüsch, GR): Pay-per-Part, Details anzeigen">
                         <path class="ch-pin-leader" d="M 644,217 Q 688,232 736,248" />
                         <circle class="ch-pin-anchor" cx="736" cy="248" r="1.7" />
-                        <circle class="ch-pin-halo" cx="644" cy="217" r="13" fill="rgba(127,96,0,0.18)" />
-                        <polygon class="ch-pin-core" points="644,210.2 650.8,217 644,223.8 637.2,217" fill="#7f6000" stroke="#fffbee" stroke-width="1.9" stroke-linejoin="round" />
-                        <circle class="ch-pin-pip" cx="644" cy="217" r="1.5" fill="#fffbee" opacity="0.88" />
+                        <circle class="ch-pin-halo" cx="644" cy="217" r="13" fill="rgba(43,111,107,0.18)" />
+                        <circle class="ch-pin-core" cx="644" cy="217" r="5.7" fill="#2b6f6b" stroke="#fffbee" stroke-width="1.9" />
+                        <circle class="ch-pin-pip" cx="644" cy="217" r="1.7" fill="#fffbee" opacity="0.88" />
                         <g class="ch-pin-label">
                           <rect class="ch-pin-card" x="736" y="214" width="126" height="90" rx="7" />
                           <image class="ch-pin-logo" href="assets/slides/fokus-schweiz/trumpf-schweiz.svg" x="769" y="221" width="60" height="59.9" preserveAspectRatio="xMidYMid meet" />
-                          <text class="ch-pin-tag ch-pin-tag--mem" x="799" y="295.5" text-anchor="middle">Pay-per-Part</text>
+                          <text class="ch-pin-tag" x="799" y="295.5" text-anchor="middle">Pay-per-Part</text>
                         </g>
                       </g>
                     </svg>
+                    </div>
+
+                    <!-- Single-Company Focus Card (sits on the right of the map on desktop) -->
+                    <aside id="chSpotlight" class="ch-spotlight" aria-live="polite" hidden>
+                      <div class="ch-spotlight-top">
+                        <span id="chSpotBadge" class="ch-spotlight-badge"></span>
+                        <div class="ch-spotlight-controls">
+                          <button type="button" id="chSpotPrev" class="ch-spotlight-btn" aria-label="Vorheriges Unternehmen" title="Vorheriges Unternehmen (←)">‹</button>
+                          <span id="chSpotCount" class="ch-spotlight-count"></span>
+                          <button type="button" id="chSpotNext" class="ch-spotlight-btn" aria-label="Nächstes Unternehmen" title="Nächstes Unternehmen (→)">›</button>
+                          <button type="button" id="chSpotClose" class="ch-spotlight-btn ch-spotlight-close" aria-label="Auswahl schliessen" title="Schliessen (Esc)">✕</button>
+                        </div>
+                      </div>
+                      <div class="ch-spotlight-id">
+                        <img id="chSpotLogo" class="ch-spotlight-logo" src="" alt="" />
+                        <div class="ch-spotlight-title-row">
+                          <strong id="chSpotName" class="ch-spotlight-name"></strong>
+                          <span id="chSpotLoc" class="ch-spotlight-loc"></span>
+                        </div>
+                      </div>
+                      <div class="ch-spotlight-grid">
+                        <div class="ch-spotlight-col ch-spotlight-col--shift">
+                          <span class="ex-label">Wandel</span>
+                          <p id="chSpotShift"></p>
+                        </div>
+                        <div class="ch-spotlight-col">
+                          <span class="ex-label">Daten-Enabler</span>
+                          <p id="chSpotEnabler"></p>
+                        </div>
+                        <div class="ch-spotlight-col">
+                          <span class="ex-label">Kernpunkt</span>
+                          <p id="chSpotInsight"></p>
+                        </div>
+                      </div>
+                    </aside>
                   </div>
 
                   <!-- Compact Mobile List (replaces SVG text labels below 680px) -->
                   <div class="ch-mobile-list" aria-label="Unternehmensliste Schweiz">
-                    <button type="button" class="ch-mobile-item" data-dive="ch-kmu" data-group="kmu"><strong class="ch-mobile-name">Elite SA</strong><span class="ch-mobile-meta">VD · Pay-per-Night</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-kmu" data-group="kmu"><strong class="ch-mobile-name">Swissfeel</strong><span class="ch-mobile-meta">ZH · Kreislauf-Miete</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-kmu" data-group="kmu"><strong class="ch-mobile-name">Suter Gruppe</strong><span class="ch-mobile-meta">AG · Bau-Klima EaaS</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-data" data-group="kmu"><strong class="ch-mobile-name">Amberg Tech.</strong><span class="ch-mobile-meta">ZH · KI-Inspektion</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-data" data-group="kmu"><strong class="ch-mobile-name">PB Swiss Tools</strong><span class="ch-mobile-meta">BE · NFC Lifecycle</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-kmu" data-group="kmu"><strong class="ch-mobile-name">Schaerer AG</strong><span class="ch-mobile-meta">SO · Pay-per-Cup</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-eaas" data-group="mem"><strong class="ch-mobile-name">TRUMPF Schweiz</strong><span class="ch-mobile-meta">GR · Pay-per-Part</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-data" data-group="mem"><strong class="ch-mobile-name">Burckhardt</strong><span class="ch-mobile-meta">ZH · UP! KI-Diagnostik</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-uptime" data-group="mem"><strong class="ch-mobile-name">Bühler Group</strong><span class="ch-mobile-meta">SG · Yield &amp; IoT</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-uptime" data-group="mem"><strong class="ch-mobile-name">Bystronic</strong><span class="ch-mobile-meta">BE · Smart Factory</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-uptime" data-group="mem"><strong class="ch-mobile-name">Gilgen Logistics</strong><span class="ch-mobile-meta">BE · 24h-Lifetime</span></button>
-                    <button type="button" class="ch-mobile-item" data-dive="ch-uptime" data-group="mem"><strong class="ch-mobile-name">Schindler</strong><span class="ch-mobile-meta">LU · Ahead Uptime</span></button>
-                  </div>
-
-                  <div class="ch-map-legend" aria-label="Legende">
-                    <span class="ch-legend-item"><span class="ch-legend-dot" aria-hidden="true"></span>KMU &amp; Spezialhersteller (6)</span>
-                    <span class="ch-legend-item"><span class="ch-legend-diamond" aria-hidden="true"></span>Industrie &amp; MEM (6)</span>
+                    <button type="button" class="ch-mobile-item" data-company="elite" aria-pressed="false"><strong class="ch-mobile-name">Elite SA</strong><span class="ch-mobile-meta">VD · Pay-per-Night</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="swissfeel" aria-pressed="false"><strong class="ch-mobile-name">Swissfeel</strong><span class="ch-mobile-meta">ZH · Kreislauf-Miete</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="suter" aria-pressed="false"><strong class="ch-mobile-name">Suter Gruppe</strong><span class="ch-mobile-meta">AG · Bau-Klima EaaS</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="amberg" aria-pressed="false"><strong class="ch-mobile-name">Amberg Tech.</strong><span class="ch-mobile-meta">ZH · KI-Inspektion</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="pbswiss" aria-pressed="false"><strong class="ch-mobile-name">PB Swiss Tools</strong><span class="ch-mobile-meta">BE · NFC Lifecycle</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="schaerer" aria-pressed="false"><strong class="ch-mobile-name">Schaerer AG</strong><span class="ch-mobile-meta">SO · Pay-per-Cup</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="trumpf" aria-pressed="false"><strong class="ch-mobile-name">TRUMPF Schweiz</strong><span class="ch-mobile-meta">GR · Pay-per-Part</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="burckhardt" aria-pressed="false"><strong class="ch-mobile-name">Burckhardt</strong><span class="ch-mobile-meta">ZH · UP! KI-Diagnostik</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="buehler" aria-pressed="false"><strong class="ch-mobile-name">Bühler Group</strong><span class="ch-mobile-meta">SG · Yield &amp; IoT</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="bystronic" aria-pressed="false"><strong class="ch-mobile-name">Bystronic</strong><span class="ch-mobile-meta">BE · Smart Factory</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="gilgen" aria-pressed="false"><strong class="ch-mobile-name">Gilgen Logistics</strong><span class="ch-mobile-meta">BE · 24h-Lifetime</span></button>
+                    <button type="button" class="ch-mobile-item" data-company="schindler" aria-pressed="false"><strong class="ch-mobile-name">Schindler</strong><span class="ch-mobile-meta">LU · Ahead Uptime</span></button>
                   </div>
                 </div>
-                <p class="ex-dive-hint">Standort auf der Karte anklicken für den Deep Dive</p>
-
-                <!-- Deep Dive: Fokus Schweiz -->
-                <div class="ex-dive" hidden>
-                  <div class="ex-dive-bar">
-                    <div class="ex-dive-tabs" role="tablist" aria-label="Deep Dive Schweizer Praxisbeispiele">
-                      <button type="button" class="ex-dive-tab" role="tab" data-dive="ch-kmu" aria-selected="false">
-                        <span class="ex-tab-short">KMU · Pay-per-Use</span>
-                        <span class="ex-tab-open">
-                          <strong class="ex-tab-title">KMU · Pay-per-Use</strong>
-                          <span class="ex-tab-sub">Elite, Swissfeel, Suter &amp; Schaerer</span>
-                        </span>
-                      </button>
-                      <button type="button" class="ex-dive-tab" role="tab" data-dive="ch-eaas" aria-selected="false">
-                        <span class="ex-tab-short">MEM · Pay-per-Part</span>
-                        <span class="ex-tab-open">
-                          <strong class="ex-tab-title">TRUMPF · Pay-per-Part</strong>
-                          <span class="ex-tab-sub">Grüsch · Off-Balance-Sheet</span>
-                        </span>
-                      </button>
-                      <button type="button" class="ex-dive-tab" role="tab" data-dive="ch-data" aria-selected="false">
-                        <span class="ex-tab-short">Daten &amp; KI</span>
-                        <span class="ex-tab-open">
-                          <strong class="ex-tab-title">Daten- &amp; KI-Services</strong>
-                          <span class="ex-tab-sub">Burckhardt, Amberg &amp; PB Swiss</span>
-                        </span>
-                      </button>
-                      <button type="button" class="ex-dive-tab" role="tab" data-dive="ch-uptime" aria-selected="false">
-                        <span class="ex-tab-short">Flotte &amp; OEE</span>
-                        <span class="ex-tab-open">
-                          <strong class="ex-tab-title">Flotten- &amp; OEE-Plattformen</strong>
-                          <span class="ex-tab-sub">Bühler, Bystronic, Gilgen &amp; Schindler</span>
-                        </span>
-                      </button>
-                      <button type="button" class="ex-dive-tab ex-dive-tab--compare" role="tab" data-dive="ch-matrix" aria-selected="false">
-                        <span class="ex-tab-short">Alle 12 · Matrix</span>
-                        <span class="ex-tab-open">
-                          <strong class="ex-tab-title">Vergleichsmatrix</strong>
-                          <span class="ex-tab-sub">12 Schweizer Unternehmen</span>
-                        </span>
-                      </button>
-                    </div>
-                    <button type="button" class="ex-dive-close" aria-label="Deep Dive schliessen und zur Übersicht zurück">✕ Übersicht</button>
-                  </div>
-
-                  <div class="ex-dive-body">
-                    <!-- Tab 1: KMU Pay-per-Use & Kreislauf -->
-                    <article class="ex-case" data-dive="ch-kmu" role="tabpanel" aria-label="KMU Pay-per-Use und Kreislaufmodelle" hidden>
-                      <div class="ex-shift-row">
-                        <div class="ex-shift-box">
-                          <span class="ex-label">Ausgangslage · Elite SA (Aubonne, VD)</span>
-                          <p><strong>Hoher CAPEX &amp; leere Betten in der Nebensaison.</strong> Hotels kaufen hochwertige handgefertigte Matratzen im Voraus, tragen das Auslastungsrisiko und entsorgen sie nach wenigen Jahren.</p>
-                        </div>
-                        <span class="ex-shift-arrow" aria-hidden="true">→</span>
-                        <div class="ex-shift-box is-after">
-                          <span class="ex-label">Servicemodell · «Smart Lease»</span>
-                          <p><strong>Pay-per-Night ab ~CHF&nbsp;0.50 pro belegter Nacht.</strong> Druck- und Bewegungssensoren messen reale Übernachtungen; <em>Ecoclean</em>-Hygiene und End-of-Life-Recycling sind inklusive (Green Business Award).</p>
-                        </div>
-                      </div>
-
-                      <div class="ex-detail-grid">
-                        <section class="ex-block">
-                          <h4 class="ex-label">Erlös, Finanzierung &amp; Risiko</h4>
-                          <p><strong>Risikoshift:</strong> Saisonale Auslastung und Restwert wechseln vom Hotel zum Hersteller; Eigentum bleibt bei Elite.<br /><strong>Ökonomischer Effekt:</strong> Langlebigkeit zahlt sich direkt aus – je länger die Matratze hält, desto höher die Service-Marge über die Vertragslaufzeit.</p>
-                        </section>
-                        <section class="ex-block">
-                          <h4 class="ex-label">Weitere Schweizer KMU-Umsetzungen</h4>
-                          <ul class="ch-mini-list">
-                            <li><strong>Swissfeel (Schlieren, ZH):</strong> Waschbarer Mineralschaum + RFID-Chip im <em>2-Cycle</em>-Mietmodell statt Wegwerf-Matratzen.</li>
-                            <li><strong>Suter Gruppe (Lupfig, AG):</strong> Mobile Bauheizung &amp; Entfeuchtung als Mietservice mit IoT-Fernüberwachung und 24h-Pikett.</li>
-                            <li><strong>Schaerer AG (Zuchwil, SO):</strong> <em>Coffee Link</em> IoT-Telemetrie für Flottenstatus, Wartung &amp; exakte <em>Pay-per-Cup</em>-Abrechnung.</li>
-                          </ul>
-                        </section>
-                      </div>
-
-                      <div class="ex-bottom-row">
-                        <section class="ex-block ex-nuance">
-                          <h4 class="ex-label">Genauer hingeschaut</h4>
-                          <p>Gerade kleinere Schweizer Hersteller verknüpfen <em>Pay-per-Use</em> mit Kreislaufwirtschaft: Wenn das Produkt in der eigenen Bilanz bleibt, entsteht das «Fish-Modell» (erst Investition, später laufender Rückfluss).</p>
-                        </section>
-                        <section class="ex-block ex-question">
-                          <h4 class="ex-label">Diskussionsfrage</h4>
-                          <p>Wie überbrückt ein KMU das Cashflow-Tal, wenn Hotels erst pro Nacht zahlen statt beim Kauf der Matratze?</p>
-                        </section>
-                      </div>
-                    </article>
-
-                    <!-- Tab 2: MEM Pay-per-Part (TRUMPF + Munich Re / relayr) -->
-                    <article class="ex-case" data-dive="ch-eaas" role="tabpanel" aria-label="TRUMPF Schweiz Pay-per-Part" hidden>
-                      <div class="ex-shift-row">
-                        <div class="ex-shift-box">
-                          <span class="ex-label">Ausgangslage · Laserschneidanlagen</span>
-                          <p><strong>Hohe CAPEX-Hürde &amp; Fachkräftemangel.</strong> Vollautomatische Anlagen wie die <em>TruLaser Center 7030</em> binden Millionenbeträge in der Kundenbilanz und erfordern hochqualifizierte Bediener.</p>
-                        </div>
-                        <span class="ex-shift-arrow" aria-hidden="true">→</span>
-                        <div class="ex-shift-box is-after">
-                          <span class="ex-label">Servicemodell · TRUMPF «Pay-per-Part» (Grüsch, GR)</span>
-                          <p><strong>Fixpreis ausschliesslich pro gut geschnittenem Blechteil.</strong> Die Anlage steht beim Kunden; Telemetrie, Wartung und ein Remote Control Center (u. a. in Grüsch) sichern den Betrieb.</p>
-                        </div>
-                      </div>
-
-                      <div class="ex-detail-grid">
-                        <section class="ex-block">
-                          <h4 class="ex-label">Wer trägt welches Risiko?</h4>
-                          <table class="ex-risk">
-                            <thead><tr><th scope="col"></th><th scope="col">Kauf</th><th scope="col">Pay-per-Part</th></tr></thead>
-                            <tbody>
-                              <tr><th scope="row">Investition &amp; Bilanz</th><td>Kunde</td><td class="is-shift">Finanzpartner / SPV</td></tr>
-                              <tr><th scope="row">Auslastung &amp; Stillstand</th><td>Kunde</td><td class="is-shift">Anbieter &amp; Versicherer</td></tr>
-                              <tr><th scope="row">Wartung &amp; Remote-Betrieb</th><td>Kunde</td><td class="is-shift">TRUMPF</td></tr>
-                            </tbody>
-                          </table>
-                        </section>
-                        <section class="ex-block">
-                          <h4 class="ex-label">Finanzierung &amp; Daten-Enabler (Off-Balance-Sheet)</h4>
-                          <p><strong>Finanzarchitektur:</strong> <em>Munich Re</em> finanziert die Anlagen und trägt das Investitions- und Auslastungsrisiko ausserhalb der Kunden- und Herstellerbilanz.<br /><strong>Daten-Enabler:</strong> <em>relayr</em> vernetzt Sensordaten, Betriebszeiten und Stückzahlen für die dynamische Risikobewertung.</p>
-                        </section>
-                      </div>
-
-                      <div class="ex-bottom-row">
-                        <section class="ex-block ex-nuance">
-                          <h4 class="ex-label">Genauer hingeschaut</h4>
-                          <p>Schweizer Lohnfertiger (KMU) profitieren als <em>Kunden</em> doppelt: Sie erhalten modernste Automatisierung ohne Bilanzbelastung und gewinnen durch Remote-Steuerung Produktionskapazität trotz Fachkräftemangel.</p>
-                        </section>
-                        <section class="ex-block ex-question">
-                          <h4 class="ex-label">Diskussionsfrage</h4>
-                          <p>Warum braucht ein Maschinenbauer für echtes Pay-per-Part meist einen Versicherer oder Finanzpartner statt nur eigene Ingenieure?</p>
-                        </section>
-                      </div>
-                    </article>
-
-                    <!-- Tab 3: Daten- & KI-Services (Burckhardt, Amberg, PB Swiss) -->
-                    <article class="ex-case" data-dive="ch-data" role="tabpanel" aria-label="Schweizer Daten- und KI-Services" hidden>
-                      <div class="ex-shift-row">
-                        <div class="ex-shift-box">
-                          <span class="ex-label">Ausgangslage · Burckhardt Compression (Winterthur, ZH)</span>
-                          <p><strong>Zeitbasierte Wartung &amp; teure Stillstände.</strong> Kolbenkompressoren laufen in kritischen Prozessen; reaktive Reparaturen verursachen hohe Ausfallkosten und Sicherheitsrisiken.</p>
-                        </div>
-                        <span class="ex-shift-arrow" aria-hidden="true">→</span>
-                        <div class="ex-shift-box is-after">
-                          <span class="ex-label">Servicemodell · «UP! Solutions» &amp; Diagnostik</span>
-                          <p><strong>KI-gestützte Zustandsüberwachung &amp; längere MTBO.</strong> <em>UP! Insight</em> liest SPS-Prozessdaten; <em>UP! Detect</em> nutzt Hochfrequenz-Vibration &amp; neuronale Netze zur Früherkennung bis zu ~90&nbsp;% der Anomalien.</p>
-                        </div>
-                      </div>
-
-                      <div class="ex-detail-grid">
-                        <section class="ex-block">
-                          <h4 class="ex-label">Weitere Schweizer Daten-Services</h4>
-                          <ul class="ch-mini-list">
-                            <li><strong>Amberg Technologies (Regensdorf, ZH):</strong> <em>OIS Vision</em> scannt Tunnel bei bis zu 120&nbsp;km/h; KI klassifiziert Risse/Feuchtigkeit in die <em>Inspection Cloud</em> (Digital Twin statt manuellem Begehungsprotokoll).</li>
-                            <li><strong>PB Swiss Tools (Wasen i.E., BE):</strong> Digitale Drehmomentwerkzeuge (<em>DigiTorque</em>) mit integrierter NFC-Schnittstelle für Kalibrierzyklen und revisionssicheres Asset-Tracking.</li>
-                          </ul>
-                        </section>
-                        <section class="ex-block">
-                          <h4 class="ex-label">Wertschöpfung durch Daten</h4>
-                          <p><strong>Domänenwissen + Sensorik:</strong> Langjährige OEM-Schadensdatenbanken (z. B. <em>PROGNOST</em>) machen aus rohen Vibrations- oder Bildströmen konkrete Handlungsempfehlungen.<br /><strong>Geschäftsmodell:</strong> Wiederkehrende Daten-, Diagnose- und Inspektionsverträge – auch ohne Eigentumsübertragung der Hardware.</p>
-                        </section>
-                      </div>
-
-                      <div class="ex-bottom-row">
-                        <section class="ex-block ex-nuance">
-                          <h4 class="ex-label">Genauer hingeschaut</h4>
-                          <p>Genau wie in unserem Edge-AI-Lab erkennt <em>UP! Detect</em> hochfrequente Vibrationsspitzen bevor ein Bauteil ausfällt – gemittelte Stundenwerte würden diese frühen Lagerschäden übersehen.</p>
-                        </section>
-                        <section class="ex-block ex-question">
-                          <h4 class="ex-label">Diskussionsfrage</h4>
-                          <p>Wann reicht ein datenbasierter Servicevertrag – und wann lohnt sich für Hersteller der Schritt zur echten Pay-per-Use-Abrechnung?</p>
-                        </section>
-                      </div>
-                    </article>
-
-                    <!-- Tab 4: Flotten- & OEE-Plattformen (Bühler, Bystronic, Gilgen, Schindler) -->
-                    <article class="ex-case" data-dive="ch-uptime" role="tabpanel" aria-label="Flotten- und OEE-Plattformen" hidden>
-                      <div class="ch-companion-grid">
-                        <section class="ch-companion-card">
-                          <div class="ch-card-top">
-                            <strong class="ch-company">Bühler Group <small class="ch-loc">(Uzwil, SG)</small></strong>
-                            <span class="ch-tag">Yield &amp; Energie · IoT</span>
-                          </div>
-                          <p><strong>Produkt → Plattform:</strong> Von Prozess- &amp; Mühlenanlagen zu <em>Bühler Insights</em> (Cloud-IoT).<br /><strong>Hebel:</strong> Echtzeit-<em>Yield Management (YMS)</em>, Temperatur-/Vibrationsmonitoring und geringerer Ausschuss.</p>
-                        </section>
-
-                        <section class="ch-companion-card">
-                          <div class="ch-card-top">
-                            <strong class="ch-company">Bystronic <small class="ch-loc">(Niederönz, BE)</small></strong>
-                            <span class="ch-tag">Smart Factory · OEE</span>
-                          </div>
-                          <p><strong>Produkt → Ökosystem:</strong> Von einzelnen Laserschneid-/Biegemaschinen zur vernetzten <em>Smart Factory</em>.<br /><strong>Hebel:</strong> <em>BySoft Suite</em> (CAD/CAM, OEE-Analytik) + gestufte <em>ByCare</em>-Serviceverträge für maximale Verfügbarkeit.</p>
-                        </section>
-
-                        <section class="ch-companion-card">
-                          <div class="ch-card-top">
-                            <strong class="ch-company">Gilgen Logistics <small class="ch-loc">(Oberwangen, BE)</small></strong>
-                            <span class="ch-tag">Verfügbarkeit · 24/7</span>
-                          </div>
-                          <p><strong>Produkt → Partnerschaft:</strong> Von Förder- &amp; Hochregalanlagen zur <em>Lifetime-Partnerschaft</em>.<br /><strong>Hebel:</strong> 1st-/2nd-/3rd-Level-Support mit On-Site-Teams, Remote-Diagnose, Ersatzteil-Management &amp; Retrofits.</p>
-                        </section>
-
-                        <section class="ch-companion-card">
-                          <div class="ch-card-top">
-                            <strong class="ch-company">Schindler <small class="ch-loc">(Ebikon, LU)</small></strong>
-                            <span class="ch-tag">Predictive · IoT Cube</span>
-                          </div>
-                          <p><strong>Produkt → Mobilität:</strong> Von Aufzügen/Fahrtreppen zu <em>Schindler Ahead</em>.<br /><strong>Hebel:</strong> IoT-Gateway (<em>Cube</em>) + Cloud-ML für Predictive Maintenance, <em>ActionBoard</em> &amp; <em>FieldLink</em>-Diagnose.</p>
-                        </section>
-                      </div>
-
-                      <p class="ex-takeaway"><strong>Gemeinsamer Nenner grosser Schweizer MEM-Anbieter:</strong> Die installierte Basis wird über eigene IoT-Plattformen, Service-Level-Agreements (SLAs) und Retrofits zur stabilen, hochmargigen Ertragsquelle über den gesamten Lebenszyklus.</p>
-                    </article>
-
-                    <!-- Tab 5: Vergleichsmatrix (Alle 12) -->
-                    <article class="ex-case ex-compare" data-dive="ch-matrix" role="tabpanel" aria-label="Vergleichsmatrix aller zwölf Schweizer Unternehmen" hidden>
-                      <div class="ex-compare-scroll">
-                        <table class="ex-compare-table ch-matrix-table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Unternehmen (Ort)</th>
-                              <th scope="col">Ursprungsprodukt</th>
-                              <th scope="col">Service-Modell</th>
-                              <th scope="col">Abrechnungslogik</th>
-                              <th scope="col">Enabler &amp; Bilanz/Risiko</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr class="ex-compare-row" data-dive="ch-kmu" tabindex="0" role="button" aria-label="Deep Dive: Elite SA">
-                              <th scope="row"><strong>Elite SA</strong> <small>(Aubonne, VD)</small></th>
-                              <td>Hotelmatratzen</td>
-                              <td>Smart Lease + Recycling</td>
-                              <td>Pay-per-Night (~CHF 0.50+)</td>
-                              <td>Belegungssensor · Eigenbilanz / Kreislauf</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-kmu" tabindex="0" role="button" aria-label="Deep Dive: Swissfeel">
-                              <th scope="row"><strong>Swissfeel</strong> <small>(Schlieren, ZH)</small></th>
-                              <td>Mineralschaum-Matratzen</td>
-                              <td>2-Cycle Mietmodell</td>
-                              <td>Miet-/Rahmenvertrag</td>
-                              <td>RFID + Waschanlage · Rücknahme durch Hersteller</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-kmu" tabindex="0" role="button" aria-label="Deep Dive: Suter Gruppe">
-                              <th scope="row"><strong>Suter Gruppe</strong> <small>(Lupfig, AG)</small></th>
-                              <td>Bauheizung &amp; Entfeuchter</td>
-                              <td>Baustellenklima-Service</td>
-                              <td>Projektmiete inkl. Betrieb</td>
-                              <td>IoT-Fernüberwachung · Anbieter trägt Gerätepark</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-data" tabindex="0" role="button" aria-label="Deep Dive: Amberg Technologies">
-                              <th scope="row"><strong>Amberg Tech.</strong> <small>(Regensdorf, ZH)</small></th>
-                              <td>Tunnel-Vermessung</td>
-                              <td>Automatisierte Inspektion</td>
-                              <td>Projekt-/Daten-Service</td>
-                              <td>OIS Vision + KI-Cloud · Digital-Twin-Repository</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-data" tabindex="0" role="button" aria-label="Deep Dive: PB Swiss Tools">
-                              <th scope="row"><strong>PB Swiss Tools</strong> <small>(Wasen i.E., BE)</small></th>
-                              <td>Präzisionswerkzeuge</td>
-                              <td>Asset- &amp; Kalibrierservice</td>
-                              <td>Produkt + Prüf-/Compliance-Service</td>
-                              <td>NFC im Werkzeug · Digitales Kalibrier-Logging</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-kmu" tabindex="0" role="button" aria-label="Deep Dive: Schaerer AG">
-                              <th scope="row"><strong>Schaerer AG</strong> <small>(Zuchwil, SO)</small></th>
-                              <td>Profi-Kaffeemaschinen</td>
-                              <td>Coffee Link Flottenservice</td>
-                              <td>Pay-per-Cup / Op-Leasing</td>
-                              <td>Cloud-API &amp; Telemetrie · Leasing/Betreiberpartner</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-eaas" tabindex="0" role="button" aria-label="Deep Dive: TRUMPF Schweiz">
-                              <th scope="row"><strong>TRUMPF Schweiz</strong> <small>(Grüsch, GR)</small></th>
-                              <td>Laserschneidanlagen</td>
-                              <td>Pay-per-Part EaaS</td>
-                              <td>Fixpreis pro Gutteil</td>
-                              <td>Remote Control + relayr · Off-Balance via Munich Re</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-data" tabindex="0" role="button" aria-label="Deep Dive: Burckhardt Compression">
-                              <th scope="row"><strong>Burckhardt</strong> <small>(Winterthur, ZH)</small></th>
-                              <td>Kolbenkompressoren</td>
-                              <td>UP! Solutions &amp; Verträge</td>
-                              <td>Service-/Performance-Abo</td>
-                              <td>SPS + Hochfreq.-Vibration/KI · Längere MTBO</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-uptime" tabindex="0" role="button" aria-label="Deep Dive: Bühler Group">
-                              <th scope="row"><strong>Bühler Group</strong> <small>(Uzwil, SG)</small></th>
-                              <td>Prozess- &amp; Mühlenanlagen</td>
-                              <td>Bühler Insights Dienste</td>
-                              <td>Plattform- &amp; Yield-Services</td>
-                              <td>IoT-Gateways + YMS/TVM · Kunden-CAPEX + OPEX-Abo</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-uptime" tabindex="0" role="button" aria-label="Deep Dive: Bystronic">
-                              <th scope="row"><strong>Bystronic</strong> <small>(Niederönz, BE)</small></th>
-                              <td>Laser-/Biegemaschinen</td>
-                              <td>Smart Factory &amp; ByCare</td>
-                              <td>Gestufte Service-Pakete</td>
-                              <td>BySoft Suite + OEE-Daten · Wartungs-SLA beim OEM</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-uptime" tabindex="0" role="button" aria-label="Deep Dive: Gilgen Logistics">
-                              <th scope="row"><strong>Gilgen Logistics</strong> <small>(Oberwangen, BE)</small></th>
-                              <td>Intralogistik-Anlagen</td>
-                              <td>24h-Lifetime-Partnerschaft</td>
-                              <td>Mehrstufiger SLA-Vertrag</td>
-                              <td>Remote-Diagnose + 24h-Pikett · Verfügbarkeits-SLA</td>
-                            </tr>
-                            <tr class="ex-compare-row" data-dive="ch-uptime" tabindex="0" role="button" aria-label="Deep Dive: Schindler">
-                              <th scope="row"><strong>Schindler</strong> <small>(Ebikon, LU)</small></th>
-                              <td>Aufzüge &amp; Fahrtreppen</td>
-                              <td>Schindler Ahead</td>
-                              <td>Verfügbarkeits- &amp; Wartungsabo</td>
-                              <td>Ahead Cube IoT + Cloud-ML · Hohe Uptime-Garantie</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <p class="ex-takeaway"><strong>Fazit Schweiz:</strong> Vom KMU bis zum Weltmarktführer – die Bandbreite reicht von NFC-Asset-Tracking über IoT-Verfügbarkeitsverträge bis zu Pay-per-Use- und Off-Balance-Sheet-Modellen.</p>
-                    </article>
-                  </div>
-                </div>
+                <p class="ex-dive-hint">Standort auf der Karte anklicken für Details</p>
 
                 <div class="orig-slide-footer">
                   <div class="ex-footer-citations">
-                    <div class="ex-footer-group" data-dive-sources="ch-kmu" hidden>
+                    <div class="ex-footer-group" data-company-sources="elite" hidden>
                       <span class="orig-slide-citation" data-cite="elite2023smartlease"></span>
                     </div>
-                    <div class="ex-footer-group" data-dive-sources="ch-eaas" hidden>
+                    <div class="ex-footer-group" data-company-sources="trumpf" hidden>
                       <span class="orig-slide-citation" data-cite="trumpf2021payperpart"></span>
                     </div>
-                    <div class="ex-footer-group" data-dive-sources="ch-data" hidden>
+                    <div class="ex-footer-group" data-company-sources="burckhardt" hidden>
                       <span class="orig-slide-citation" data-cite="burckhardt2024up"></span>
                     </div>
-                    <div class="ex-footer-group" data-dive-sources="ch-uptime" hidden>
+                    <div class="ex-footer-group" data-company-sources="buehler" hidden>
                       <span class="orig-slide-citation" data-cite="buehler2024insights"></span>
-                      <span class="orig-slide-citation" data-cite="schindler2024ahead"></span>
                     </div>
-                    <div class="ex-footer-group" data-dive-sources="ch-matrix" hidden>
-                      <span class="orig-slide-citation" data-cite="tukker2004eight"></span>
-                      <span class="orig-slide-citation" data-cite="baines2013made"></span>
+                    <div class="ex-footer-group" data-company-sources="schindler" hidden>
+                      <span class="orig-slide-citation" data-cite="schindler2024ahead"></span>
                     </div>
                   </div>
                   <span class="orig-slide-num" aria-label="Slide 4">4</span>
@@ -2724,7 +2438,7 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
   <!-- Floating Citation Popover -->
   <div id="citePopover" class="cite-popover" role="dialog" aria-label="Citation details" hidden></div>
 
-  <script src="app.js?v=23"></script>
+  <script src="app.js?v=26"></script>
   <script src="case-deep-dive.js?v=5"></script>
 </body>
 </html>
