@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=52" />
+  <link rel="stylesheet" href="styles.css?v=53" />
 </head>
 <body>
   <div class="page-container">
@@ -997,7 +997,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="ex-dive-hint">Stufe anklicken für Merkmale, Datenbedarf &amp; Praxisbezug</p>
+                <p class="ex-dive-hint">Stufe anklicken für den Unterschied zur Vorstufe</p>
 
                 <!-- Deep Dive: Service-Stufen -->
                 <div class="ex-dive" hidden>
@@ -1007,28 +1007,28 @@
                         <span class="ex-tab-short">Base Services</span>
                         <span class="ex-tab-open">
                           <strong class="ex-tab-title">Base Services</strong>
-                          <span class="ex-tab-sub">Product &amp; spare parts</span>
+                          <span class="ex-tab-sub">Fundament</span>
                         </span>
                       </button>
                       <button type="button" class="ex-dive-tab" role="tab" data-dive="tier-inter" aria-selected="false">
                         <span class="ex-tab-short">Intermediate Services</span>
                         <span class="ex-tab-open">
                           <strong class="ex-tab-title">Intermediate Services</strong>
-                          <span class="ex-tab-sub">Condition monitoring &amp; maintenance</span>
+                          <span class="ex-tab-sub">Base → Intermediate</span>
                         </span>
                       </button>
                       <button type="button" class="ex-dive-tab" role="tab" data-dive="tier-adv" aria-selected="false">
                         <span class="ex-tab-short">Advanced Services</span>
                         <span class="ex-tab-open">
                           <strong class="ex-tab-title">Advanced Services</strong>
-                          <span class="ex-tab-sub">Capability &amp; outcome contracts</span>
+                          <span class="ex-tab-sub">Intermediate → Advanced</span>
                         </span>
                       </button>
                       <button type="button" class="ex-dive-tab ex-dive-tab--compare" role="tab" data-dive="tier-compare" aria-selected="false">
                         <span class="ex-tab-short">Vergleich</span>
                         <span class="ex-tab-open">
                           <strong class="ex-tab-title">Stufen-Vergleich</strong>
-                          <span class="ex-tab-sub">Brücke zu Edge AI &amp; CRISP-DM</span>
+                          <span class="ex-tab-sub">Alle 3 Stufen</span>
                         </span>
                       </button>
                     </div>
@@ -1038,127 +1038,76 @@
                   <div class="ex-dive-body">
                     <!-- Tier 1: Base Services -->
                     <article class="ex-case" data-dive="tier-base" role="tabpanel" aria-label="Base Services" hidden>
-                      <div class="ex-shift-row">
-                        <div class="ex-shift-box">
-                          <span class="ex-label">Kernleistung</span>
-                          <p><strong>Produktübergabe &amp; Ersatzteilversorgung.</strong> Der Hersteller liefert eine funktionsfähige Maschine (Product) sowie Verschleiss- und Ersatzteile (Spare Parts) auf Bestellung.</p>
-                        </div>
-                        <span class="ex-shift-arrow" aria-hidden="true">→</span>
-                        <div class="ex-shift-box is-after">
-                          <span class="ex-label">Fokus · «Services für das Produkt»</span>
-                          <p><strong>Kompetenz «wie man produziert».</strong> Wertschöpfung endet weitgehend beim Werkstor; Service reagiert erst nach einem Defekt oder einer Teileanfrage des Kunden.</p>
-                        </div>
+                      <div class="ex-shift-box tier-lead-box">
+                        <span class="ex-label">Ausgangslage · Services für das Produkt</span>
+                        <p><strong>Maschine übergeben, Ersatzteile liefern.</strong> Die Wertschöpfung endet weitgehend am Werkstor – der Hersteller wird erst auf Bestellung oder nach einem Defekt aktiv.</p>
                       </div>
 
-                      <div class="ex-detail-grid">
-                        <section class="ex-block">
-                          <h4 class="ex-label">Wer trägt welches Risiko?</h4>
-                          <table class="ex-risk">
-                            <thead><tr><th scope="col"></th><th scope="col">Verantwortung</th></tr></thead>
-                            <tbody>
-                              <tr><th scope="row">Eigentum &amp; Betrieb</th><td>Kunde</td></tr>
-                              <tr><th scope="row">Ungeplanter Ausfall</th><td>Kunde (zahlt Ersatzteile &amp; Einsatz)</td></tr>
-                              <tr><th scope="row">Produktqualität &amp; Teile</th><td>Hersteller (Garantie / Lieferung)</td></tr>
-                            </tbody>
-                          </table>
-                        </section>
-                        <section class="ex-block">
-                          <h4 class="ex-label">Datenbedarf &amp; strategische Grenze</h4>
-                          <p><strong>Daten:</strong> Stücklisten, Seriennummern, Garantiefristen und Bestellhistorie reichen aus.<br /><strong>Grenze:</strong> Hoher Preisdruck und schnelle Imitierbarkeit durch Drittanbieter – besonders im Schweizer Hochlohn-Umfeld.</p>
-                        </section>
-                      </div>
-
-                      <div class="ex-bottom-row">
-                        <section class="ex-block ex-nuance">
-                          <h4 class="ex-label">Genauer hingeschaut</h4>
-                          <p>Base Services bleiben das unverzichtbare Fundament: Ohne zuverlässige Hardware und schnelle Ersatzteillogistik lassen sich weder Intermediate noch Advanced Services verkaufen.</p>
-                        </section>
-                        <section class="ex-block ex-question">
-                          <h4 class="ex-label">Diskussionsfrage</h4>
-                          <p>Warum reicht ein exzellentes Ersatzteilgeschäft langfristig oft nicht mehr aus, um Margen gegen globale Nachahmer zu verteidigen?</p>
-                        </section>
-                      </div>
+                      <section class="ex-block tier-delta-block">
+                        <h4 class="ex-label">Merkmale der Ausgangsstufe</h4>
+                        <table class="ex-risk tier-delta-table tier-delta-table--base">
+                          <thead><tr><th scope="col"></th><th scope="col">Base Services</th></tr></thead>
+                          <tbody>
+                            <tr><th scope="row">Versprechen</th><td>Funktionsfähiges Produkt und Ersatzteile auf Abruf</td></tr>
+                            <tr><th scope="row">Risiko</th><td>Vollständig beim Kunden (Betrieb, Ausfall, Kapital)</td></tr>
+                            <tr><th scope="row">Daten</th><td>Stammdaten, Stückliste &amp; Bestellhistorie <small>(keine laufenden Zustandsdaten)</small></td></tr>
+                          </tbody>
+                        </table>
+                      </section>
                     </article>
 
                     <!-- Tier 2: Intermediate Services -->
                     <article class="ex-case" data-dive="tier-inter" role="tabpanel" aria-label="Intermediate Services" hidden>
                       <div class="ex-shift-row">
                         <div class="ex-shift-box">
-                          <span class="ex-label">Kernleistung</span>
-                          <p><strong>Zustand erhalten &amp; Störungen schnell beheben.</strong> Umfasst Scheduled Maintenance, Helpdesk, Repair, Overhaul, Operator Training, Condition Monitoring und In-field Service.</p>
+                          <span class="ex-label">Von Base Services</span>
+                          <p><strong>Teile liefern auf Anfrage.</strong> Service reagiert erst nach einem Defekt oder nach starren Kalender-Intervallen.</p>
                         </div>
                         <span class="ex-shift-arrow" aria-hidden="true">→</span>
                         <div class="ex-shift-box is-after">
-                          <span class="ex-label">Brücke zu Edge AI &amp; Condition Monitoring</span>
-                          <p><strong>Zustandsdaten ersetzen starre Kalender-Intervalle.</strong> Sensorik erkennt Verschleiss früh, sodass Wartung und Feldservice gezielt vor dem Schaden eingeplant werden.</p>
+                          <span class="ex-label">Zu Intermediate Services</span>
+                          <p><strong>Produktzustand aktiv erhalten.</strong> Der Hersteller überwacht, wartet und repariert die Anlage, bevor Verschleiss zum Stillstand führt.</p>
                         </div>
                       </div>
 
-                      <div class="ex-detail-grid">
-                        <section class="ex-block">
-                          <h4 class="ex-label">Daten &amp; Technologie als Enabler</h4>
-                          <p><strong>Telemetrie &amp; Diagnostik:</strong> Vibrations-, Temperatur- und Betriebsstunden-Daten speisen Remote-Helpdesk und präventive Einsatzplanung.<br /><strong>Schweizer Beispiele:</strong> <em>Burckhardt UP! Insight/Detect</em>, <em>Bystronic ByCare</em>, <em>Bühler Insights</em>, <em>PB Swiss Tools NFC</em>.</p>
-                        </section>
-                        <section class="ex-block">
-                          <h4 class="ex-label">Nutzen für Kunde &amp; Anbieter</h4>
-                          <p><strong>Kunde:</strong> Weniger ungeplante Stillstände und längere Laufzeiten (MTBO).<br /><strong>Anbieter:</strong> Planbare Service-Einsätze, höhere Service-Attach-Rate und direkte Felddaten für die Produktentwicklung.</p>
-                        </section>
-                      </div>
-
-                      <div class="ex-bottom-row">
-                        <section class="ex-block ex-nuance">
-                          <h4 class="ex-label">Genauer hingeschaut</h4>
-                          <p>Genau hier startet unser praktischer Tages-Case: Wir verwandeln rohe Sensorphysik (Vibration, Druck, Magnetfeld, Akustik) in verlässliche Zustands- und Anomaliesignale.</p>
-                        </section>
-                        <section class="ex-block ex-question">
-                          <h4 class="ex-label">Diskussionsfrage</h4>
-                          <p>Welche Hürde muss überwunden werden, damit Kunden dem Hersteller den Fernzugriff auf Maschinendaten erlauben?</p>
-                        </section>
-                      </div>
+                      <section class="ex-block tier-delta-block">
+                        <h4 class="ex-label">Was ändert sich gegenüber Base?</h4>
+                        <table class="ex-risk tier-delta-table">
+                          <thead><tr><th scope="col"></th><th scope="col">Base</th><th scope="col">Intermediate</th></tr></thead>
+                          <tbody>
+                            <tr><th scope="row">Versprechen</th><td>Produkt &amp; Teile liefern</td><td class="is-shift">Zustand erhalten &amp; Störungen vorbeugen <small>(Wartung, Repair, Monitoring)</small></td></tr>
+                            <tr><th scope="row">Risiko</th><td>Vollständig beim Kunden</td><td class="is-shift">Geteilt <small>(Anbieter trägt Wartungs- &amp; Reaktionsqualität)</small></td></tr>
+                            <tr><th scope="row">Daten</th><td>Stammdaten &amp; Bestellungen</td><td class="is-shift">Laufende Zustands- &amp; Sensordaten <small>(Vibration, Temperatur, Alarme)</small></td></tr>
+                          </tbody>
+                        </table>
+                      </section>
                     </article>
 
                     <!-- Tier 3: Advanced Services -->
                     <article class="ex-case" data-dive="tier-adv" role="tabpanel" aria-label="Advanced Services" hidden>
                       <div class="ex-shift-row">
                         <div class="ex-shift-box">
-                          <span class="ex-label">Kernleistung</span>
-                          <p><strong>Garantierte Leistung statt Maschinenverkauf.</strong> Customer Support Agreement, Risk- &amp; Revenue-Sharing, Revenue-through-Use (Pay-per-Use) und Rental Agreement.</p>
+                          <span class="ex-label">Von Intermediate Services</span>
+                          <p><strong>Anlage beim Kunden fit halten.</strong> Der Kunde besitzt und betreibt die Maschine; der Anbieter verkauft Wartung und Diagnostik.</p>
                         </div>
                         <span class="ex-shift-arrow" aria-hidden="true">→</span>
                         <div class="ex-shift-box is-after">
-                          <span class="ex-label">Fokus · «Services für den Kunden»</span>
-                          <p><strong>Ergebnisorientierte Partnerschaft.</strong> Der Hersteller garantiert Verfügbarkeit, Output oder Kosten pro Einheit – und verdient nur, wenn die Anlage beim Kunden läuft.</p>
+                          <span class="ex-label">Zu Advanced Services</span>
+                          <p><strong>Ergebnis statt Maschine garantieren.</strong> Der Hersteller garantiert Verfügbarkeit oder Output – und verdient nur, wenn die Leistung läuft.</p>
                         </div>
                       </div>
 
-                      <div class="ex-detail-grid">
-                        <section class="ex-block">
-                          <h4 class="ex-label">Wer trägt welches Risiko?</h4>
-                          <table class="ex-risk">
-                            <thead><tr><th scope="col"></th><th scope="col">Base</th><th scope="col">Advanced</th></tr></thead>
-                            <tbody>
-                              <tr><th scope="row">Betrieb &amp; Verfügbarkeit</th><td>Kunde</td><td class="is-shift">Hersteller (SLA)</td></tr>
-                              <tr><th scope="row">Ungeplanter Ausfall</th><td>Kunde</td><td class="is-shift">Hersteller / Risikopartner</td></tr>
-                              <tr><th scope="row">Kapitalbindung / Restwert</th><td>Kunde</td><td class="is-shift">Hersteller / SPV</td></tr>
-                            </tbody>
-                          </table>
-                        </section>
-                        <section class="ex-block">
-                          <h4 class="ex-label">Datenbedarf &amp; Praxisbeispiele</h4>
-                          <p><strong>Voraussetzung:</strong> Kontinuierliche Echtzeit-Telemetrie, verlässliche Ausfallprognosen (Predictive Maintenance) und saubere Kostenmodelle.<br /><strong>Beispiele:</strong> <em>Rolls-Royce TotalCare</em>, <em>Hilti Fleet</em>, <em>Elite Smart Lease</em>, <em>TRUMPF Pay-per-Part</em>, <em>Schindler Ahead</em>.</p>
-                        </section>
-                      </div>
-
-                      <div class="ex-bottom-row">
-                        <section class="ex-block ex-nuance">
-                          <h4 class="ex-label">Genauer hingeschaut</h4>
-                          <p>Nicht jedes Produkt braucht zwingend ein Pay-per-Use-Modell – aber wer Advanced Services anbietet, muss Ausfallwahrscheinlichkeiten und Servicekosten datenbasiert beherrschen.</p>
-                        </section>
-                        <section class="ex-block ex-question">
-                          <h4 class="ex-label">Diskussionsfrage</h4>
-                          <p>Warum wird ein fehlgeschlagener Sensor oder ein falsches ML-Modell bei Advanced Services sofort zu einem direkten Verlust in der Erfolgsrechnung (P&amp;L)?</p>
-                        </section>
-                      </div>
+                      <section class="ex-block tier-delta-block">
+                        <h4 class="ex-label">Was ändert sich gegenüber Intermediate?</h4>
+                        <table class="ex-risk tier-delta-table">
+                          <thead><tr><th scope="col"></th><th scope="col">Intermediate</th><th scope="col">Advanced</th></tr></thead>
+                          <tbody>
+                            <tr><th scope="row">Versprechen</th><td>Zustand erhalten (Wartung &amp; Monitoring)</td><td class="is-shift">Verfügbarkeit oder Output garantieren <small>(Pay-per-Use, SLA, Rental)</small></td></tr>
+                            <tr><th scope="row">Risiko</th><td>Wartungsqualität beim Anbieter</td><td class="is-shift">Betriebs-, Ausfall- &amp; oft Kapitalrisiko beim Anbieter <small>(oder SPV)</small></td></tr>
+                            <tr><th scope="row">Daten</th><td>Zustandsmonitoring &amp; Alarme</td><td class="is-shift">Ausfallprognosen (ML) &amp; Servicekosten-Kalkulation <small>(direkter P&amp;L-Hebel)</small></td></tr>
+                          </tbody>
+                        </table>
+                      </section>
                     </article>
 
                     <!-- Tab 4: Stufen-Vergleich & Brücke -->
@@ -1167,39 +1116,34 @@
                         <table class="ex-compare-table">
                           <thead>
                             <tr>
-                              <th scope="col">Stufe (Baines &amp; Lightfoot)</th>
-                              <th scope="col">Ausrichtung</th>
-                              <th scope="col">Typische Leistungen</th>
-                              <th scope="col">Risiko beim …</th>
-                              <th scope="col">Daten- &amp; Analysebedarf</th>
+                              <th scope="col">Stufe</th>
+                              <th scope="col">Versprechen</th>
+                              <th scope="col">Risiko</th>
+                              <th scope="col">Daten</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr class="ex-compare-row" data-dive="tier-base" tabindex="0" role="button" aria-label="Deep Dive: Base Services">
                               <th scope="row"><strong>Base Services</strong></th>
-                              <td>Service für das Produkt</td>
-                              <td>Produktverkauf, Ersatzteile, Garantie</td>
-                              <td>Kunde trägt Betriebs- &amp; Ausfallrisiko</td>
-                              <td>Stammdaten, Stückliste, Bestellhistorie</td>
+                              <td>Produkt &amp; Ersatzteile liefern</td>
+                              <td>Beim Kunden (Betrieb &amp; Ausfall)</td>
+                              <td>Stammdaten, Stückliste, Bestellungen</td>
                             </tr>
                             <tr class="ex-compare-row" data-dive="tier-inter" tabindex="0" role="button" aria-label="Deep Dive: Intermediate Services">
                               <th scope="row"><strong>Intermediate Services</strong></th>
-                              <td>Zustand &amp; Wiederherstellung</td>
-                              <td>Wartung, Helpdesk, Repair, Overhaul, Condition Monitoring</td>
-                              <td>Geteilt (Reaktions- &amp; Wartungsqualität)</td>
-                              <td>Sensor-Telemetrie, Alarme, Zustandsdiagnostik</td>
+                              <td>Zustand erhalten &amp; vorbeugen</td>
+                              <td>Geteilt (Wartungsqualität)</td>
+                              <td>Sensor-Telemetrie, Alarme, Diagnostik</td>
                             </tr>
                             <tr class="ex-compare-row" data-dive="tier-adv" tabindex="0" role="button" aria-label="Deep Dive: Advanced Services">
                               <th scope="row"><strong>Advanced Services</strong></th>
-                              <td>Service für den Kunden</td>
-                              <td>Support Agreements, Risk/Revenue Sharing, Pay-per-Use, Rental</td>
-                              <td>Hersteller / SPV trägt Verfügbarkeit &amp; Output</td>
-                              <td>Echtzeit-Edge/Cloud-Daten, Predictive ML, P&amp;L-Kalkulation</td>
+                              <td>Verfügbarkeit / Output garantieren</td>
+                              <td>Beim Anbieter / SPV (SLA &amp; Kapital)</td>
+                              <td>Predictive ML &amp; P&amp;L-Kostenmodell</td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
-                      <p class="ex-takeaway"><strong>Brücke zum Rest des Tages:</strong> Von <em>Base</em> zu <em>Advanced Services</em> steigt der Nutzen für den Kunden – gleichzeitig wächst das Risiko für den Anbieter. Nur verlässliche Sensorik (<em>Edge AI</em>) und saubere Datenanalyse (<em>CRISP-DM</em>) machen Leistungsgarantien profitabel.</p>
                     </article>
                   </div>
                 </div>
@@ -1218,7 +1162,6 @@
                     </div>
                     <div class="ex-footer-group" data-dive-sources="tier-compare" hidden>
                       <span class="orig-slide-citation" data-cite="baines2013made"></span>
-                      <span class="orig-slide-citation" data-cite="tukker2004eight"></span>
                     </div>
                   </div>
                   <span class="orig-slide-num" aria-label="Slide 5">5</span>

@@ -15,6 +15,18 @@ Because `docs/` is deployed publicly to **GitHub Pages**, every slide graphic an
 
 - **Activate `.agents/skills/in-slide-deep-dive/SKILL.md`** whenever adding interactive drill-down / deep-dive views to a slide in `docs/index.html`, so new slides reuse `docs/case-deep-dive.js`, the chamfered folder-tab UI, active-tab headers, footer citations, and presenter keyboard navigation consistently.
 
+## Synchronized Lecturer Speaker Notes
+
+Whenever slides, deep dives, labs, or live demos in `docs/index.html` are added, modified, simplified, reordered, or removed, keep the printable/tablet lecturer handout in `lecturer/` synchronized:
+
+1. **Activate `.agents/skills/lecturer-notes-sync/SKILL.md`** and update `lecturer/speaker-notes.md` (including moving any trimmed slide prose, bridges, or discussion prompts into speaker notes rather than losing them).
+2. **Rebuild and validate** the standalone A4/tablet HTML printout before committing or pushing:
+   ```powershell
+   python lecturer/build_notes.py
+   python lecturer/build_notes.py --check
+   ```
+3. **Never run `git push`** when `build_notes.py --check` exits with code `1` (`RED` missing slide coverage or stale `lecturer/speaker-notes.html`).
+
 ## Conventional Commits
 
 Every commit message MUST follow [Conventional Commits v1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) (`<type>(<optional-scope>): <description>`, lowercase after the colon), matching `MEMORY.md`:

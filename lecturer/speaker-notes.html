@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tag 4: CAS Smart Service Engineering – Modul A: Data-Specific Service Design — Speaker Notes</title>
+  <style>
+    :root {
+      --bg: #fffbee;
+      --bg-card: #fffdf6;
+      --bg-subtle: #f7f2e2;
+      --bg-break: #f3ecda;
+      --border: rgba(89, 89, 89, 0.22);
+      --border-strong: rgba(89, 89, 89, 0.42);
+      --text: #454545;
+      --text-strong: #1f1f1f;
+      --text-muted: #6e6a5e;
+      --accent: #2b6f6b;
+      --accent-soft: rgba(43, 111, 107, 0.08);
+      --bronze: #7f6000;
+      --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --body-size: 13.5px;
+    }
+
+    body.is-tablet-size {
+      --body-size: 15.5px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: var(--body-size);
+      line-height: 1.48;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 251, 238, 0.94);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    .toolbar-meta {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .tool-btn {
+      appearance: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      color: var(--text-strong);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 0.38rem 0.72rem;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--text-strong);
+      background: var(--bg-subtle);
+    }
+
+    .tool-btn.is-primary,
+    .tool-btn[aria-pressed="true"] {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fffbee;
+    }
+
+    .sheet {
+      max-width: 1020px;
+      margin: 1.25rem auto 2.5rem;
+      padding: 0 1.25rem;
+    }
+
+    .sheet-head {
+      border-bottom: 2px solid var(--text-strong);
+      padding-bottom: 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .sheet-head h1 {
+      font-size: 1.32rem;
+      font-weight: 700;
+      color: var(--text-strong);
+      line-height: 1.25;
+    }
+
+    .sheet-sub {
+      margin-top: 0.22rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .meta-table,
+    .run-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+    }
+
+    .meta-table {
+      margin-bottom: 1rem;
+      break-inside: avoid;
+    }
+
+    .meta-table th,
+    .meta-table td {
+      text-align: left;
+      vertical-align: top;
+      padding: 0.44rem 0.65rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.92em;
+    }
+
+    .meta-table th {
+      width: 18%;
+      min-width: 130px;
+      background: var(--bg-subtle);
+      color: var(--text-strong);
+      font-weight: 600;
+      border-right: 1px solid var(--border);
+    }
+
+    .meta-split {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .goal-col strong {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.15rem;
+    }
+
+    .run-table thead th {
+      background: var(--bg-subtle);
+      color: var(--text-strong);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: left;
+      padding: 0.48rem 0.65rem;
+      border-bottom: 1px solid var(--border-strong);
+    }
+
+    .run-table td {
+      vertical-align: top;
+      padding: 0.55rem 0.7rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .col-time {
+      width: 118px;
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      font-size: 0.8em;
+      font-weight: 600;
+      color: var(--text-strong);
+      border-right: 1px solid var(--border);
+    }
+
+    .col-notes {
+      display: none;
+      width: 24%;
+      border-left: 1px dashed var(--border-strong);
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 23px,
+        rgba(89, 89, 89, 0.14) 24px
+      );
+    }
+
+    body.show-notes-col .col-notes {
+      display: table-cell;
+    }
+
+    .row-break td {
+      background: var(--bg-break);
+      color: var(--text-strong);
+      padding-top: 0.36rem;
+      padding-bottom: 0.36rem;
+    }
+
+    .row-break .col-notes {
+      background: var(--bg-break);
+    }
+
+    .col-program h3 {
+      font-size: 1.04em;
+      font-weight: 700;
+      color: var(--text-strong);
+      margin-bottom: 0.35rem;
+      padding-bottom: 0.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .slide-group {
+      margin-top: 0.5rem;
+      padding-top: 0.35rem;
+      break-inside: avoid;
+    }
+
+    .slide-group:first-of-type {
+      margin-top: 0.2rem;
+      padding-top: 0;
+    }
+
+    .slide-group h4 {
+      font-size: 0.96em;
+      font-weight: 600;
+      color: var(--text-strong);
+      margin-bottom: 0.24rem;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .slide-slug {
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 0.04rem 0.35rem;
+      border-radius: 3px;
+    }
+
+    .cue-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.26rem;
+    }
+
+    .cue-list > li {
+      position: relative;
+      padding-left: 0.85rem;
+    }
+
+    .cue-list > li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+
+    .cue-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.74em;
+      font-weight: 600;
+      padding: 0.03rem 0.36rem;
+      border-radius: 3px;
+      margin-right: 0.2rem;
+      vertical-align: baseline;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-strong);
+    }
+
+    .cue-klick .cue-tag {
+      color: var(--bronze);
+      border-color: rgba(127, 96, 0, 0.32);
+      background: rgba(127, 96, 0, 0.08);
+    }
+
+    .cue-kern .cue-tag {
+      color: var(--text-strong);
+    }
+
+    .cue-bruecke {
+      background: var(--accent-soft);
+      border-left: 3px solid var(--accent);
+      padding: 0.28rem 0.55rem 0.28rem 0.65rem !important;
+      margin: 0.15rem 0;
+    }
+
+    .cue-bruecke::before {
+      display: none;
+    }
+
+    .cue-bruecke .cue-tag {
+      color: var(--accent);
+      border-color: rgba(43, 111, 107, 0.35);
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    .cue-frage .cue-tag {
+      color: var(--accent);
+      border-color: rgba(43, 111, 107, 0.3);
+      background: var(--accent-soft);
+    }
+
+    .sub-list {
+      margin: 0.22rem 0 0.1rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.16rem;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.86em;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 0.02rem 0.28rem;
+      border-radius: 3px;
+    }
+
+    .material-strip {
+      margin-top: 0.85rem;
+      padding: 0.55rem 0.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      font-size: 0.9em;
+      break-inside: avoid;
+    }
+
+    @media (max-width: 720px) {
+      .meta-split,
+      .goals-grid {
+        grid-template-columns: 1fr;
+      }
+      .col-time {
+        width: 92px;
+        white-space: normal;
+      }
+      body.show-notes-col .col-notes {
+        width: 28%;
+      }
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 13mm 13mm 14mm;
+    }
+
+    @media print {
+      :root {
+        --bg: #ffffff;
+        --bg-card: #ffffff;
+        --bg-subtle: #f5f5f5;
+        --bg-break: #efefef;
+        --border: #d2d2d2;
+        --border-strong: #9a9a9a;
+        --text: #1f1f1f;
+        --text-strong: #000000;
+        --text-muted: #4a4a4a;
+        --accent: #1f5c58;
+        --accent-soft: #f3f7f6;
+        --body-size: 10.5pt;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      body {
+        background: #ffffff;
+        color: #1f1f1f;
+      }
+
+      .sheet {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .run-table thead {
+        display: table-header-group;
+      }
+
+      .row-break,
+      .slide-group,
+      .meta-table,
+      .material-strip {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .col-program h3 {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .cue-bruecke {
+        background: #f3f7f6;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <span class="toolbar-meta">Quelle: <code>lecturer/speaker-notes.md</code> · Nicht auf GitHub Pages veröffentlicht</span>
+    <div class="toolbar-actions">
+      <button type="button" id="btnToggleNotes" class="tool-btn" aria-pressed="false">Notizspalte</button>
+      <button type="button" id="btnToggleSize" class="tool-btn" aria-pressed="false">Schriftgrösse: Kompakt</button>
+      <button type="button" id="btnPrint" class="tool-btn is-primary">Drucken / PDF (A4)</button>
+    </div>
+  </div>
+
+  <main class="sheet">
+    <header class="sheet-head">
+      <h1>Tag 4: CAS Smart Service Engineering – Modul A: Data-Specific Service Design</h1>
+      <p class="sheet-sub">Dr. Lukas Schweiger · ZHAW School of Engineering · BI Case Manufacturing</p>
+    </header>
+
+    <table class="meta-table" aria-label="Kursmetadaten und Tagesziele">
+      <tbody>
+        <tr>
+          <th scope="row">Datum / Zeit / Ort</th>
+          <td>
+            <div class="meta-split">
+              <span><strong>Datum:</strong> [Datum eintragen]</span>
+              <span><strong>Zeit:</strong> 09.00 – 17.00 Uhr</span>
+              <span><strong>Ort:</strong> Winterthur / Zürich</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Themenbereich</th>
+          <td>BI Case Manufacturing: Servitization, Edge AI &amp; CRISP-DM</td>
+        </tr>
+        <tr>
+          <th scope="row">Tagesziele</th>
+          <td>
+            <div class="goals-grid">
+              <div class="goal-col"><strong>Kennen</strong>Servitization-Stufen (Base / Intermediate / Advanced nach Baines &amp; Lightfoot), Smart Product Stack (Ebene 1–5), CRISP-DM Phasen, Edge-AI-Sensorik</div>
+              <div class="goal-col"><strong>Verstehen</strong>Warum Daten und Risikotransfer untrennbar sind, weshalb 1h-Cloud-Mittelwerte frühe Lagerschäden übersehen, wie Servicekosten (P&amp;L) das ML-Modell prägen</div>
+              <div class="goal-col"><strong>Anwenden</strong>Live-Sensordaten erfassen &amp; kalibrieren (Arduino Nano 33 BLE Sense Rev2 / Emulator), CRISP-DM Phase 2 (Data Understanding) in Python durchführen</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Kursleitung</th>
+          <td>Dr. Lukas Schweiger</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="run-table" aria-label="Programm und Speaker Notes">
+      <thead>
+        <tr>
+          <th scope="col" class="col-time">Zeit</th>
+          <th scope="col" class="col-program">Programm &amp; Speaker Notes</th>
+          <th scope="col" class="col-notes">Eigene Notizen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-block"><td class="col-time">09.00 – 09.15</td><td class="col-program"><h3>Block 1 – Begrüssung &amp; Tagesziele</h3><ul class="cue-list"><li><strong>Einstieg:</strong> Kurzer Rückblick auf die bisherigen Modultage und Einordnung von Tag 4 (<em>BI Case Manufacturing</em>: von physischer Maschine zu datengetriebenem Service).</li><li><strong>Tagesbogen:</strong> Erst <em>Warum</em> (Servitization &amp; Risikoshift), dann <em>Wie</em> (Edge-Sensorik &amp; Live-Board), anschliessend <em>Datenarbeit</em> (CRISP-DM Phase 2 im Browser &amp; Colab).</li><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> Live-Plattform in Chrome/Edge öffnen und Hinweis für Studierende geben, dass der Emulator auf jedem Laptop parallel funktioniert (<code>P</code> startet den Präsentationsmodus).</li></ul></td><td class="col-notes"><div class="notes-lines" aria-hidden="true"></div></td></tr><tr class="row-block"><td class="col-time">09.15 – 10.15</td><td class="col-program"><h3>Block 2 – Einführung: Servitization (01 / Servitization)</h3><section class="slide-group"><h4>1 · Was? — Was ist Servitization? <span class="slide-slug">was-ist-servitization</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> Vom einmaligen Produktverkauf (<em>Wir verkaufen Produkte</em>) zur laufenden Leistungserbringung (<em>Wir verkaufen Leistung</em>).</li><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> Schrittweise <em>Added Value → Servitization → Total Shift</em> erklären; klarstellen, dass klassischer After-Sales erst der Anfang ist.</li></ul></section><section class="slide-group"><h4>2 · Wieso? — Warum setzen Hersteller auf Servitization? <span class="slide-slug">warum-servitization</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> Vier Treiber greifen ineinander: Wirtschaftlich (höhere Marge, planbare Erlöse), Technologisch (IoT/Edge als Enabler), Wissen (Zugang zu Felddaten) und Markt/Ökologie (Kundenbindung &amp; Kreislaufwirtschaft).</li><li class="cue-item cue-frage"><span class="cue-tag">Frage</span> Welcher der vier Treiber ist in Ihrem eigenen Unternehmen aktuell der stärkste Auslöser – und welcher bremst am meisten?</li></ul></section><section class="slide-group"><h4>3 · Praxisbeispiele — Wie sieht Servitization in der Praxis aus? <span class="slide-slug">praxisbeispiele</span></h4><ul class="cue-list"><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> <em>Rolls-Royce</em> (<em>Power-by-the-Hour</em>, kein Eigentumswechsel, aber Engine Health Monitoring), <em>Xerox 914</em> (Pay-per-Copy schon 1959 ab Tag 1 als Markteintritt), <em>Hilti</em> (fixe Monatsrate statt Pay-per-Use) oder <em>Philips</em> (<em>Pay-per-Lux</em> / Schiphol).</li><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> Egal ob Flugzeugtriebwerk oder Lampe – ohne verlässliche <em>Messung</em> der Leistung am Produkt funktioniert kein Servicevertrag. <em>Daten sind der Enabler.</em></li></ul></section><section class="slide-group"><h4>4 · Fokus Schweiz — Servitization in der Schweiz <span class="slide-slug">fokus-schweiz</span></h4><ul class="cue-list"><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> 3–4 Pins live auf der Schweizer Karte öffnen statt alle 12 vorzulesen:<ul class="sub-list"><li><em>Elite SA</em> (Aubonne, VD): <em>Pay-per-Night</em> ab ~CHF 0.50/Nacht; <strong>Cashflow-Cue:</strong> «Fish-Modell» (erst eigene Bilanz/CAPEX, später laufender Rückfluss).</li><li><em>TRUMPF Schweiz</em> (Grüsch, GR): <em>Pay-per-Part</em>; <strong>Off-Balance-Sheet-Cue:</strong> <em>Munich Re</em> finanziert die Anlage als Risikopartner, <em>relayr</em> liefert die IoT-Daten.</li><li><em>Burckhardt Compression</em> (Winterthur, ZH): <em>UP! Detect</em> erkennt ~90 % kritischer Anomalien über Hochfrequenz-Vibration + KI.</li><li><em>PB Swiss Tools</em> (Wasen i.E., BE): NFC im <em>DigiTorque</em> zeigt, dass Servitization nicht erst bei Millionen-Anlagen beginnt.</li></ul></li><li class="cue-item cue-frage"><span class="cue-tag">Frage</span> Wie überbrückt ein Schweizer KMU ohne Grossbank oder Rückversicherer im Rücken das Cashflow-Tal beim Wechsel auf <em>Pay-per-Use</em>?</li></ul></section><section class="slide-group"><h4>5 · Service-Stufen — Servitization der Industrie <span class="slide-slug">service-stufen</span></h4><ul class="cue-list"><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> Erst Grundgrafik entlang <em>Services für das Produkt ↔ Services für den Kunden</em> erklären, dann <code>Beispiele einblenden</code> klicken und Deep Dive <em>Intermediate</em> &amp; <em>Advanced</em> öffnen (zeigt jeweils den Unterschied zur Vorstufe: <em>Versprechen</em>, <em>Risiko</em>, <em>Daten</em>).</li><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> <em>Base</em> = Produkt &amp; Teile (Risiko beim Kunden); <em>Intermediate</em> = Zustand aktiv halten (geteilte Verantwortung über Wartungsqualität); <em>Advanced</em> = garantierte Verfügbarkeit/Output (Betriebs- &amp; Ausfallrisiko beim Anbieter/SPV).</li><li class="cue-item cue-bruecke"><span class="cue-tag">Brücke</span> <strong>Brücke zum Tages-Case:</strong> Mit jeder Stufe wandert mehr Risiko zum Anbieter – ab <em>Intermediate</em> werden verlässliche Sensorik (<em>Edge AI</em>) und Datenanalyse (<em>CRISP-DM</em>) entscheidend.</li><li class="cue-item cue-frage"><span class="cue-tag">Frage</span> Warum trifft ein fehlgeschlagener Sensor oder ein falsches ML-Modell bei <em>Advanced Services</em> direkt die eigene Erfolgsrechnung (P&amp;L)?</li></ul></section></td><td class="col-notes"><div class="notes-lines" aria-hidden="true"></div></td></tr><tr class="row-break"><td class="col-time">10.15 – 10.35</td><td class="col-program"><strong>Pause</strong></td><td class="col-notes" aria-hidden="true"></td></tr><tr class="row-block"><td class="col-time">10.35 – 11.20</td><td class="col-program"><h3>Block 3 – Vom Cloud-Blindspot zu Edge AI (02 / Explanation)</h3><section class="slide-group"><h4>6 · Cloud Blindspot — Why 1-Hour Cloud Telemetry Misses Early Faults <span class="slide-slug">cloud-blindspot</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> In klassischen Cloud-Datensätzen (z. B. 1h-Mittelwerte über <code>volt</code>, <code>rotate</code>, <code>pressure</code>, <code>vibration</code>) gehen kurze, hochfrequente Lagerschlag-Impulse komplett im Durchschnitt unter.</li><li><strong>Vergleich:</strong> Rohdaten mit 10 kHz rund um die Uhr von 100 Maschinen in die Cloud zu streamen scheitert meist an Bandbreite, Kosten und Shopfloor-IT-Security.</li></ul></section><section class="slide-group"><h4>7 · Ebene 4 on Edge — Fleisch Smart Product Stack (Slide 45) <span class="slide-slug">ebene-4-on-edge</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> Wir verschieben <em>Ebene 4 («Analyse»)</em> des Smart Product Stacks direkt hinunter auf <em>Ebene 2 («Sensor / Aktor»)</em> – der Mikrocontroller rechnet lokal auf dem Gerät (<em>TinyML / Edge AI</em>) und sendet nur kompakte Zustands-Telemetrie.</li></ul></section><section class="slide-group"><h4>8 · Zero-Backend Link — Three Live Data Sources &amp; Lab <span class="slide-slug">zero-backend-link</span></h4><ul class="cue-list"><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> Kurz zeigen, dass die statische GitHub-Pages-App ohne Backend über <em>Web Serial</em> (USB), <em>Web Bluetooth</em> (<code>CAS-PdM-Twin</code>) und den eingebauten <em>Emulator</em> exakt dasselbe 10–12 Hz JSON-Format spricht.</li><li><strong>Lab-Hinweis:</strong> Im Lab darunter liegen die 5 physischen Sensor-Modalitäten und die <code>arduino-cli</code>-Referenz für Interessierte bereit.</li></ul></section></td><td class="col-notes"><div class="notes-lines" aria-hidden="true"></div></td></tr><tr class="row-block"><td class="col-time">11.20 – 12.15</td><td class="col-program"><h3>Block 4 – Live Hardware &amp; Fault Injection (03 / Board &amp; Data Viz)</h3><section class="slide-group"><h4>9 · 5 Sensors on PCB — Physical Modalities <span class="slide-slug">5-sensors-on-pcb</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> Das <code>ABX00069</code>-Board bildet die 4 klassischen Telemetrie-Features ab und erweitert sie: <code>BMI270</code> (<code>vib</code>/<code>p2p</code>/<code>freq</code>/<code>gyro</code>), <code>BMM150</code> (<code>mag</code> als kontaktloser Strom-/Last-Proxy), <code>LPS22HB</code> (<code>press</code>), <code>HS3003</code> (<code>temp</code>/<code>hum</code>) und <code>MP34DT06JTR</code> (<code>snd</code> Akustik).</li></ul></section><section class="slide-group"><h4>10 · Z-Score Fusion &amp; 11 · Visual Triage <span class="slide-slug">z-score-fusion</span> <span class="slide-slug">visual-triage</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> Baseline-Kalibrierung (<code>&#x27;C&#x27;</code>) lernt μ, σ im Normalbetrieb; der Live-Score fusioniert die Auslenkungen in Z-Scores. Bewusste Visualisierung ohne irreführende Radar- oder Dual-Axis-Charts (ein gemeinsamer Zeitstrahl + geranktes |Z|-Lollipop-Diagramm + 5 Small Multiples).</li></ul></section><section class="slide-group"><h4>Live-Lab — Arduino Sensor Map &amp; Streams (Board &amp; Data Viz)</h4><ul class="cue-list"><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> Board via <em>USB Serial</em> oder <em>BLE</em> verbinden (alternativ Emulator nutzen), <code>&#x27;C&#x27;</code> für Baseline-Kalibrierung auslösen (blaue LED) und nacheinander 3 Fehlerbilder injizieren:<ol class="sub-list"><li><em>Rotor-Unwucht:</em> Binder-Clip am Lüfterblatt (oder rhythmisches Klopfen am Tisch 2–5 Hz) → <code>vib</code> &amp; <code>p2p</code> springen sofort, RGB-LED wechselt auf Gelb/Rot.</li><li><em>Luftstrom-Blockade:</em> A5-Karton vor Ansauggitter (oder leicht über Sensor blasen) → <code>press</code> sinkt/fluktuiert, <code>snd</code> steigt, <code>mag</code> zieht an.</li><li><em>Loses Fundament:</em> Foam-Pad / Kippen → <code>gyro</code> und breitbandige Vibration schlagen aus.</li></ol></li><li class="cue-item cue-bruecke"><span class="cue-tag">Brücke</span> Nach der Demo 60–90 Sekunden gemischte Daten aufzeichnen (<em>Record / Export CSV</em>) bzw. im CRISP-DM Lab das 80-Frame-Sample laden.</li></ul></section></td><td class="col-notes"><div class="notes-lines" aria-hidden="true"></div></td></tr><tr class="row-break"><td class="col-time">12.15 – 13.15</td><td class="col-program"><strong>Mittagspause</strong></td><td class="col-notes" aria-hidden="true"></td></tr><tr class="row-block"><td class="col-time">13.15 – 14.45</td><td class="col-program"><h3>Block 5 – CRISP-DM Phase 2: Data Understanding (04 / CRISP-DM Lab)</h3><section class="slide-group"><h4>12 · 2.1 Data Quality — Collect &amp; Verify Data Quality <span class="slide-slug">2-1-data-quality</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> Echte Sensordaten sind nie ideal: Sampling-Jitter (Δt), unkalibrierte Startphasen (<code>cal=0</code> vs. <code>cal=1</code>) und Messrauschen zuerst prüfen, bevor ein Modell trainiert wird.</li><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> Python-Zelle <code>2.1</code> im Browser (<code>Pyodide</code>) ausführen (<code>Shift+Enter</code>) und die eigenen Live-/Sample-Frames als <code>df</code> inspizieren.</li></ul></section><section class="slide-group"><h4>13 · 2.2 Scale Disparity — Why Raw Units Break Distance Metrics <span class="slide-slug">2-2-scale-disparity</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> <code>press</code> (~950–1013 hPa) überdeckt in Rohwerten eine riesige relative Änderung bei <code>vib</code> (0.02 → 0.25 g) um Faktor 1000 – ohne Standardisierung (Z-Scores / Scaling) ist jede Distanzmetrik (KNN, PCA, Isolation Forest) blind.</li><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> Python-Zelle <code>2.2</code> ausführen und Roh-Standardabweichung direkt gegen Peak-Z-Scores vergleichen.</li></ul></section><section class="slide-group"><h4>14 · 2.3 Transients &amp; Corr — Multi-Sensor Signatures <span class="slide-slug">2-3-transients-corr</span></h4><ul class="cue-list"><li class="cue-item cue-kern"><span class="cue-tag">Kernbotschaft</span> Der Edge-Peak (<code>p2p</code> über 32-pt-Fenster) schlägt den geglätteten Cloud-Mittelwert bei Stössen um Längen; die 7 × 7-Korrelationsmatrix zeigt physikalische Kopplungen (z. B. <code>vib</code> ↔ <code>p2p</code> ↔ <code>snd</code> vs. eigenständiger <code>press</code>-Drop).</li><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> Python-Zelle <code>2.3</code> ausführen und Studierende die Unterschiede je Fehlerklasse interpretieren lassen.</li></ul></section></td><td class="col-notes"><div class="notes-lines" aria-hidden="true"></div></td></tr><tr class="row-break"><td class="col-time">14.45 – 15.05</td><td class="col-program"><strong>Pause</strong></td><td class="col-notes" aria-hidden="true"></td></tr><tr class="row-block"><td class="col-time">15.05 – 16.45</td><td class="col-program"><h3>Block 6 – Vertiefung &amp; Case-Arbeit (Google Colab)</h3><ul class="cue-list"><li class="cue-item cue-klick"><span class="cue-tag">Klick</span> CSV aus dem Dashboard exportieren oder direkt ins Notebook <code>CAS_Day4_Predictive_Maintenance_2026.ipynb</code> in Google Colab wechseln.</li><li><strong>Kernpunkte:</strong> <ul class="sub-list"><li><em>Unsupervised vs. Supervised:</em> Wann genügen Anomalie-Scores (wenige/keine gelabelten Ausfälle im Feld) und wann braucht es Klassifikation?</li><li><em>Explainable AI (SHAP):</em> Warum Servicetechniker und P&amp;L-Verantwortliche wissen müssen, <em>welcher</em> Sensor einen Alarm ausgelöst hat.</li><li><em>CHF Service Cost Matrix:</em> False Positives (unnötige Anfahrt CHF) gegen False Negatives (ungeplanter Maschinenstillstand / SLA-Pönale) abwägen – <strong>der direkte Kreis zurück zu Slide 5 (<em>Advanced Services</em>)</strong>.</li></ul></li><li><strong>Abschluss &amp; Wrap-up:</strong> Transfer auf eigene Industrie-Cases der Teilnehmenden und Ausblick.</li></ul></td><td class="col-notes"><div class="notes-lines" aria-hidden="true"></div></td></tr>
+      </tbody>
+    </table>
+
+    <footer class="material-strip"><strong>Material:</strong> GitHub Pages Live-Plattform · Arduino Nano 33 BLE Sense Rev2 (ABX00069) + Micro-USB-Datenkabel · Benchtop-Props (Magnet/Smartphone, Foam-Pad) bzw. Deltaco FT-532 + Binder-Clip &amp; A5-Karton · Google Colab Notebook · Speaker Notes (Tablet / A4)</footer>
+  </main>
+
+  <script>
+    (() => {
+      const notesBtn = document.getElementById('btnToggleNotes');
+      const sizeBtn = document.getElementById('btnToggleSize');
+      const printBtn = document.getElementById('btnPrint');
+
+      if (notesBtn) {
+        notesBtn.addEventListener('click', () => {
+          const active = document.body.classList.toggle('show-notes-col');
+          notesBtn.setAttribute('aria-pressed', String(active));
+        });
+      }
+
+      if (sizeBtn) {
+        sizeBtn.addEventListener('click', () => {
+          const tablet = document.body.classList.toggle('is-tablet-size');
+          sizeBtn.setAttribute('aria-pressed', String(tablet));
+          sizeBtn.textContent = tablet ? 'Schriftgrösse: Tablet' : 'Schriftgrösse: Kompakt';
+        });
+      }
+
+      if (printBtn) {
+        printBtn.addEventListener('click', () => window.print());
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -3657,6 +3657,52 @@ body.is-beamer-mode .tier-stage {
   filter: brightness(1.07);
 }
 
+/* Slide 5 Deep-Dive Delta Layouts */
+.tier-lead-box {
+  border-color: var(--text);
+  background: var(--bg-subtle);
+}
+
+.tier-delta-block {
+  padding-top: 0.75rem;
+}
+
+.tier-delta-table {
+  font-size: clamp(0.86rem, 1.05vw, 0.96rem);
+  line-height: 1.45;
+}
+
+.tier-delta-table thead th {
+  padding-bottom: 0.45rem;
+}
+
+.tier-delta-table th,
+.tier-delta-table td {
+  padding: 0.62rem 0.9rem 0.62rem 0;
+}
+
+.tier-delta-table tbody th {
+  width: 17%;
+  white-space: nowrap;
+}
+
+body.is-beamer-mode .tier-delta-table th,
+body.is-beamer-mode .tier-delta-table td {
+  padding: 0.48rem 0.8rem 0.48rem 0;
+}
+
+@media (max-width: 640px) {
+  .tier-delta-table tbody th {
+    width: auto;
+    white-space: normal;
+  }
+  .tier-delta-table th,
+  .tier-delta-table td {
+    padding: 0.42rem 0.45rem 0.42rem 0;
+    font-size: 0.8rem;
+  }
+}
+
 @media (max-width: 900px) {
   .tier-stage {
     width: 100%;
