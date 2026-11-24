@@ -1269,7 +1269,10 @@ img, svg, video, canvas {
   box-shadow: 0 0 0 2px rgba(43, 111, 107, 0.22);
 }
 
+/* Global Chamfered Folder Tabs (.stage-step-btn, .lab-substep-btn, .ex-dive-tab, and reusable .folder-tab) */
 .stage-card-topbar {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -1280,6 +1283,17 @@ img, svg, video, canvas {
   border-bottom: 1px solid var(--border);
 }
 
+.folder-tab-bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.28rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
 .stage-step-pills {
   display: flex;
   align-items: flex-end;
@@ -1288,12 +1302,14 @@ img, svg, video, canvas {
 }
 
 .stage-step-btn,
-.lab-substep-btn {
+.lab-substep-btn,
+.folder-tab {
   --tab-cut: 10px;
   --tab-border: var(--border-strong);
+  --tab-surface: var(--bg);
   position: relative;
   appearance: none;
-  background: var(--bg);
+  background: var(--tab-surface);
   border: 1px solid var(--tab-border);
   border-bottom: 0;
   color: var(--text);
@@ -1304,11 +1320,18 @@ img, svg, video, canvas {
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   white-space: nowrap;
-  clip-path: polygon(0 0, calc(100% - var(--tab-cut)) 0, 100% var(--tab-cut), 100% 100%, 0 100%);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--tab-cut)) 0,
+    100% var(--tab-cut),
+    100% calc(100% + 4px),
+    0 calc(100% + 4px)
+  );
 }
 
 .stage-step-btn::after,
-.lab-substep-btn::after {
+.lab-substep-btn::after,
+.folder-tab::after {
   content: '';
   position: absolute;
   top: -1px;
@@ -1326,25 +1349,44 @@ img, svg, video, canvas {
 }
 
 .stage-step-btn:hover,
-.lab-substep-btn:hover {
-  background: var(--bg);
+.lab-substep-btn:hover,
+.folder-tab:hover {
+  background: var(--tab-surface);
   --tab-border: var(--text-strong);
   color: var(--text-strong);
 }
 
 .stage-step-btn:focus-visible,
-.lab-substep-btn:focus-visible {
+.lab-substep-btn:focus-visible,
+.folder-tab:focus-visible {
   outline: 2px solid var(--c-vib);
   outline-offset: -2px;
 }
 
 .stage-step-btn.is-active,
-.lab-substep-btn.is-active {
-  background: var(--bg);
+.lab-substep-btn.is-active,
+.folder-tab.is-active {
+  background: var(--tab-surface);
   color: var(--text-strong);
   font-weight: 600;
   margin-bottom: -1px;
   padding-bottom: calc(0.4rem + 1px);
+  z-index: 3;
+}
+
+/* Solid bottom bridge inside the active tab's 1px side borders to eliminate subpixel bar-border seams at any DPR */
+.stage-step-btn.is-active::before,
+.lab-substep-btn.is-active::before,
+.ex-dive-tab.is-active::before,
+.folder-tab.is-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 4px;
+  background: var(--tab-surface, var(--bg));
+  pointer-events: none;
 }
 
 .stage-step-counter {
@@ -1781,6 +1823,8 @@ img, svg, video, canvas {
 }
 
 .lab-substep-bar {
+  position: relative;
+  z-index: 2;
   display: none;
   align-items: flex-end;
   gap: 0.28rem;
@@ -2404,6 +2448,8 @@ body.is-beamer-mode .orig-ex-row {
 }
 
 .ex-dive-bar {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -2423,6 +2469,7 @@ body.is-beamer-mode .orig-ex-row {
 .ex-dive-tab {
   --tab-cut: 9px;
   --tab-border: var(--border-strong);
+  --tab-surface: var(--bg);
   position: relative;
   appearance: none;
   display: inline-flex;
@@ -2438,7 +2485,13 @@ body.is-beamer-mode .orig-ex-row {
   cursor: pointer;
   white-space: nowrap;
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-  clip-path: polygon(0 0, calc(100% - var(--tab-cut)) 0, 100% var(--tab-cut), 100% 100%, 0 100%);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--tab-cut)) 0,
+    100% var(--tab-cut),
+    100% calc(100% + 4px),
+    0 calc(100% + 4px)
+  );
 }
 
 .ex-dive-tab::after {
@@ -2459,7 +2512,7 @@ body.is-beamer-mode .orig-ex-row {
 }
 
 .ex-dive-tab:hover {
-  background: var(--bg);
+  background: var(--tab-surface);
   --tab-border: var(--text-strong);
   color: var(--text-strong);
 }
@@ -2470,12 +2523,12 @@ body.is-beamer-mode .orig-ex-row {
 }
 
 .ex-dive-tab.is-active {
-  background: var(--bg);
+  background: var(--tab-surface);
   --tab-border: var(--text-strong);
   color: var(--text-strong);
   padding: 0.46rem 1.2rem calc(0.46rem + 1px) 0.85rem;
   margin-bottom: -1px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .ex-dive-tab--compare {
