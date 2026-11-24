@@ -104,6 +104,7 @@ class SlidePanelParser(HTMLParser):
                     "slide_folder": attr_map.get("data-slide-folder", "").strip(),
                     "slide_tab": attr_map.get("data-slide-tab", "").strip(),
                     "cites": [],
+                    "asset_folders": set(),
                 }
                 self.panel_stack.append(panel)
                 self.panels.append(panel)
@@ -120,6 +121,9 @@ class SlidePanelParser(HTMLParser):
             ref = ref.strip()
             if ref.startswith("assets/slides/"):
                 self.asset_refs.append(ref)
+                parts = ref.split("/")
+                if len(parts) >= 4 and self.panel_stack:
+                    self.panel_stack[-1]["asset_folders"].add("/".join(parts[:3]))
             elif ref.startswith(("http://", "https://")):
                 self.external_media.append(f"<{tag_l}> {ref}")
 
@@ -224,7 +228,7 @@ def main() -> int:
         if not target.exists():
             red.append(f"Broken slide asset reference in docs/index.html: docs/{ref}")
 
-    # Map slide_folder -> panel metadata
+    # Map slide_folder -> panel metadata and verify declared data-slide-folder paths exist
     panel_by_folder = {
         p["slide_folder"]: p for p in parser.panels if p["slide_folder"]
     }
@@ -237,6 +241,54 @@ def main() -> int:
         red.append("Missing docs/assets/slides/ directory.")
     else:
         slide_folders = sorted(p for p in SLIDES_DIR.iterdir() if p.is_dir())
+        index_readme = SLIDES_DIR / "README.md"
+        index_readme_text = index_readme.read_text(encoding="utf-8") if index_readme.exists() else ""
+        if not index_readme.exists():
+            red.append("Missing docs/assets/slides/README.md master index.")
+        else:
+            missing_from_index = [
+                f"{folder.name}/" for folder in slide_folders if f"{folder.name}/" not in index_readme_text
+            ]
+            if missing_from_index:
+                for m in missing_from_index:
+                    red.append(f"docs/assets/slides/README.md is missing an index entry for '{m}'.")
+            else:
+                green.append(
+                    f"All {len(slide_folders)} slide asset folder(s) are indexed in docs/assets/slides/README.md."
+                )
+
+        # Verify folder ownership via data-slide-folder and allow clean cross-slide reuse of owned folders
+        wiring_ok = True
+        for folder in slide_folders:
+            rel_folder = folder.relative_to(DOCS_DIR).as_posix()
+            if rel_folder not in panel_by_folder:
+                wiring_ok = False
+                red.append(
+                    f"Slide asset folder {rel_folder}/ is not claimed by any data-slide-folder attribute in docs/index.html."
+                )
+
+        for panel in parser.panels:
+            if not panel["asset_folders"]:
+                continue
+            label = panel["slide_tab"] or "(unnamed slide)"
+            for ref_folder in sorted(panel["asset_folders"]):
+                if ref_folder not in panel_by_folder:
+                    wiring_ok = False
+                    red.append(
+                        f"Slide '{label}' references {ref_folder}/ which is not owned by any data-slide-folder attribute in docs/index.html."
+                    )
+            declared = panel["slide_folder"]
+            if declared and declared not in panel["asset_folders"]:
+                wiring_ok = False
+                red.append(
+                    f"Slide '{label}' declares data-slide-folder=\"{declared}\", but does not reference any file inside {declared}/."
+                )
+
+        if slide_folders and wiring_ok:
+            green.append(
+                f"All {len(slide_folders)} slide asset folder(s) are wired via data-slide-folder and referenced cleanly."
+            )
+
         for folder in slide_folders:
             rel_folder = folder.relative_to(DOCS_DIR).as_posix()
             readme = folder / "README.md"

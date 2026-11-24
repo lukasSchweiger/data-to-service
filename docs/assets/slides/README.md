@@ -7,9 +7,10 @@ All replaceable slide graphics live here in **one folder per slide** so you can 
 1. **Number-free Semantic Folder Names (`<slide-slug>/`):**
    - Folders are named after the slide topic (e.g., `was-ist-servitization/`, `warum-servitization/`, `praxisbeispiele/`, `fokus-schweiz/`), never slide numbers (`slide-07`).
    - That means inserting, deleting, or reordering slides never breaks folder names or image paths.
-2. **Standardized on `.svg` (`<item-slug>.svg`):**
-   - Every graphic uses `.svg` so icons and logos scale razor-sharp on 4K classroom projectors and large screens.
-   - Dropping a replacement `.svg` with the same name into a slide folder triggers your OS **"Replace existing file?"** prompt—confirming the filename matches and preventing duplicate files or `404` requests.
+2. **Formats (`.svg` for Vectors, `.jpg` for Photos):**
+   - Use `.svg` (`<item-slug>.svg`) for icons, logos, and vector diagrams so they scale razor-sharp on 4K classroom projectors and large screens.
+   - Use `.jpg` (or `.png` / `.webp`) for real photos and drop-in photo placeholders (such as `vorstellung/`).
+   - Dropping a replacement file with the same name into a slide folder triggers your OS **"Replace existing file?"** prompt—confirming the filename matches and preventing duplicate files or `404` requests.
 3. **Graphic-to-Text `README.md` with `Source / License` in Every Folder:**
    - Each slide folder includes a `README.md` mapping every graphic filename to the exact heading, label, or slide caption it belongs to **plus a `Source / License` column** (e.g., `Own SVG (Custom Redraw)`, `Own Photo`, `CC BY 4.0`, `CC0`, `Nominative Case-Study Logo`, or `Bildzitat (Art. 25 URG)` with `data-cite="..."`).
 4. **Pre-Push Copyright & Citation Audit:**
@@ -19,6 +20,7 @@ All replaceable slide graphics live here in **one folder per slide** so you can 
 
 | Slide Folder | Slide Title | Graphics |
 | :--- | :--- | :--- |
+| [`vorstellung/`](./vorstellung/README.md) | Dr. Lukas Schweiger (Vorstellung) | `portrait.jpg`, `foto-01.jpg`, `foto-02.jpg`, `foto-03.jpg`, `foto-04.jpg` |
 | [`was-ist-servitization/`](./was-ist-servitization/README.md) | Was ist Servitization? | `wir-verkaufen-produkte.svg`, `wir-verkaufen-leistung.svg` |
 | [`warum-servitization/`](./warum-servitization/README.md) | Warum setzen Hersteller auf Servitization? | `wirtschaftliche-perspektive.svg`, `oekologische-perspektive.svg`, `markt-und-soziale-perspektive.svg`, `technologische-perspektive.svg`, `wissens-perspektive.svg` |
 | [`praxisbeispiele/`](./praxisbeispiele/README.md) | Wie sieht Servitization in der Praxis aus? | `rolls-royce-total-care.svg`, `xerox-pay-per-copy.svg`, `hilti-fleet-management.svg`, `philips-pay-per-lux.svg` |

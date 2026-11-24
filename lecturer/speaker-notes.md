@@ -15,8 +15,11 @@ Material: GitHub Pages Live-Plattform · Arduino Nano 33 BLE Sense Rev2 (ABX0006
 ## 09.00 – 09.10 | Block 0 – Begrüssung, Agenda & Tagesziele (00 / Einstieg)
 
 ### 1 · Vorstellung — Dr. Lukas Schweiger (`vorstellung`)
-- **Klick:** Live-Plattform in Chrome/Edge öffnen (`P` schaltet in den Präsentationsmodus) und kurz über die drei Karten (*Praxis & Industrie*, *Ausbildung*, *Fokus & Freizeit*) vorstellen.
-- **Kernbotschaft:** Praxisbrücke aus Maschinenbau/Konstruktion, Industrie-Service (*Burckhardt Compression*, *Roche Diagnostics*) und angewandter Forschung an der ZHAW (*Smart Service Engineering*, *Digital Twins*).
+- **Klick:** Live-Plattform in Chrome/Edge öffnen (`P` schaltet in den Präsentationsmodus) und kurz der Linie *Vom Stahl zu den Daten* folgen:
+  1. *Physische Technik:* Konstrukteur EFZ (Lehre bei Rheinmetall Air Defence) → BSc & Praktikum bei Bircher Reglomat AG (Sensorik & Automatisierung).
+  2. *Industrie & Service:* Burckhardt Compression im letzten BSc-Semester sowie zwischen Bachelor und Master (Kompressoren & Service, wenn Stillstand Millionen kostet) → MSc & Migros-Genossenschafts-Bund während des Masters (Technik trifft Business/P&L).
+  3. *Daten & Smart Services:* Ph.D. Smart Industry & ZHAW (Digital Twins) → Roche Diagnostics (regulierte MedTech-Praxis).
+- **Kernbotschaft:** Der eigene Werdegang spiegelt exakt den Tagesbogen: physische Maschine → Service-Geschäftsmodell → datenbasierte Entscheidungen (abgerundet über die 4 persönlichen Fotos).
 - **Brücke:** Kurze Vorstellungsrunde bzw. Erwartungsabfrage im Plenum, bevor der Blick auf Tagesagenda und Lernziele geht.
 
 ### 2 · Agenda — Tagesagenda (09.00 – 14.15 Uhr) (`agenda`)

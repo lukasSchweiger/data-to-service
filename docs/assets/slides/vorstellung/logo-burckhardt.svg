@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Burckhardt Compression Logo Placeholder">
+  <circle cx="60" cy="60" r="54" fill="none" stroke="#595959" stroke-opacity="0.24" stroke-width="2" stroke-dasharray="4 4" />
+  <text x="60" y="61" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="1" fill="#595959">BC</text>
+  <text x="60" y="81" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" letter-spacing="2" fill="#8a867a">LOGO</text>
+</svg>

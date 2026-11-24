@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=57" />
+  <link rel="stylesheet" href="styles.css?v=62" />
 </head>
 <body>
   <div class="page-container">
@@ -62,86 +62,90 @@
             </div>
 
             <div class="stage-panels orig-slide-panels">
-              <!-- Slide 1: Kurzvorstellung Dozent -->
-              <div class="stage-step-panel orig-slide-panel is-active" data-step="0" data-slide-tab="Vorstellung">
-                <div>
-                  <div class="einstieg-kicker">CAS Smart Service Engineering · Tag 4 · Dozent</div>
-                  <h1 class="orig-slide-title">Dr. Lukas Schweiger</h1>
-                  <p class="einstieg-meta">Industrieerfahrung, akademischer Hintergrund &amp; Fokus in Forschung und Lehre</p>
+              <!-- Slide 1: Kurzvorstellung Dozent (Minimalist Story Timeline) -->
+              <div class="stage-step-panel orig-slide-panel is-active" data-step="0" data-slide-tab="Vorstellung" data-slide-folder="assets/slides/vorstellung">
+                <div class="intro-header-row">
+                  <div class="intro-header-text">
+                    <h1 class="orig-slide-title">Dr. Lukas Schweiger</h1>
+                    <p class="einstieg-meta">Vom Stahl zu den Daten — Physische Technik → Industrie-Service → Smart Services</p>
+                  </div>
+                  <div class="intro-portrait-slot">
+                    <img src="assets/slides/vorstellung/portrait.jpg" alt="Portrait Dr. Lukas Schweiger" />
+                  </div>
                 </div>
 
-                <div class="intro-grid">
-                  <div class="intro-card">
-                    <div class="intro-card-label">Praxis &amp; Industrie</div>
-                    <ul class="intro-list">
-                      <li class="intro-item">
-                        <span class="intro-item-main">Roche Diagnostics</span>
-                        <span class="intro-item-sub">Medizintechnik &amp; Diagnostik</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">ZHAW School of Engineering</span>
-                        <span class="intro-item-sub">Forschung &amp; Lehre Smart Service Engineering</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Migros-Genossenschafts-Bund</span>
-                        <span class="intro-item-sub">Industrie- &amp; Handelsumfeld</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Burckhardt Compression</span>
-                        <span class="intro-item-sub">Grosskompressoren &amp; Service-Business</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Bircher Reglomat AG</span>
-                        <span class="intro-item-sub">Sensorik &amp; Automatisierung</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Rheinmetall Air Defence</span>
-                        <span class="intro-item-sub">Systemengineering</span>
-                      </li>
-                    </ul>
+                <div class="intro-arc">
+                  <div class="intro-phases" aria-hidden="true">
+                    <div class="intro-phase">01 · Physische Technik</div>
+                    <div class="intro-phase intro-phase--service">02 · Industrie &amp; Service</div>
+                    <div class="intro-phase intro-phase--data">03 · Daten &amp; Smart Services</div>
                   </div>
 
-                  <div class="intro-card">
-                    <div class="intro-card-label">Ausbildung</div>
-                    <ul class="intro-list">
-                      <li class="intro-item">
-                        <span class="intro-item-main">Doktor (Ph.D.), Smart Industry</span>
-                        <span class="intro-item-sub">Digital Twins &amp; datengetriebene Services</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Master of Science in Engineering</span>
-                        <span class="intro-item-sub">Business Engineering &amp; Production</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Bachelor of Science (BSc)</span>
-                        <span class="intro-item-sub">Wirtschaftsingenieurwesen</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Konstrukteur EFZ</span>
-                        <span class="intro-item-sub">Mechanische Grundausbildung</span>
-                      </li>
-                    </ul>
+                  <div class="intro-track">
+                    <div class="intro-stop" style="--stop-color: var(--c-vib)">
+                      <div class="intro-logo-frame">
+                        <img src="assets/slides/vorstellung/logo-rheinmetall.svg" alt="Rheinmetall Air Defence Logo" />
+                      </div>
+                      <span class="intro-stop-num">01</span>
+                      <span class="intro-stop-title">Konstrukteur EFZ</span>
+                      <span class="intro-stop-sub">Rheinmetall Air Defence</span>
+                    </div>
+                    <div class="intro-stop" style="--stop-color: var(--c-vib)">
+                      <div class="intro-logo-frame">
+                        <img src="assets/slides/vorstellung/logo-bircher.svg" alt="Bircher Reglomat Logo" />
+                      </div>
+                      <span class="intro-stop-num">02</span>
+                      <span class="intro-stop-title">BSc &amp; Bircher Reglomat</span>
+                      <span class="intro-stop-sub">Praktikum · Sensorik</span>
+                    </div>
+                    <div class="intro-stop" style="--stop-color: var(--c-press)">
+                      <div class="intro-logo-frame">
+                        <img src="assets/slides/vorstellung/logo-burckhardt.svg" alt="Burckhardt Compression Logo" />
+                      </div>
+                      <span class="intro-stop-num">03</span>
+                      <span class="intro-stop-title">Burckhardt Compression</span>
+                      <span class="intro-stop-sub">BSc → MSc · Service</span>
+                    </div>
+                    <div class="intro-stop" style="--stop-color: var(--c-press)">
+                      <div class="intro-logo-frame">
+                        <img src="assets/slides/vorstellung/logo-migros.svg" alt="Migros Logo" />
+                      </div>
+                      <span class="intro-stop-num">04</span>
+                      <span class="intro-stop-title">MSc &amp; Migros</span>
+                      <span class="intro-stop-sub">Technik &amp; Business</span>
+                    </div>
+                    <div class="intro-stop" style="--stop-color: var(--c-temp)">
+                      <div class="intro-logo-frame">
+                        <img src="assets/slides/vorstellung/logo-zhaw.svg" alt="ZHAW Logo" />
+                      </div>
+                      <span class="intro-stop-num">05</span>
+                      <span class="intro-stop-title">Ph.D. &amp; ZHAW</span>
+                      <span class="intro-stop-sub">Smart Industry &amp; Lehre</span>
+                    </div>
+                    <div class="intro-stop" style="--stop-color: var(--c-temp)">
+                      <div class="intro-logo-frame">
+                        <img src="assets/slides/vorstellung/logo-roche.svg" alt="Roche Diagnostics Logo" />
+                      </div>
+                      <span class="intro-stop-num">06</span>
+                      <span class="intro-stop-title">Roche Diagnostics</span>
+                      <span class="intro-stop-sub">Daten &amp; MedTech</span>
+                    </div>
                   </div>
+                </div>
 
-                  <div class="intro-card">
-                    <div class="intro-card-label">Fokus &amp; Freizeit</div>
-                    <ul class="intro-list">
-                      <li class="intro-item">
-                        <span class="intro-item-main">Smart Service Engineering</span>
-                        <span class="intro-item-sub">Von Produkten zu messbaren Service-Leistungen</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Digital Twins</span>
-                        <span class="intro-item-sub">Entscheidungsunterstützung im After-Sales</span>
-                      </li>
-                      <li class="intro-item">
-                        <span class="intro-item-main">Predictive Maintenance &amp; Edge AI</span>
-                        <span class="intro-item-sub">Sensorphysik, Anomalie-Erkennung &amp; Service-P&amp;L</span>
-                      </li>
-                    </ul>
-                    <div class="intro-leisure-placeholder">
-                      <strong>Freizeit / Persönliche Highlights</strong>
-                      Optional ergänzbar (z. B. Hobbys oder persönliche Anekdote für den Einstieg).
+                <div class="intro-bottom-strip">
+                  <div class="intro-photo-strip" aria-label="Persönliche Fotos">
+                    <div class="intro-photo-slot">
+                      <img src="assets/slides/vorstellung/foto-01.jpg" alt="Persönliches Foto 1" />
+                    </div>
+                    <div class="intro-photo-slot">
+                      <img src="assets/slides/vorstellung/foto-02.jpg" alt="Persönliches Foto 2" />
+                    </div>
+                    <div class="intro-photo-slot">
+                      <img src="assets/slides/vorstellung/foto-03.jpg" alt="Persönliches Foto 3" />
+                    </div>
+                    <div class="intro-photo-slot">
+                      <img src="assets/slides/vorstellung/foto-04.jpg" alt="Persönliches Foto 4" />
                     </div>
                   </div>
                 </div>
@@ -150,7 +154,6 @@
               <!-- Slide 2: Tagesagenda -->
               <div class="stage-step-panel orig-slide-panel" data-step="1" data-slide-tab="Agenda">
                 <div>
-                  <div class="einstieg-kicker">CAS Smart Service Engineering · Modul A: Data-Specific Service Design · Tag 4</div>
                   <h2 class="orig-slide-title">Tagesagenda (09:00 – 14:15 Uhr)</h2>
                   <p class="einstieg-meta">BI Case Manufacturing: Vom physischen Produkt zum datenbasierten Service</p>
                 </div>
@@ -174,7 +177,6 @@
               <!-- Slide 3: Tagesziele -->
               <div class="stage-step-panel orig-slide-panel" data-step="2" data-slide-tab="Tagesziele">
                 <div>
-                  <div class="einstieg-kicker">CAS Smart Service Engineering · Tag 4 · Lernziele</div>
                   <h2 class="orig-slide-title">Tagesziele: Kennen · Verstehen · Anwenden</h2>
                   <p class="einstieg-meta">Was Sie am Ende des Tages mitnehmen — von der Servitization-Strategie bis zur eigenen Predictive-Maintenance-Evaluation</p>
                 </div>
