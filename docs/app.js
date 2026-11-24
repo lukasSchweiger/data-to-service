@@ -37,12 +37,21 @@
   // -------------------------------------------------------------------------
   // Modular Section Order (Reorder IDs here OR move <section> blocks in HTML)
   // -------------------------------------------------------------------------
-  const DEFAULT_HTML_ORDER = ['servitization', 'explanation', 'dataviz', 'crispdm'];
+  const DEFAULT_HTML_ORDER = [
+    'einstieg',
+    'servitization',
+    'business',
+    'data-understanding',
+    'modeling',
+    'evaluation',
+  ];
   const SECTION_ORDER = [
-    'servitization', // Servitization · Einführung, Praxisbeispiele & Service-Stufen
-    'explanation',   // Explanation · Current Setup
-    'dataviz',       // Data Visualization · Live Hardware & Emulator
-    'crispdm',       // CRISP-DM Phase 2 · Data Understanding
+    'einstieg',           // 00 · Einstieg, Agenda & Tagesziele
+    'servitization',      // 01 · Servitization (approved Slides 1–5)
+    'business',           // 02 · Datennutzung im Industriellen Service & Business Understanding
+    'data-understanding', // 03 · Data Understanding (Live Arduino/Fan Pilot -> 100-Machine Fleet)
+    'modeling',           // 04 · Data Preparation & Modeling (Interactive Explainers + Pyodide ML Lab)
+    'evaluation',         // 05 · Evaluation, Service-Ökonomie & Deployment / CRISP-ML(Q)
   ];
 
   // -------------------------------------------------------------------------
@@ -1566,6 +1575,56 @@ def _execute_crisp_cell(code_str, rows_json):
   publisher      = {Schindler Group, Ebikon},
   year           = {2024},
   url            = {https://www.schindler.com}
+}
+
+@inproceedings{wirth2000crisp,
+  author         = {Wirth, Rüdiger and Hipp, Jochen},
+  title          = {CRISP-DM: Towards a Standard Process Model for Data Mining},
+  booktitle      = {Proceedings of the 4th International Conference on the Practical Applications of Knowledge Discovery and Data Mining},
+  year           = {2000},
+  pages          = {29--39}
+}
+
+@article{studer2021crispmlq,
+  author         = {Studer, Stefan and Bui, Thanh Binh and Drescher, Christian and Hanuschkin, Alexander and Winkler, Ludwig and Peters, Steven and Müller, Klaus-Robert},
+  author_display = {Studer, Stefan, et al.},
+  title          = {Towards CRISP-ML(Q): A Machine Learning Process Model with Quality Assurance Methodology},
+  journal        = {Machine Learning and Knowledge Extraction},
+  year           = {2021},
+  volume         = {3},
+  number         = {2},
+  pages          = {392--413},
+  doi            = {10.3390/make3020020}
+}
+
+@misc{fleisch2015iot,
+  author         = {Fleisch, Elgar and Weinberger, Markus and Wortmann, Felix},
+  author_display = {Fleisch, Elgar, Markus Weinberger, and Felix Wortmann},
+  title          = {Business Models and the Internet of Things},
+  publisher      = {Bosch IoT Lab White Paper (ETH Zürich / Universität St. Gallen)},
+  year           = {2015}
+}
+
+@inproceedings{schweiger2022dt,
+  author         = {Schweiger, Lukas and Meierhofer, Jürg and Barbieri, Cosimo and Rapaccini, Mario},
+  author_display = {Schweiger, Lukas, et al.},
+  title          = {End-to-End Digital Twin Approach for Near-Real-Time Decision Support Services},
+  booktitle      = {Exploring Service Science (IESS 2022)},
+  year           = {2022},
+  publisher      = {Springer},
+  doi            = {10.1007/978-3-030-97042-0_7}
+}
+
+@article{schweiger2023dt,
+  author         = {Schweiger, Lukas and Barth, Linard},
+  author_display = {Schweiger, Lukas, and Linard Barth},
+  title          = {Properties and Characteristics of Digital Twins: Review of Industrial Definitions},
+  journal        = {SN Computer Science},
+  year           = {2023},
+  volume         = {4},
+  number         = {5},
+  pages          = {436},
+  doi            = {10.1007/s42979-023-01937-4}
 }`;
 
   function cleanBibValue(val) {
@@ -2014,6 +2073,12 @@ def _execute_crisp_cell(code_str, rows_json):
   // -------------------------------------------------------------------------
   // Modular Sections: Reordering, Auto-Numbering, Nav Sync & Scroll Spy
   // -------------------------------------------------------------------------
+  function getSectionNumber(sections, sec, idx) {
+    if (sec.dataset.sectionNum) return sec.dataset.sectionNum;
+    const zeroBased = sections.length > 0 && sections[0].dataset.sectionZero === 'true';
+    return String(zeroBased ? idx : idx + 1).padStart(2, '0');
+  }
+
   function initModularSections() {
     const sectionsContainer = document.getElementById('sectionsContainer');
     if (!sectionsContainer) return;
@@ -2200,7 +2265,7 @@ def _execute_crisp_cell(code_str, rows_json):
       let globalSlideOffset = 0;
 
       sections.forEach((sec, idx) => {
-        const num = String(idx + 1).padStart(2, '0');
+        const num = getSectionNumber(sections, sec, idx);
         const title = sec.dataset.sectionTitle || sec.id;
         const subtitle = sec.dataset.sectionSubtitle || '';
         const indexText = `${num} / ${title}`;
@@ -2227,7 +2292,7 @@ def _execute_crisp_cell(code_str, rows_json):
       if (headerNav) {
         headerNav.innerHTML = '';
         sections.forEach((sec, idx) => {
-          const num = String(idx + 1).padStart(2, '0');
+          const num = getSectionNumber(sections, sec, idx);
           const label = sec.dataset.navLabel || sec.dataset.sectionTitle || sec.id;
           const a = document.createElement('a');
           a.href = `#${sec.id}`;
@@ -2453,7 +2518,7 @@ def _execute_crisp_cell(code_str, rows_json):
       if (hudJumpMenu) hudJumpMenu.innerHTML = '';
 
       sections.forEach((sec, secIdx) => {
-        const num = String(secIdx + 1).padStart(2, '0');
+        const num = getSectionNumber(sections, sec, secIdx);
         const title = sec.dataset.sectionTitle || sec.id;
         const subtitle = sec.dataset.sectionSubtitle || '';
         const navLabel = sec.dataset.navLabel || title;
