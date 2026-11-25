@@ -1,10 +1,10 @@
 Titel: Tag 4: CAS Smart Service Engineering – Modul A: Data-Specific Service Design
-Untertitel: Dr. Lukas Schweiger · ZHAW School of Engineering · BI Case Manufacturing
+Untertitel: Lukas Schweiger Ph.D. · ZHAW School of Engineering · BI Case Manufacturing
 Datum: [Datum eintragen]
 Zeit: 09.00 – 14.15 Uhr
 Ort: Winterthur / Zürich
 Themenbereich: BI Case Manufacturing: Servitization, CRISP-DM / CRISP-ML(Q), Live-Sensorik & Predictive Maintenance
-Kursleitung: Dr. Lukas Schweiger
+Kursleitung: Lukas Schweiger Ph.D.
 Kennen: Servitization-Stufen (Base / Intermediate / Advanced nach Baines & Lightfoot), Smart Product Stack (Ebene 1–5), CRISP-DM & CRISP-ML(Q), Edge-AI-Sensorik
 Verstehen: Warum Risikotransfer verlässliche Daten verlangt, weshalb 1h-Cloud-Mittelwerte Stösse verpassen, wie Rolling Windows / Labeling / chronologische Splits & CHF-Servicekosten (P&L) das ML-Modell prägen
 Anwenden: Live-Sensordaten am Lüfter-Teststand erfassen & kalibrieren (Arduino Nano 33 BLE Sense Rev2 / Emulator), Predictive-Maintenance-Pipeline im Browser (Pyodide + scikit-learn) auf der 100-Maschinen-Flotte evaluieren
@@ -14,7 +14,7 @@ Material: GitHub Pages Live-Plattform · Arduino Nano 33 BLE Sense Rev2 (ABX0006
 
 ## 09.00 – 09.10 | Block 0 – Begrüssung, Agenda & Tagesziele (00 / Einstieg)
 
-### 1 · Vorstellung — Dr. Lukas Schweiger (`vorstellung`)
+### 1 · Vorstellung — Lukas Schweiger Ph.D. (`vorstellung`)
 - **Klick:** Live-Plattform in Chrome/Edge öffnen (`P` schaltet in den Präsentationsmodus) und kurz der Linie *Vom Stahl zu den Daten* folgen:
   1. *Physische Technik:* Konstrukteur EFZ (Lehre bei Rheinmetall Air Defence) → BSc & Praktikum bei Bircher Reglomat AG (Sensorik & Automatisierung).
   2. *Industrie & Service:* Burckhardt Compression im letzten BSc-Semester sowie zwischen Bachelor und Master (Kompressoren & Service, wenn Stillstand Millionen kostet) → MSc & Migros-Genossenschafts-Bund während des Masters (Technik trifft Business/P&L).
