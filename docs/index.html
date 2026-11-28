@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=70" />
+  <link rel="stylesheet" href="styles.css?v=71" />
 </head>
 <body>
   <div class="page-container">
@@ -155,24 +155,80 @@
 
               <!-- Slide 2: Tagesagenda -->
               <div class="stage-step-panel orig-slide-panel" data-step="1" data-slide-tab="Agenda">
-                <div>
-                  <h2 class="orig-slide-title">Tagesagenda (09:00 – 14:15 Uhr)</h2>
-                  <p class="einstieg-meta">BI Case Manufacturing: Vom physischen Produkt zum datenbasierten Service</p>
-                </div>
+                <h2 class="orig-slide-title">Tagesagenda (09:00 – 14:15 Uhr)</h2>
 
-                <div class="einstieg-agenda-solo">
-                  <ul class="einstieg-agenda-list">
-                    <li class="einstieg-agenda-row"><span class="einstieg-time">09:00 – 09:10</span><span class="einstieg-block-tag">00</span><span>Begrüssung, Kurzvorstellung &amp; Tagesziele</span></li>
-                    <li class="einstieg-agenda-row"><span class="einstieg-time">09:10 – 09:55</span><span class="einstieg-block-tag">01</span><span>Servitization: Was, Wieso, Praxis, Fokus Schweiz &amp; Service-Stufen</span></li>
-                    <li class="einstieg-agenda-row is-break"><span class="einstieg-time">09:55 – 10:05</span><span>Pause</span></li>
-                    <li class="einstieg-agenda-row"><span class="einstieg-time">10:05 – 10:50</span><span class="einstieg-block-tag">02</span><span>Datennutzung im industriellen Service, CRISP-DM / ML(Q) &amp; Business Case</span></li>
-                    <li class="einstieg-agenda-row is-break"><span class="einstieg-time">10:50 – 11:00</span><span>Pause</span></li>
-                    <li class="einstieg-agenda-row"><span class="einstieg-time">11:00 – 11:45</span><span class="einstieg-block-tag">03</span><span>Data Understanding: Live-Sensorik am Lüfter → 100-Maschinen-Flotte</span></li>
-                    <li class="einstieg-agenda-row is-break"><span class="einstieg-time">11:45 – 11:55</span><span>Pause</span></li>
-                    <li class="einstieg-agenda-row"><span class="einstieg-time">11:55 – 12:40</span><span class="einstieg-block-tag">04</span><span>Data Preparation &amp; Modeling (Python im Browser)</span></li>
-                    <li class="einstieg-agenda-row is-break"><span class="einstieg-time">12:40 – 13:30</span><span>Mittagspause</span></li>
-                    <li class="einstieg-agenda-row"><span class="einstieg-time">13:30 – 14:15</span><span class="einstieg-block-tag">05</span><span>Evaluation (CHF), Deployment, Digital Twin &amp; Abschluss</span></li>
-                  </ul>
+                <div class="agenda-ledger" aria-label="Tagesagenda">
+                  <div class="agenda-group-head" style="--stop-color: var(--c-vib)">
+                    <span class="agenda-group-label">01 · Strategie &amp; Business Case</span>
+                    <span class="agenda-group-hint">Klick springt direkt zum Block →</span>
+                  </div>
+                  <a class="agenda-row" href="#einstieg" data-target-step="0" style="--stop-color: var(--c-vib)">
+                    <span class="agenda-accent" aria-hidden="true"></span>
+                    <span class="agenda-time">09:00 – 09:10</span>
+                    <span class="agenda-num">00</span>
+                    <span class="agenda-name">Einstieg</span>
+                    <span class="agenda-sub">Vorstellung, Ablauf &amp; Tagesziele</span>
+                    <span class="agenda-arrow" aria-hidden="true">→</span>
+                  </a>
+                  <a class="agenda-row" href="#servitization" style="--stop-color: var(--c-vib)">
+                    <span class="agenda-accent" aria-hidden="true"></span>
+                    <span class="agenda-time">09:10 – 09:55</span>
+                    <span class="agenda-num">01</span>
+                    <span class="agenda-name">Servitization</span>
+                    <span class="agenda-sub">Was, Wieso, CH-Beispiele &amp; Service-Stufen</span>
+                    <span class="agenda-arrow" aria-hidden="true">→</span>
+                  </a>
+                  <div class="agenda-mini-break"><span></span><span>09:55 – 10:05</span><span>Pause (10 Min.)</span></div>
+                  <a class="agenda-row" href="#business" style="--stop-color: var(--c-vib)">
+                    <span class="agenda-accent" aria-hidden="true"></span>
+                    <span class="agenda-time">10:05 – 10:50</span>
+                    <span class="agenda-num">02</span>
+                    <span class="agenda-name">Business Understanding</span>
+                    <span class="agenda-sub">CRISP-ML(Q), KMU-Case (0 Daten) &amp; Wartung</span>
+                    <span class="agenda-arrow" aria-hidden="true">→</span>
+                  </a>
+                  <div class="agenda-mini-break"><span></span><span>10:50 – 11:00</span><span>Pause (10 Min.)</span></div>
+
+                  <div class="agenda-group-head" style="--stop-color: var(--c-press)">
+                    <span class="agenda-group-label">02 · Live-Sensorik &amp; ML-Pipeline</span>
+                    <span></span>
+                  </div>
+                  <a class="agenda-row" href="#data-understanding" style="--stop-color: var(--c-press)">
+                    <span class="agenda-accent" aria-hidden="true"></span>
+                    <span class="agenda-time">11:00 – 11:45</span>
+                    <span class="agenda-num">03</span>
+                    <span class="agenda-name">Data Understanding</span>
+                    <span class="agenda-sub">Smart Stack, Live-Lüfter → 100-Maschinen-Flotte</span>
+                    <span class="agenda-arrow" aria-hidden="true">→</span>
+                  </a>
+                  <div class="agenda-mini-break"><span></span><span>11:45 – 11:55</span><span>Pause (10 Min.)</span></div>
+                  <a class="agenda-row" href="#modeling" style="--stop-color: var(--c-press)">
+                    <span class="agenda-accent" aria-hidden="true"></span>
+                    <span class="agenda-time">11:55 – 12:40</span>
+                    <span class="agenda-num">04</span>
+                    <span class="agenda-name">Data Prep &amp; Modeling</span>
+                    <span class="agenda-sub">Rolling Windows, Labeling, Splits &amp; Ensembles</span>
+                    <span class="agenda-arrow" aria-hidden="true">→</span>
+                  </a>
+                  <div class="agenda-lunch-band">
+                    <span></span>
+                    <span>12:40 – 13:30</span>
+                    <span>Mittagspause</span>
+                    <span class="agenda-lunch-dur">50 Min.</span>
+                  </div>
+
+                  <div class="agenda-group-head" style="--stop-color: var(--c-temp)">
+                    <span class="agenda-group-label">03 · Service-Ökonomie &amp; Betrieb</span>
+                    <span></span>
+                  </div>
+                  <a class="agenda-row" href="#evaluation" style="--stop-color: var(--c-temp)">
+                    <span class="agenda-accent" aria-hidden="true"></span>
+                    <span class="agenda-time">13:30 – 14:15</span>
+                    <span class="agenda-num">05</span>
+                    <span class="agenda-name">Evaluation &amp; Twin</span>
+                    <span class="agenda-sub">CHF-Kostenmatrix, Drift-Monitoring &amp; Digital Twin</span>
+                    <span class="agenda-arrow" aria-hidden="true">→</span>
+                  </a>
                 </div>
               </div>
 
@@ -2679,7 +2735,7 @@ df[["vib", "p2p", "freq", "mag", "press", "temp", "snd"]].corr().round(2)</texta
   <!-- Floating Citation Popover -->
   <div id="citePopover" class="cite-popover" role="dialog" aria-label="Citation details" hidden></div>
 
-  <script src="app.js?v=27"></script>
+  <script src="app.js?v=28"></script>
   <script src="case-deep-dive.js?v=5"></script>
 </body>
 </html>

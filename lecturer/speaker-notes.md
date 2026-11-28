@@ -23,8 +23,8 @@ Material: GitHub Pages Live-Plattform · Arduino Nano 33 BLE Sense Rev2 (ABX0006
 - **Brücke:** Kurze Vorstellungsrunde bzw. Erwartungsabfrage im Plenum, bevor der Blick auf Tagesagenda und Lernziele geht.
 
 ### 2 · Agenda — Tagesagenda (09.00 – 14.15 Uhr) (`agenda`)
-- **Klick:** Auf den zeitlichen Ablauf (`09.00 – 14.15`) und die fünf 45-Minuten-Blöcke inkl. Pausen verweisen.
-- **Kernbotschaft:** Roter Faden des Halbtages: Zuerst *Warum* (Servitization & Risikoshift), dann *Business Case bei 0 Daten* (Schweizer Ventilatoren-KMU), anschliessend *Live-Sensorik* am Lüfter-Teststand und danach *Zeitsprung +12 Monate* auf eine 100-Maschinen-Flotte bis hin zu CHF-Servicekosten und Digital Twin.
+- **Klick:** Die Agenda gliedert den Tag in drei Blöcke (*Strategie & Business Case* → *Live-Sensorik & ML-Pipeline* → *Service-Ökonomie & Betrieb*) inkl. Kurzpausen (je 10 Min.) und Mittagspause (12.40 – 13.30). Jede Zeile ist anklickbar und springt direkt zum jeweiligen Block (im Scroll- und Präsentationsmodus).
+- **Kernbotschaft:** Roter Faden des Halbtages: Zuerst *Warum* (Servitization & Business Case bei 0 Daten), dann *Live-Sensorik & ML* (Lüfter-Teststand → 100-Maschinen-Flotte → Rolling Windows / Splits), schliesslich *CHF-Servicekosten & Digital Twin*.
 
 ### 3 · Tagesziele — Kennen, Verstehen & Anwenden (`tagesziele`)
 - **Klick:** Die drei Lernziele (*Kennen*, *Verstehen*, *Anwenden*) kurz durchgehen.

@@ -2837,6 +2837,16 @@ def _execute_crisp_cell(code_str, rows_json):
       });
     }
 
+    // Interactive agenda rows jump directly to that block (normal scrolling & Presentation Mode)
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a.agenda-row[href^="#"]');
+      if (!link) return;
+      const targetId = link.getAttribute('href').slice(1);
+      if (!targetId) return;
+      e.preventDefault();
+      goToSectionSlide(targetId, Number(link.dataset.targetStep || 0));
+    });
+
     // HUD & Header controls
     if (hudPrevBtn) hudPrevBtn.addEventListener('click', goPrevStop);
     if (hudNextBtn) hudNextBtn.addEventListener('click', goNextStop);

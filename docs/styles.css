@@ -4651,56 +4651,145 @@ body.is-beamer-mode .tier-delta-table td {
   color: var(--text-muted);
 }
 
-.einstieg-agenda-solo {
-  width: 100%;
-  max-width: 920px;
-  margin: clamp(0.45rem, 1vw, 0.85rem) auto 0;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: clamp(0.85rem, 1.5vw, 1.25rem);
+.agenda-ledger {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-width: 0;
+  margin-top: 0.35rem;
 }
 
-.einstieg-agenda-solo .einstieg-agenda-list {
-  gap: 0.28rem;
-}
-
-.einstieg-agenda-row {
-  display: grid;
-  grid-template-columns: 7.4rem 3.2rem minmax(0, 1fr);
-  gap: 0.65rem;
+.agenda-group-head {
+  display: flex;
   align-items: center;
-  font-size: clamp(0.84rem, 1.02vw, 0.94rem);
-  line-height: 1.38;
-  padding: 0.34rem 0.5rem;
-  border-radius: 4px;
-  background: rgba(255, 251, 238, 0.55);
-  border: 1px solid rgba(89, 89, 89, 0.08);
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 0.25rem 0.28rem;
+  border-bottom: 1.5px solid var(--stop-color, var(--c-vib));
 }
 
-.einstieg-agenda-row.is-break {
-  grid-template-columns: 7.4rem minmax(0, 1fr);
-  background: transparent;
-  border: none;
-  border-top: 1px dashed var(--border);
-  border-bottom: 1px dashed var(--border);
-  border-radius: 0;
-  color: var(--text-muted);
-  font-size: 0.78rem;
-  padding: 0.22rem 0.5rem;
+.agenda-group-head:first-child {
+  padding-top: 0;
 }
 
-.einstieg-block-tag {
+.agenda-group-label {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 600;
-  text-align: center;
-  padding: 0.12rem 0.35rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--stop-color, var(--c-vib));
+}
+
+.agenda-group-hint {
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  color: var(--text-muted);
+}
+
+.agenda-row {
+  display: grid;
+  grid-template-columns: 3px 7.2rem 2rem 12.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.56rem 0.45rem 0.56rem 0.25rem;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
   border-radius: 3px;
-  background: var(--bg);
-  border: 1px solid var(--border-strong);
+  transition: background-color 0.15s ease;
+}
+
+.agenda-row:hover,
+.agenda-row:focus-visible {
+  background: var(--bg-subtle);
+  outline: none;
+}
+
+.agenda-accent {
+  width: 3px;
+  height: 1.15rem;
+  border-radius: 2px;
+  background: var(--stop-color, var(--c-vib));
+}
+
+.agenda-time {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.agenda-num {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
   color: var(--text-strong);
+}
+
+.agenda-name {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agenda-sub {
+  font-size: 0.84rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agenda-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding-left: 0.25rem;
+  transition: transform 0.16s ease, color 0.16s ease;
+}
+
+.agenda-row:hover .agenda-arrow,
+.agenda-row:focus-visible .agenda-arrow {
+  transform: translateX(3px);
+  color: var(--text-strong);
+}
+
+.agenda-mini-break {
+  display: grid;
+  grid-template-columns: 3px 7.2rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.22rem 0.25rem;
+  border-bottom: 1px solid rgba(89, 89, 89, 0.1);
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  color: var(--text-muted);
+}
+
+.agenda-lunch-band {
+  display: grid;
+  grid-template-columns: 3px 7.2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.46rem 0.45rem 0.46rem 0.25rem;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-strong);
+  font-weight: 500;
+}
+
+.agenda-lunch-dur {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 .einstieg-goals-3col {
@@ -4749,12 +4838,14 @@ body.is-beamer-mode .tier-delta-table td {
   line-height: 1.5;
 }
 
-body.is-beamer-mode .einstieg-agenda-solo {
-  padding: clamp(0.65rem, 1.2vw, 1rem);
+body.is-beamer-mode .orig-slide-panel.is-active[data-slide-tab="Agenda"] {
+  justify-content: center;
+  gap: clamp(0.95rem, 2.2vh, 1.65rem);
 }
 
-body.is-beamer-mode .einstieg-agenda-row {
-  padding: 0.25rem 0.45rem;
+body.is-beamer-mode .agenda-ledger {
+  flex: 0 0 auto;
+  margin-top: 0;
 }
 
 body.is-beamer-mode .einstieg-goals-3col {
@@ -4769,12 +4860,27 @@ body.is-beamer-mode .einstieg-goals-3col .einstieg-goal-card {
   .einstieg-goals-3col {
     grid-template-columns: 1fr;
   }
-  .einstieg-agenda-row {
-    grid-template-columns: 6.4rem 2.8rem minmax(0, 1fr);
-    gap: 0.45rem;
+  .agenda-group-hint {
+    display: none;
   }
-  .einstieg-agenda-row.is-break {
-    grid-template-columns: 6.4rem minmax(0, 1fr);
+  .agenda-row {
+    grid-template-columns: 3px 6.3rem 1.8rem minmax(0, 1fr) auto;
+    gap: 0.35rem 0.55rem;
+  }
+  .agenda-name {
+    white-space: normal;
+  }
+  .agenda-sub {
+    grid-column: 2 / 5;
+    white-space: normal;
+  }
+  .agenda-mini-break,
+  .agenda-lunch-band {
+    grid-template-columns: 3px 6.3rem minmax(0, 1fr);
+    gap: 0.55rem;
+  }
+  .agenda-lunch-dur {
+    display: none;
   }
 }
 
